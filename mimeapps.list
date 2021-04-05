@@ -1,0 +1,6 @@
+
+[Default Applications]
+application/pdf=zathura.desktop
+application/postscript=zathura.desktop
+x-scheme-handler/figma=figma-linux.desktop
+pdf=zathura.desktop

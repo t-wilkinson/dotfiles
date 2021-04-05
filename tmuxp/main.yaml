@@ -1,0 +1,17 @@
+session_name: test
+windows:
+- window_name: Infinite Closet
+  focus: true
+  layout: main-vertical
+  shell_command_before:
+    - cd ~/dev/apps/infinite-closet
+  panes:
+    - shell_command:           # pane no. 1
+      - vim -S Session.vim     # run multiple commands in this pane
+      - ls -al | grep \.log
+    - shell_command:
+      - cd frontend
+      - expo start
+    - shell_command:
+      - cd backend
+      - npx strapi dev
