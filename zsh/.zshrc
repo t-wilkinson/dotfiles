@@ -10,7 +10,7 @@ if [[ $DISPLAY ]]; then
     if [[ "$attached" = "Main" ]]; then
       tmux new-session
     elif [[ "$detached" = "Main" ]]; then
-      tmux attach-session -t "$ID"
+      tmux attach-session -t "$detached"
     else
       tmux new-session -s "Main" -n "main"
     fi
@@ -46,14 +46,15 @@ promptinit
 prompt powerlevel10k
 
 # Exports
-# export FZF_DEFAULT_OPTS='--border --cycle'
-export FZF_DEFAULT_COMMAND="fd . --type f -E node_modules"
-# export FZF_DEFAULT_COMMAND='/usr/bin/fd --type f'
-export GOPATH="$HOME/dev/go"
-export BAT_CONFIG="$HOME/.config/bat/config"
-export CLASSPATH=$CLASSPATH:"$HOME/dev/coursera/algorithms/algs4/algs4.jar"
-export ANDROID_SDK="$HOME/Android/Sdk"
-export PATH=$PATH:"/home/trey/Android/Sdk/platform-tools"
+# export CLASSPATH=$CLASSPATH:"$HOME/dev/coursera/algorithms/algs4/algs4.jar"
+export FZF_DEFAULT_OPTS='--cycle'
+export FZF_DEFAULT_COMMAND='/usr/bin/fd --type f'
+export GOPATH=$HOME/go
+export BAT_CONFIG=$HOME/.config/bat/config
+# export ANDROID_SDK="$HOME/Android/Sdk"
+# export ANDROID_SDK=$HOME/dev/Android/Sdk
+export PATH=$PATH:$HOME/Android/Sdk/platform-tools
+export PATH=$PATH:$GOPATH/bin
 
 # Fix prompt spacing
 # `set | grep _POWERLEVEL9K` to view all exported settings
@@ -132,7 +133,7 @@ _fzf_compgen_dir() {
 
 # search on lines of every file in current directory
 # return files which match the searched line
-f-lines() {
+fzf-lines() {
     # get every line in directory '$1'
     # regex=${1:-"."} # default to all files
     # paths=${${@:2}:-"."} # default to current directory
@@ -144,7 +145,7 @@ f-lines() {
 
 # 'fzf' on all lines in all files found with 'fd'
 # populate 'vim' quickfix with results
-f-vim() {
+fzf-vim() {
     # lines=$(fd $@ -t f -x cat {} | fzf -m)
     quickfix=$(rg --vimgrep -F -f <(fd $@ -t f -x cat {} | fzf -m)) # generate quickfix for vim
     # quit if no results
@@ -152,25 +153,17 @@ f-vim() {
     vim -q <(echo -n $quickfix) # open vim, populating quickfix
 }
 
-# global fzf cd
-f-gcd() {
-  local dir
-  dir=$(find $HOME -path '*/\.*' -prune \
-    -o -type d -print 2> /dev/null | fzf +m) &&
-    cd "$dir"
-}
-
 # fzf cd
-f-cd() {
-  local dir
-  dir=$(find ${1:-.} -path '*/\.*' -prune \
-    -o -type d -print 2> /dev/null | fzf +m) &&
-    cd "$dir"
+fzf-cd() {
+  fd -t d . ${1:-.} | fzf
 }
 
 # fzf cd to file dir
-f-cf() {
-  cd $(dirname `fzf`)
+fzf-cf() {
+    files=$(fd -t f | fzf)
+    if [[ -n $files ]]; then
+        cd $(dirname $files)
+    fi
 }
 
 clean-pdfs() {
@@ -181,6 +174,7 @@ for f in "$HOME/reading/downloads/"*; do
             echo "Download in progress."
             return
         fi
+        # use awk/sed here instead
         orig=$f
         f=${f:gs/ (z-lib.org)/}
         f=${f:gs/(/ /} # remove parentheses
@@ -197,7 +191,6 @@ for f in "$HOME/reading/downloads/"*; do
     ls -c "$HOME/reading" | head -$(($size + 1)) | tail -$size | xclip
     # Before copying each line to xclip, format as vim would do
 done
-
 }
 
 genpwd() {
@@ -220,6 +213,3 @@ compdef _ssh ssh-tmux
 
 # bindkey [-l]  <- to view binded keys and their respective commands
 bindkey "^E" list-expand  # for completion
-
-# source ~/.aliases
-# source ~/.pwd

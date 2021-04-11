@@ -1,25 +1,9 @@
-#
-# Aliases
-#
-# alias kitty="$HOME/dev/projects/kitty/kitty"
 alias kitty="$HOME/.local/kitty.app/bin/kitty"
 alias vim="nvim"
 alias rmrf="sudo rm -rf"
-alias src=". ~/.zprofile; . ~/.zshenv; . ~/.zpreztorc; . ~/.zshrc; xrdb ~/.Xresources; chmod -R +x ~/dev/scripts"
+alias src=". ~/.zprofile; . ~/.zshenv; . ~/.zpreztorc; . ~/.zshrc; xrdb ~/.Xresources; chmod -R +x ~/bin"
 alias start="exec startx -- -keeptty >> ~/.local/share/log 2>&1"
 
 alias reboot="sudo systemctl reboot"
 alias shutdown="sudo shutdown now"
 alias SS="sudo systemctl"
-
-#
-# Functions
-#
-mynginx() {
-    find . -name nginx.conf -execdir sudo nginx -s reload -c '{}' \;
-}
-
-css() {
-    local f=`find . -name node_modules -prune -o -type f -name gulpfile.js -execdir pwd \;`
-    (cd $f ; gulp)
-}

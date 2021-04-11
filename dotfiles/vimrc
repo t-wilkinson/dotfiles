@@ -1,12 +1,10 @@
-" Plug
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"-------------------- Plug --------------------
 call plug#begin('~/.vim/plugged')
 filetype off
 " disabled
-    " Plug 'sbdchd/neoformat'
-    " Plug 'luochen1990/rainbow'
-    "     let g:rainbow_active = 0
-    "     let g:rainbow_conf = { 'guifgs': ['#8be9fd', '#ff79c6', '#bd93f9', '#50fa7b', '#f1fa8c', '#8be9fd'] }
+    Plug 'luochen1990/rainbow'
+        let g:rainbow_active = 0
+        let g:rainbow_conf = { 'guifgs': ['#8be9fd', '#ff79c6', '#bd93f9', '#50fa7b', '#f1fa8c', '#8be9fd'] }
     " Plug 'Yggdroot/indentLine'
     "     let g:indentLine_char_list = [''] " ['Â¦'] Â¦â”Š
     "     let g:indentLine_enabled = 1
@@ -23,42 +21,36 @@ filetype off
     Plug 'tpope/vim-repeat'     " Repeat plugin commands
     Plug 'tpope/vim-surround'   " Surround Vim
     Plug 'tpope/vim-commentary' " Comment lines
-    Plug 'tpope/vim-obsession'   " Save sessions
+    Plug 'tpope/vim-obsession'  " Save sessions
+    Plug 'tpope/vim-eunuch'      " Better deleting
 
+
+" t-wilkinson
+    Plug 't-wilkinson/vim-zettelkasten'
+        let g:z_main_dir = $HOME . '/notes'
+        let g:z_window_command = 'call FloatingFZF()'
+        map <silent> <leader>j :Zettel<CR>
+        vmap <silent> <leader>j :ZettelVisual<CR>
+    Plug 't-wilkinson/vim-mdnav'
+        let g:mdnav#Extensions = '.md'
+
+Plug 'rafi/awesome-vim-colorschemes'
+Plug 'dracula/vim'
 Plug 'Jparise/vim-graphql'
 Plug 'arecarn/vim-fold-cycle'
 Plug 'machakann/vim-swap'
-Plug 'rafi/awesome-vim-colorschemes'
 Plug 'christoomey/vim-tmux-navigator' " Seamless tmux navigation
 Plug 'sheerun/vim-polyglot'           " The best syntax highlighting
-Plug 'dracula/vim'
 Plug 'moll/vim-bbye' " optional dependency for vim-symlink
 Plug 'aymericbeaumet/vim-symlink'
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
-    " TextEdit might fail if hidden is not set.
-    set hidden
-    " Some servers have issues with backup files, see #649.
-    set nobackup
-    set nowritebackup
-
-    " Give more space for displaying messages.
-    set cmdheight=2
-
-    " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
-    " delays and poor user experience.
-    set updatetime=200
-
-    " Don't pass messages to |ins-completion-menu|.
-    set shortmess+=c
-
-    " Always show the signcolumn, otherwise it would shift the text each time
-    " diagnostics appear/become resolved.
-    if has("patch-8.1.1564")
-      " Recently vim can merge signcolumn and number column into one
-      set signcolumn=number
-    else
-      set signcolumn=yes
-    endif
+    set hidden " TextEdit might fail if hidden is not set.
+    set nobackup " Some servers have issues with backup files, see #649.
+    set nowritebackup ""
+    set cmdheight=2 " Give more space for displaying messages.
+    set updatetime=200 " Having longer updatetime (default is 4000 ms = 4 s) leads to noticeable
+    set shortmess+=c " Don't pass messages to |ins-completion-menu|.
+    set signcolumn=number
 
     " Use `[g` and `]g` to navigate diagnostics
     " Use `:CocDiagnostics` to get all diagnostics of current buffer in location list.
@@ -71,8 +63,8 @@ Plug 'neoclide/coc.nvim', {'branch': 'release'}
     nmap <silent> gi <Plug>(coc-implementation)
     nmap <silent> gr <Plug>(coc-references)
 
-    nmap <silent> <leader>cs :ToggleSigncolumn<CR>
-    command! ToggleSigncolumn :let &signcolumn=(&signcolumn == "auto" ? "no" : "auto")
+    nmap <silent> <leader>tc :ToggleSigncolumn<CR>
+    command! ToggleSigncolumn :let &signcolumn=(&signcolumn == "number" ? "no" : "number")
 
     autocmd CursorHold * silent call CocActionAsync('highlight')
 
@@ -112,12 +104,14 @@ Plug 'neovimhaskell/haskell-vim'          " Better haskell highlighting. Haskell
     let g:haskell_indent_in = 0
     let g:haskell_indent_guard = 2
 
+if has('python3')
 Plug 'SirVer/ultisnips'
     let g:UltiSnipsExpandTrigger='<Tab>'
     let g:UltiSnipsJumpForwardTrigger='<Tab>'
     let g:UltiSnipsJumpBackwardTrigger='<S-Tab>'
     let g:UltiSnipsSnippetDirectories=[$HOME . '/.vim/UltiSnips']
     let g:UltiSnipsEditSplit="vertical"
+endif
 
 Plug 'junegunn/fzf.vim'
     " CTRL-T(tab) / CTRL-X(split) / CTRL-V(ver-split)
@@ -159,18 +153,19 @@ Plug 'pseewald/vim-anyfold'
     let g:anyfold_fold_comments=1
     let g:anyfold_fold_size_str='%s'
     let g:anyfold_fold_level_str=''
+    " autocmd Filetype * AnyFoldActivate               " activate for all filetypes
     " activate anyfold by default
         augroup anyfold
             autocmd!
-            autocmd Filetype <filetype> AnyFoldActivate
+            autocmd Filetype * AnyFoldActivate
         augroup END
     " disable anyfold for large files
         let g:LargeFile = 1000000 " file is large if size greater than 1MB
         autocmd BufReadPre,BufRead * let f=getfsize(expand("<afile>")) | if f > g:LargeFile || f == -2 | call LargeFile() | endif
         function LargeFile()
             augroup anyfold
-                autocmd! " remove AnyFoldActivate
-                autocmd Filetype <filetype> setlocal foldmethod=indent " fall back to indent folding
+                autocmd! anyfold
+                autocmd Filetype * setlocal foldmethod=indent " fall back to indent folding
             augroup END
         endfunction
 
@@ -185,7 +180,7 @@ Plug 'itchyny/lightline.vim'
 	endfunction
     function! LightlineObsession()
         let status = ObsessionStatus("\u25cf", "\u25cb")
-        return status == '' ? "\u25cb" : status
+        return status == '' ? "" : status
     endfunction
     let g:lightline = {
                 \ 'separator': { 'left': "\ue0b0", 'right': "\ue0b2" },
@@ -206,47 +201,42 @@ Plug 'itchyny/lightline.vim'
                 \ },
                 \ }
 
-Plug 't-wilkinson/vim-zettelkasten'
-    let g:z_main_dir = $HOME . '/notes'
-    let g:z_window_command = 'call FloatingFZF()'
-    map <silent> <leader>j :Zettel<CR>
-    vmap <silent> <leader>j :ZettelVisual<CR>
-Plug 't-wilkinson/vim-mdnav'
-    let g:mdnav#Extensions = '.md'
-
 call plug#end()
 
 filetype plugin indent on
+" syntax on
+packadd cfilter
 
 "-------------------- Mappings --------------------
 " Basic
     map <Space> <leader>
     map Q @@
     map Y y$
+    noremap zi zizz
     map <silent> <leader>s :keeppatterns source $HOME/.vimrc<CR>
     map <silent> <leader>S :source %<CR>
     nmap <leader>yq gg0vG$"+y:q!<CR>
     map <silent> <leader>p 0Yi["](/home/trey/reading/A)0wwvi[:s/\%V-/ /e0f]dF.0:s/\%V by / - /ej0
-    noremap zi zizz
+    nnoremap <silent> <leader>g :redir @a<CR>:g//<CR>:redir END<CR>:new<CR>:put! a<CR>
 
 " Fzf
-    map <leader>b :FzfBuffers<CR>
-    " map <leader>c :FzfColors<CR>
-    map <leader>f :FzfFiles<CR>
-    map <leader>h :FzfHistory<CR>
-    map <leader>l :FzfLines<CR>
-    map <leader>r :FzfRg<CR>
+    map <leader>fb :FzfBuffers<CR>
+    map <leader>fc :FzfColors<CR>
+    map <leader>ff :FzfFiles<CR>
+    map <leader>fh :FzfHistory<CR>
+    map <leader>fl :FzfLines<CR>
+    map <leader>fL :FzfBLines<CR>
+    map <leader>fr :FzfRg<CR>
+    map <leader>fH :FzfHelptags<CR>
 
 " Commands
     " com! Bdelete bp | sp | bn | bd  " delete a buffer but keep window format
-    com! RM silent execute "!sudo rm %" | bp | sp | bn | bd!
-    func! MVFunc(to)
-        silent execute "!mv %" a:to
-        Bdelete
-        execute "edit" a:to
-    endfunc
-    com! -complete=file -nargs=1 MV call MVFunc(<q-args>)
-    com! W silent execute "write" "!sudo tee % >/dev/null" | silent edit!
+    " com! RM silent execute "Bdelete %" | silent execute "!rm #"
+    " com! W silent execute "write" "!sudo tee % >/dev/null" | silent edit!
+    com! -complete=file -nargs=1 MV
+                \ silent execute "!mv %" <q-args> |
+                \ Bdelete |
+                \ execute "edit" <q-args>
     com! ClearReg for i in range(34,122) | silent! call setreg(nr2char(i),"") | endfor
     com! ReactStyle norm 0f"cl{{A€kb;}}0:s/\€kb\(.\)€kb{-}\):\(.\{0€kb-\}€kb€kb}\);/\1: "\2", :s/-\(\w\)/\u\1O// @ts-ignore
     com! PDF norm 0Yi["](/home/trey/reading/A)0wwvi[:s/\%V-/ 0f]dF.0:s/\%V by / - /ej0
@@ -273,7 +263,7 @@ filetype plugin indent on
     set splitbelow splitright           " Better splits
     set termguicolors                   " Use full range of colors
     set undofile undodir=~/.vim/undodir " Undo file
-    set wildignore=*/node_modules/*,*.swp,*/__pycache__/*,*/.git/*,*/dist-newstyle/*,*/cljs-runtime/*,*.o,*.hi
+    set wildignore=*.swp,*/__pycache__/*,*/.git/*,*/dist-newstyle/*,*/cljs-runtime/*,*.o,*.hi
     set wildmenu
     set nostartofline
     set norelativenumber nonumber
@@ -291,16 +281,17 @@ filetype plugin indent on
     let g:loaded_python_provider = 0    " disable python2
     let g:netrw_liststyle=3             " hide netrwbanner
 
-digraphs xS 739 yS 696 zS 7611 xs 8339 >- 10522 -< 10521 -( 10523 )- 10524 ]- 8866 as 8336 AD 8867 oS 7506 pS 7510 xx 10008
+digraphs
+            \ xS 739 yS 696 zS 7611 oS 7506 pS 7510 xs 8339 as 8336
+            \ xx 10008
+            \ >- 10522 -< 10521 -( 10523 )- 10524 ]- 8866
 
 "-------------------- Auto Commands --------------------
-func! TrimWhitespace()
-    let l:save = winsaveview()
-    keeppatterns %s/\s\+$//e
-    call winrestview(l:save)
-endfunc
+au BufWritePre *
+            \ let s:save = winsaveview() |
+            \ keeppatterns %s/\s\+$//e |
+            \ silent call winrestview(s:save)
 
-au BufWritePre * :silent :call TrimWhitespace()
 augroup filetypes
     au!
     au BufRead,BufNewFile * setlocal tabstop=4 softtabstop=4 shiftwidth=4

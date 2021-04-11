@@ -20,5 +20,7 @@
 !zsh/
 
 *history.json
+qutebrowser/quickmarks
+qutebrowser/bookmarks/urls
 
 !mimeapps.list
