@@ -1,0 +1,29 @@
+{
+  "coc.preferences.formatOnSaveFiletypes": [
+    "svg",
+    "c",
+    "cpp",
+    "rust",
+    "go",
+    "css",
+    "javascript",
+    "typescript",
+    "javascriptreact",
+    "typescriptreact",
+    "python",
+    "json",
+    "html"
+  ],
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "all",
+  "prettier.semi": false,
+  "typescript.suggest.autoImports": true,
+  "eslint.autoFixOnSave": true,
+  "tsserver.formatOnType": true,
+  "coc.preferences.formatOnType": true,
+  "tailwindCSS.headwind.runOnSave": false,
+  "python.linting.pylintArgs": [
+    "--errors-only",
+    "--generated-members=numpy.* ,torch.*"
+  ]
+}

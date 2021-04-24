@@ -1,0 +1,10 @@
+alias kitty="$HOME/.local/kitty.app/bin/kitty"
+alias vim="nvim"
+alias rmrf="sudo rm -rf"
+alias src=". ~/.zprofile; . ~/.zshenv; . ~/.zpreztorc; . ~/.zshrc; xrdb ~/.Xresources; chmod -R +x ~/bin"
+alias neovide="neovide --multiGrid"
+
+alias start="exec startx -- -keeptty >> ~/.local/share/log 2>&1"
+alias reboot="sudo systemctl reboot"
+alias shutdown="sudo shutdown now"
+alias SS="sudo systemctl"
