@@ -8,6 +8,7 @@ alias neovide="neovide --multiGrid"
 alias bat="PAGER=bat \bat"
 alias ip="ip -c"
 alias nc="ncat"
+alias IP="dig +short myip.opendns.com @resolver1.opendns.com | tr -d '\n'"
 
 alias start="exec startx -- -keeptty >> ~/.local/share/log 2>&1"
 alias reboot="sudo systemctl reboot"

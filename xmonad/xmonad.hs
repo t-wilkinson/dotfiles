@@ -2,79 +2,118 @@
 {-# LANGUAGE TypeSynonymInstances #-}
 {-# OPTIONS_GHC -fno-warn-missing-signatures #-}
 
-import           System.Exit
 import           XMonad
 import qualified XMonad.StackSet               as W
+import           XMonad.Prompt
+import           XMonad.Prompt.ConfirmPrompt    ( confirmPrompt )
+import           XMonad.Prompt.Shell            ( getShellCompl )
+import           XMonad.Hooks.WorkspaceHistory
+import           XMonad.Hooks.ManageDocks ( avoidStruts )
+
+import           XMonad.Util.Font ( Align(..) )
+import           XMonad.Util.EZConfig
+import           XMonad.Util.SpawnOnce          ( spawnOnOnce )
+--import           XMonad.Util.Run hiding (main)--(runProcessWithInput safeSpawn, runInTerm, spawnPipe)
+
 import           XMonad.Actions.CycleWS                       -- Cycle between workspaces and screens
 import           XMonad.Actions.DynamicProjects
 import           XMonad.Actions.UpdatePointer   ( updatePointer ) -- Keep pointer on active workspace
 import           XMonad.Actions.WithAll         ( killAll )
+import           XMonad.Actions.FloatKeys ( keysResizeWindow )
+import           XMonad.Actions.TreeSelect
+
+import           XMonad.Layout.Named (named)
+import           XMonad.Layout.Simplest (Simplest(..))
+import           XMonad.Layout.Fullscreen ( fullscreenFloat)
+import           XMonad.Layout.BoringWindows ( boringWindows )
+import           XMonad.Layout.SubLayouts ( subLayout, subTabbed, pullGroup, GroupMsg(..))
+import           XMonad.Layout.Dishes
+import           XMonad.Layout.Accordion
+import           XMonad.Layout.Drawer
+
+import           XMonad.Layout.Gaps ( gaps, Direction2D(..) )
 import           XMonad.Layout.SimpleFloat ( simpleFloat )
 import           XMonad.Layout.BinarySpacePartition
 import           XMonad.Layout.PerScreen        ( ifWider )
 import           XMonad.Layout.PerWorkspace     ( onWorkspace )
 import           XMonad.Layout.Spacing                        -- Gap-like spacing
 import           XMonad.Layout.Tabbed                            -- Multi-purpose browser tabs
-import XMonad.Layout.SimplestFloat (simplestFloat)
--- import Xmonad.Layout.Combo \ ComboP              -- Combine multiple layouts
-import           XMonad.Prompt
-import           XMonad.Prompt.ConfirmPrompt    ( confirmPrompt )
-import           XMonad.Prompt.Shell            ( getShellCompl )
-import           XMonad.Util.EZConfig
---import XMonad.Util.Run hiding (main)--(runProcessWithInput safeSpawn, runInTerm, spawnPipe)
-import           XMonad.Util.SpawnOnce          ( spawnOnOnce )
+import           XMonad.Layout.SimplestFloat (simplestFloat)
+-- import        Xmonad.Layout.Combo \ ComboP              -- Combine multiple layouts
+
+import           System.Exit
 import Data.Ratio ((%))
-import XMonad.Actions.FloatKeys ( keysResizeWindow )
+import Data.Tree
 
 
 --------------------------------------------------------------------------------
 -- Layouts
 --------------------------------------------------------------------------------
 
-myLayout =
-    -- apply modifier to certain workspaces
-    -- modWorkspaces myWorkspaces padding $
-    -- I can use onWorkspaces to reduce much of this code
-    -- However I would like to allow more freedom for now
-  onWorkspace "home" myHomeLayout
-    $ onWorkspace "web"   myWebLayout
-    $ onWorkspace "media" myMediaLayout
-    $ defaultLayout
+myLayoutHook = fullscreenFloat -- fixes floating windows going full screen, while retaining "bounded" fullscreen
+     $ onWorkspace'
 
- where
-  defaultLayout = tabs ||| Full ||| emptyBSP
-  myHomeLayout  = Full ||| tabs ||| emptyBSP
-  myWebLayout   = defaultLayout
-  myMediaLayout = defaultLayout
+  where
+    onWorkspace' =     onWorkspace wsHome (g myHomeLayout)
+       $ onWorkspace wsWeb   (g myWebLayout)
+       $ onWorkspace wsMedia (g myMediaLayout)
+       $ g defaultLayout
 
-  tabs          = tabbed shrinkText draculaTheme
-  spacing' i o = spacingRaw False (border i) True (border o) True
-  border x = Border x x x x
+    -- Dishes
+    -- drawer = simpleDrawer 0.01 0.3 (ClassName "kitty") `onTop` (Tall 1 0.03 0.5)
+    defaultLayout = ifWider 1920 (Mirror Accordion ||| Full ||| Tall 1 0.03 0.5 ||| Dishes 2 (1/9)) Full
+    myHomeLayout  = Full ||| Tall 1 0.03 0.5
+    myWebLayout   = defaultLayout
+    myMediaLayout = defaultLayout
+
+    g l = ifWider 1920 (spacing' 6 6 l) l
+    gap' x =  gaps [(U,x), (D,x), (R,x), (L,x)]
+    spacing' x y = spacingRaw False (Border y (y-2) x x) True (Border y (y-2) x x) True
+    spacing'' i o = spacingRaw False (border i) True (border o) True
+    border x = Border x x x x
+    -- tabs = named "Tabs"
+    --      $ avoidStruts
+    --      $ ifWider 1920 (addTabsBottom shrinkText myTabTheme $ Simplest) (Simplest)
 
 
 --------------------------------------------------------------------------------
 -- Workspaces
 --------------------------------------------------------------------------------
 
-myWorkspaces = ["home", "web", "media", "virtualbox"]
+wsHome = "Home"
+wsWeb = "Web"
+wsMedia = "Media"
+wsVirtualbox = "Virtualbox"
+
+myWorkspaces :: Forest String
+myWorkspaces =
+    [ Node wsHome []
+    , Node wsWeb []
+    , Node wsMedia
+        [ Node "Music" []
+        , Node "Reading" []
+        ]
+    , Node wsVirtualbox []
+    ]
 
 projects :: [Project]
 projects =
-    [ Project { projectName      = "home"
+    [ Project { projectName      = wsHome
               , projectDirectory = "~"
               , projectStartHook = Nothing
               }
-    , Project { projectName      = "web"
+    , Project { projectName      = wsWeb
               , projectDirectory = "~"
               , projectStartHook = Nothing
               }
-    , Project { projectName      = "media"
+    , Project { projectName      = wsMedia
               , projectDirectory = "~"
               , projectStartHook = Nothing
               }
-    , Project { projectName      = "virtualbox"
+    , Project { projectName      = wsVirtualbox
               , projectDirectory = "~"
-              , projectStartHook = Nothing
+              , projectStartHook = Just $ do
+                  spawn "virtualbox"
               }
     ]
 
@@ -85,20 +124,21 @@ projects =
 
 myManageHook :: ManageHook
 myManageHook = composeAll
-  [ className =? "Inkscape" --> doShift "media"
-  , className =? "Gimp" --> doShift "media"
-  , className =? "Zathura" --> doShift "media"
-  , className =? "qutebrowser" --> doShift "web"
-  , className =? "Home" --> doShift "home"
-  , className =? "Emacs" --> doShift "home"
-  , className =? "firefoxdeveloperedition" --> doShift "web"
-  , className =? "firefox" --> doShift "web"
+  [ className =? "Inkscape" --> doShift wsMedia
+  , className =? "Gimp" --> doShift wsMedia
+  , className =? "Zathura" --> doShift wsMedia
+  , className =? "qutebrowser" --> doShift wsWeb
+  , className =? "Home" --> doShift wsHome
+  , className =? "Emacs" --> doShift wsHome
+  , className =? "firefoxdeveloperedition" --> doShift wsWeb
+  , className =? "firefox" --> doShift wsWeb
   ]
 
 
 myLogHook :: X ()
-myLogHook = updatePointer (0.5, 0.5) (0, 0)  -- Pointer follows focus
-
+myLogHook = do
+    updatePointer (0.5, 0.5) (0, 0)  -- Pointer follows focus
+    workspaceHistoryHook
 
 
 --------------------------------------------------------------------------------
@@ -109,6 +149,13 @@ cyan = "#8be9fd"
 dark = "#21222C"
 bg = "#44475A"
 fg = "#f8f8f2"
+myFont = "xft:Source Code Pro-16"
+
+myTabTheme :: Theme
+myTabTheme = draculaTheme
+    { fontName = "xft:Source Code Pro-10"
+    , decoHeight          = 22
+    }
 
 draculaTheme :: Theme
 draculaTheme = def
@@ -118,8 +165,7 @@ draculaTheme = def
   , inactiveTextColor   = fg
   , activeBorderWidth   = 0
   , inactiveBorderWidth = 0
-  , fontName            =
-    "xft:Source Code Pro-8:antialias=true:hinting=true:monospace:style=Powerline"
+  , fontName            = myFont
   , decoHeight          = 24
   , urgentColor         = bg
   , urgentTextColor     = fg
@@ -127,18 +173,36 @@ draculaTheme = def
 
 
 promptTheme :: XPConfig
-promptTheme = def { font              = "xft:Source Code Pro-16"
-                  , bgColor           = bg
-                  , fgColor           = fg
-                  , fgHLight          = fg
-                  , bgHLight          = dark
-                  , borderColor       = dark
-                  , promptBorderWidth = 4
-                  , height            = 100
-                  , position          = CenteredAt 0.5 0.5
-                  , autoComplete      = Just 0
-                  }
+promptTheme = def
+    { font              = myFont
+    , bgColor           = bg
+    , fgColor           = fg
+    , fgHLight          = fg
+    , bgHLight          = dark
+    , borderColor       = dark
+    , promptBorderWidth = 4
+    , height            = 100
+    , position          = CenteredAt 0.5 0.5
+    , autoComplete      = Just 0
+    }
 
+
+myTreeConfig :: TSConfig a
+myTreeConfig = TSConfig
+    { ts_hidechildren = True
+    , ts_background   = 0x90282a36
+    , ts_font         = myFont
+    , ts_node         = (0xfff8f8f2, 0x90282a36)
+    , ts_nodealt      = (0xfff8f8f2, 0x90282a36)
+    , ts_highlight    = (0xfff8f8f2, 0x9044475a)
+    , ts_extra        = 0x50fa7b
+    , ts_node_width   = 300
+    , ts_node_height  = 30
+    , ts_originX      = 50
+    , ts_originY      = 50
+    , ts_indent       = 80
+    , ts_navigate     = defaultNavigation
+    }
 
 --------------------------------------------------------------------------------
 -- Prompts
@@ -159,8 +223,7 @@ mkXPrompt' p t cmds c = mkXPrompt (Prompt p) c' completions
 quickLaunch :: X ()
 quickLaunch = mkXPrompt' "λ " "" cmds promptTheme subLaunch
  where
-  cmds =
-    ["tmuxinator", "volume", "brightness", "screenshot", "refresh-monitors"]
+  cmds = ["volume", "brightness", "screenshot"]
 
 
 subLaunch :: String -> X ()
@@ -175,14 +238,29 @@ subLaunch input =
         newPrompt (input ++ "(1-10): ") ""
           $ \x -> "xrandr --output eDP-1-1 --brightness "
               ++ show ((read x :: Float) / 10)
-
-      "volume" ->
-        newPrompt (input ++ "(0-150): ") "" $ \x -> "ponymix set-volume " ++ x
-
-      "refresh-monitors" -> spawn "xrandr --auto"
-
+      "volume" -> newPrompt (input ++ "(0-150): ") "" $ \x -> "ponymix set-volume " ++ x
       _                  -> pure ()
 
+
+myTreeselect = treeselectAction myTreeConfig
+    [ Node (TSNode "Launcher" "" (spawn "rofi -show run")) [] -- drun for desktop entries
+    , Node (TSNode "Brightness" "\57520" (return ()))
+        [ Node (TSNode "Bright" ""            (spawn "xbacklight -set 100")) []
+        , Node (TSNode "Normal" "" (spawn "xbacklight -set 50"))  []
+        , Node (TSNode "Dim"    ""              (spawn "xbacklight -set 10"))  []
+        , Node (TSNode "Screen Off" "" (spawn "sleep 0.5;xset dpms force off")) []
+        ]
+    , Node (TSNode "Scratchpad" "" (spawn "kitty nvim -c startinsert")) []
+    , Node (TSNode "Sound" "\57520" (return ()))
+        [ Node (TSNode "Raise Volume" "" (spawn "ponymix increase 3")) []
+        , Node (TSNode "Lower Volume" "" (spawn "ponymix decrease 3")) []
+        , Node (TSNode "Mute"      ""  (spawn "ponymix toggle")) []
+        ]
+    , Node (TSNode "XMonad" "\57520" (return ()))
+     [ Node (TSNode "Recompile" "" (spawn "xmonad --recompile && xmonad --restart")) []
+     ]
+    , Node (TSNode "Shutdown" "" (spawn "shutdown")) []
+    ]
 
 --------------------------------------------------------------------------------
 -- Key Bindings
@@ -193,31 +271,35 @@ myKeyBindings conf = additionalKeysP
   conf
     -- Launching programs
   [ ("M-<Return>", spawn myTerm)
-  , ("M-0"       , spawn "sleep 0.5;xset dpms force off")
-  , ( "M-p" , spawn "/usr/bin/rofi -show run")  -- drun for desktop entries
   , ("M-q", spawn "xmonad --recompile && xmonad --restart")
   , ("M-S-q", io exitSuccess)
-  -- , ( "M-t" , quickLaunch)
-  -- , ("M-t", spawn "st -e nvim -c \"startinsert\"")
-  , ("M-s", spawn "mbsync -a")
+  , ("M-e", myTreeselect)
+
+    -- Workspaces
+  -- , ("M-w"  , switchProjectPrompt promptTheme)
+  -- , ("M-S-w", shiftToProjectPrompt promptTheme)
+  , ("M-w"  , treeselectWorkspace myTreeConfig myWorkspaces W.greedyView)
+  , ("M-S-w", treeselectWorkspace myTreeConfig myWorkspaces W.shift)
+  , ( "M1-<Tab>" , toggleWS)
 
     -- Windows
   , ("M-j"          , windows W.focusDown)
   , ("M-k"          , windows W.focusUp)
   , ("M-S-j"        , windows W.swapDown)
   , ("M-S-k"        , windows W.swapUp)
-  , ("M-m"          , windows W.focusMaster)
-  , ("M-S-m"        , windows W.swapMaster)
+
+  -- , ("M-m"          , windows W.focusMaster)
+  -- , ("M-S-m"        , windows W.swapMaster)
   , ("M-,"          , sendMessage (IncMasterN 1))
   , ("M-."          , sendMessage (IncMasterN (-1)))
   , ("M-h"          , sendMessage (ExpandTowards L))
   , ("M-l"          , sendMessage (ExpandTowards R))
   , ("M-<Backspace>", kill)
-  , ( "M-S-<Backspace>" , confirmPrompt promptTheme "Kill All" killAll)
-  , ( "M1-t" , withFocused $ windows . W.sink)
+  , ("M-S-<Backspace>" , confirmPrompt promptTheme "Kill All" killAll)
+  , ("M-t" , withFocused $ windows . W.sink)
 
-  -- , ("M1-d", withFocused (keysResizeWindow (-10,-10) (1%2,1%2)))
-  -- , ("M1-s", withFocused (keysResizeWindow (10,10) (1%2,1%2)))
+--   , ("M1-d", withFocused (keysResizeWindow (-10,-10) (1%2,1%2)))
+--   , ("M1-s", withFocused (keysResizeWindow (10,10) (1%2,1%2)))
 
     -- emptyBSP
   , ("M1-<Left>"   , sendMessage $ ExpandTowards L)
@@ -230,11 +312,6 @@ myKeyBindings conf = additionalKeysP
   , ("M1-C-<Down>" , sendMessage $ ExpandTowards D)
   -- , ("M1-s"        , sendMessage $ Swap)
   , ( "M1-r" , sendMessage $ Rotate)
-
-    -- Workspaces
-  , ("M-w"  , switchProjectPrompt promptTheme)
-  , ("M-S-w", shiftToProjectPrompt promptTheme)
-  , ( "M1-<Tab>" , toggleWS)
 
     -- Screens
   , ( "M-<Tab>" , nextScreen)
@@ -258,9 +335,10 @@ myTerm = "/home/trey/.local/kitty.app/bin/kitty"
 myConf = def { normalBorderColor  = dark
              , focusedBorderColor = bg
              , terminal           = myTerm
-             , layoutHook         = myLayout
+             , layoutHook         = myLayoutHook
              , manageHook         = myManageHook
-             , workspaces         = myWorkspaces
+             -- , workspaces         = myWorkspaces
+             , workspaces         = toWorkspaces myWorkspaces
              , modMask            = mod4Mask
              , borderWidth        = 2
              , logHook            = myLogHook
@@ -273,4 +351,7 @@ myConf = def { normalBorderColor  = dark
 
 main :: IO ()
 main = do
-  xmonad $ dynamicProjects projects $ myKeyBindings myConf
+  xmonad
+      -- $ dynamicProjects projects
+      $ myKeyBindings myConf
+

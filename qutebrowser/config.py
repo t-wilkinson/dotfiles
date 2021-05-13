@@ -33,8 +33,10 @@ c.colors.tabs.odd.bg = palette['background']
 c.colors.tabs.selected.even.bg = palette['selection']
 c.colors.tabs.selected.odd.bg = palette['selection']
 
-c.aliases = {'w': 'session-save', 'q': 'close',
-             'qa': 'quit', 'wq': 'quit --save', 'wqa': 'quit --save'}
+c.aliases = {
+    'w': 'session-save', 'q': 'close',
+    'qa': 'quit', 'wq': 'quit --save', 'wqa': 'quit --save'
+}
 
 # Which cookies to accept. With QtWebEngine, this setting also controls
 # other features with tracking capabilities similar to those of cookies;

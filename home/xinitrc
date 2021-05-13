@@ -5,34 +5,41 @@
 #
 xrandr --setprovideroutputsource modesetting NVIDIA-0
 xrandr --auto
-# Neither of the below work... although the equivalent python script does
+# Neither of the below work... although the equivalent python script does. why?
 # xrandr --listactivemonitors | awk '{ print $4 }' | sort | tr '\n' ' ' | read eDP HDMI | true
 # xrandr | grep ' connected' | awk '{print $1}' | sort | read -r eDP HDMI
 # xrandr --output $eDP --below $HDMI --primary
 ~/bin/connect_monitors.py # for some reason this works and not the equivalent bash script
-xset -dpms
+xset -dpms # don't screen blank
 xset s off
 
 #
 # Appearances
 #
-xrdb ~/.Xresources
+xrdb ~/.Xresources &
 xbanish &
-# picom --experimental-backends &
-compton --config ~/.config/compton.conf &
-feh --bg-fill ~/media/backgrounds/colorful_crystals_abstract_4k.jpg --bg-fill ~/media/backgrounds/xiaomi-mi-gaming-laptop-abstract-4k-hl-2560x1440.jpg
-# feh --no-fehbg --bg-scale ~/media/backgrounds/abstract-cubes.jpg &
-# feh --no-fehbg --bg-fill --no-xinerama ~/media/backgrounds/abstract-purple-blue-cell-4k-nd-2560x1440.jpg
+~/dev/picom-jonaburg/build/src/picom --experimental-backends --config ~/.config/picom/picom-jonaburg.conf &
 xsetroot -cursor_name left_ptr &
 # redshift &
-# pacmd set-default-source $(pacmd list-sources | grep name: | grep input | sed 's/^.*<\(.*\)>/\1/p')
+
+#
+# Backgrounds
+#
+# feh --bg-fill ~/media/backgrounds/48071.jpg --bg-fill ~/media/backgrounds/xiaomi-mi-gaming-laptop-abstract-4k-hl-2560x1440.jpg &
+feh --bg-fill ~/media/backgrounds/firewatch.jpg --bg-fill ~/media/backgrounds/xiaomi-mi-gaming-laptop-abstract-4k-hl-2560x1440.jpg &
+# xwinwrap -ov -g 1920x1080+0+0 -- mpv -wid WID ~/media/backgrounds/videos/DVDE_loop.mp4 --no-osc --no-osd-bar --loop-file --player-operation-mode=cplayer --no-audio --panscan=1.0 --no-input-default-bindings &
+# ~/bin/back4.sh auto ~/media/gif/beautycity.gif &
+# feh --no-fehbg --bg-scale ~/media/backgrounds/abstract-cubes.jpg &
+# feh --no-fehbg --bg-fill --no-xinerama ~/media/backgrounds/abstract-purple-blue-cell-4k-nd-2560x1440.jpg &
 
 #
 # Default programs
 #
 # xset r rate 160 20 &
+# pacmd set-default-source $(pacmd list-sources | grep name: | grep input | sed 's/^.*<\(.*\)>/\1/p')
 xmodmap -e "keycode 108 = Multi_key" # for XCompose
-/usr/bin/qutebrowser --restore default &
+/usr/bin/qutebrowser --restore default -B ~/dev/t-wilkinson/projects/browser/personal &
+/usr/bin/qutebrowser --restore default -B ~/dev/t-wilkinson/projects/browser/work &
 /usr/bin/firefox-developer-edition &
 $HOME/.local/kitty.app/bin/kitty &
 /home/trey/bin/super-caps.sh &
