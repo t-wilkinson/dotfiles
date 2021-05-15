@@ -3,7 +3,7 @@
 alias kitty="$HOME/.local/kitty.app/bin/kitty"
 alias vim="nvim"
 alias rmrf="sudo rm -rf"
-alias src=". ~/.zprofile; . ~/.zshenv; . ~/.zpreztorc; . ~/.zshrc; xrdb ~/.Xresources; chmod -R +x ~/bin"
+alias src=". ~/.zprofile; . ~/.zshenv; . ~/.zpreztorc; . ~/.zshrc; xrdb ~/.Xresources;"
 alias neovide="neovide --multiGrid"
 alias bat="PAGER=bat \bat"
 alias ip="ip -c"

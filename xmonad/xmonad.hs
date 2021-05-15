@@ -54,7 +54,7 @@ myLayoutHook = fullscreenFloat -- fixes floating windows going full screen, whil
      $ onWorkspace'
 
   where
-    onWorkspace' =     onWorkspace wsHome (g myHomeLayout)
+    onWorkspace' = onWorkspace wsHome (g myHomeLayout)
        $ onWorkspace wsWeb   (g myWebLayout)
        $ onWorkspace wsMedia (g myMediaLayout)
        $ g defaultLayout
@@ -66,10 +66,10 @@ myLayoutHook = fullscreenFloat -- fixes floating windows going full screen, whil
     myWebLayout   = defaultLayout
     myMediaLayout = defaultLayout
 
-    g l = ifWider 1920 (spacing' 6 6 l) l
-    gap' x =  gaps [(U,x), (D,x), (R,x), (L,x)]
+    g l = ifWider 1920 (spacing' 10 10 l ||| Full) (l ||| spacing' 6 6 l)
+    -- gap' x =  gaps [(U,x), (D,x), (R,x), (L,x)]
     spacing' x y = spacingRaw False (Border y (y-2) x x) True (Border y (y-2) x x) True
-    spacing'' i o = spacingRaw False (border i) True (border o) True
+    -- spacing'' i o = spacingRaw False (border i) True (border o) True
     border x = Border x x x x
     -- tabs = named "Tabs"
     --      $ avoidStruts
@@ -244,21 +244,22 @@ subLaunch input =
 
 myTreeselect = treeselectAction myTreeConfig
     [ Node (TSNode "Launcher" "" (spawn "rofi -show run")) [] -- drun for desktop entries
+    , Node (TSNode "XMonad" "\57520" (return ()))
+     [ Node (TSNode "Recompile" "" (spawn "xmonad --recompile && xmonad --restart")) []
+     , Node (TSNode "Edit config" "" (spawn "kitty nvim ~/dev/t-wilkinson/dotfiles/xmonad/xmonad.hs")) []
+     ]
+    , Node (TSNode "Scratchpad" "" (spawn "kitty nvim -c startinsert")) []
     , Node (TSNode "Brightness" "\57520" (return ()))
         [ Node (TSNode "Bright" ""            (spawn "xbacklight -set 100")) []
         , Node (TSNode "Normal" "" (spawn "xbacklight -set 50"))  []
         , Node (TSNode "Dim"    ""              (spawn "xbacklight -set 10"))  []
         , Node (TSNode "Screen Off" "" (spawn "sleep 0.5;xset dpms force off")) []
         ]
-    , Node (TSNode "Scratchpad" "" (spawn "kitty nvim -c startinsert")) []
     , Node (TSNode "Sound" "\57520" (return ()))
         [ Node (TSNode "Raise Volume" "" (spawn "ponymix increase 3")) []
         , Node (TSNode "Lower Volume" "" (spawn "ponymix decrease 3")) []
         , Node (TSNode "Mute"      ""  (spawn "ponymix toggle")) []
         ]
-    , Node (TSNode "XMonad" "\57520" (return ()))
-     [ Node (TSNode "Recompile" "" (spawn "xmonad --recompile && xmonad --restart")) []
-     ]
     , Node (TSNode "Shutdown" "" (spawn "shutdown")) []
     ]
 

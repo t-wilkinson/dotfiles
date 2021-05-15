@@ -46,14 +46,10 @@ promptinit
 prompt powerlevel10k
 
 # Exports
-# export CLASSPATH=$CLASSPATH:"$HOME/dev/coursera/algorithms/algs4/algs4.jar"
 export FZF_DEFAULT_OPTS='--cycle'
 export FZF_DEFAULT_COMMAND='/usr/bin/fd --type f'
 export GOPATH=$HOME/go
 export BAT_CONFIG=$HOME/.config/bat/config
-# export ANDROID_SDK="$HOME/Android/Sdk"
-# export ANDROID_SDK=$HOME/dev/Android/Sdk
-export PATH=$PATH:$HOME/Android/Sdk/platform-tools
 export PATH=$PATH:$GOPATH/bin
 
 # Fix prompt spacing
@@ -166,6 +162,32 @@ fzf-cf() {
     fi
 }
 
+pkgs() {
+    case $1 in
+        size)
+            if [[ -z $2 ]]; then
+                LC_ALL=C pacman -Qi | awk '/^Name/{name=$3} /^Installed Size/{ print $4$5, "\t", name}' | sort -h
+            else
+                pkg=$2
+                pacman -Qlq $pkg | grep -v '/$' | xargs -r du -h | sort -h
+            fi
+            ;;
+
+        install)
+            pkglist=$2
+            if [[ -f /home/trey/dev/t-wilkinson/scripts/pkglist.txt ]]; then
+                pkglist=/home/trey/dev/t-wilkinson/scripts/pkglist.txt
+            fi
+
+            pacman -S --needed $(comm -12 <(pacman -Slq | sort) <(sort $pkglist))
+            ;;
+
+        *)
+            echo "No matching command"
+            ;;
+    esac
+}
+
 clean-pdfs() {
 size=$(ls "$HOME/reading/downloads" | wc -l)
 for f in "$HOME/reading/downloads/"*; do
@@ -191,10 +213,6 @@ for f in "$HOME/reading/downloads/"*; do
     ls -c "$HOME/reading" | head -$(($size + 1)) | tail -$size | xclip
     # Before copying each line to xclip, format as vim would do
 done
-}
-
-genpwd() {
-    tr -dc 'a-zA-Z0-9!' < /dev/random | fold -w 16 | head -1
 }
 
 forever() {

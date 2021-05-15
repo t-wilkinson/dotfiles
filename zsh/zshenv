@@ -13,6 +13,7 @@ fi
 path+=(
     # $HOME/.gem/ruby/2.7.0/bin
     $HOME/.local/bin
+    $HOME/.local/bin/scripts
     $HOME/.npm/bin
     $HOME/bin
     $HOME/go/bin
