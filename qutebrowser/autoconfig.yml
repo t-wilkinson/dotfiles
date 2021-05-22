@@ -17,5 +17,6 @@ settings:
         <Ctrl+y>: open -t https://youtube.com
   content.media.audio_capture:
     https://us05web.zoom.us: true
-  content.notifications:
+  content.notifications.enabled:
+    https://app.slack.com: true
     https://mail.google.com: true

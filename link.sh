@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Links all files in ~/dotfiles folder to their respective position
 
-DOT=$HOME/dev/t-wilkinson/dotfiles
+DOT=$(dirname $(realpath "$0"))
 ZSH=${ZDOTDIR:-$HOME}
 
 mkdir -p $HOME/.xmonad/
@@ -25,5 +25,5 @@ for d in $DOT/*; do
         continue
     fi
 
-    ln -sfn $d $to
+    ln -sfn "$d" "$to"
 done

@@ -90,8 +90,8 @@ myWorkspaces =
     [ Node wsHome []
     , Node wsWeb []
     , Node wsMedia
-        [ Node "Music" []
-        , Node "Reading" []
+        [ Node "Reading" []
+        , Node "Music" []
         ]
     , Node wsVirtualbox []
     ]

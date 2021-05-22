@@ -11,13 +11,12 @@ if [[ -z $IN_NIX_SHELL ]];then
 fi
 
 path+=(
-    # $HOME/.gem/ruby/2.7.0/bin
     $HOME/.local/bin
+    $HOME/.local/bin/scripting
     $HOME/.local/bin/scripts
     $HOME/.npm/bin
     $HOME/bin
     $HOME/go/bin
-    $path
 )
 
 

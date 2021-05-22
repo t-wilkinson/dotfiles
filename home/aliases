@@ -1,16 +1,11 @@
 # vim: filetype=zsh.vim
 
-alias kitty="$HOME/.local/kitty.app/bin/kitty"
-alias vim="nvim"
-alias rmrf="sudo rm -rf"
-alias src=". ~/.zprofile; . ~/.zshenv; . ~/.zpreztorc; . ~/.zshrc; xrdb ~/.Xresources;"
-alias neovide="neovide --multiGrid"
-alias bat="PAGER=bat \bat"
 alias ip="ip -c"
 alias nc="ncat"
-alias IP="dig +short myip.opendns.com @resolver1.opendns.com | tr -d '\n'"
+alias vim="nvim"
+alias bat="PAGER=bat \bat"
+alias neovide="neovide --multiGrid"
 
+alias src=". ~/.zprofile; . ~/.zshenv; . ~/.zpreztorc; . ~/.zshrc; xrdb ~/.Xresources;"
+alias IP="dig +short myip.opendns.com @resolver1.opendns.com | tr -d '\n'"
 alias start="exec startx -- -keeptty >> ~/.local/share/log 2>&1"
-alias reboot="sudo systemctl reboot"
-alias shutdown="sudo shutdown now"
-alias SS="sudo systemctl"

@@ -188,33 +188,6 @@ pkgs() {
     esac
 }
 
-clean-pdfs() {
-size=$(ls "$HOME/reading/downloads" | wc -l)
-for f in "$HOME/reading/downloads/"*; do
-    if [[ -f "$f" ]]; then
-        if [[ ! "$f" =~ \.download ]]; then
-            echo "Download in progress."
-            return
-        fi
-        # use awk/sed here instead
-        orig=$f
-        f=${f:gs/ (z-lib.org)/}
-        f=${f:gs/(/ /} # remove parentheses
-        f=${f:gs/)/ /} # remove parentheses
-        f=${f:gs/, /,}
-        f=${f:gs/ \(/\(}
-        f=${f:gs/ /-}
-    fi
-    if [[ $orig != $f ]]; then
-        mv "$orig" "$f"
-    fi
-    mv $f "$HOME/reading"
-    # downloads is in this folder so ignore it
-    ls -c "$HOME/reading" | head -$(($size + 1)) | tail -$size | xclip
-    # Before copying each line to xclip, format as vim would do
-done
-}
-
 forever() {
     $@
     while inotifywait -r -e modify .; do

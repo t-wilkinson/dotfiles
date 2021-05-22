@@ -13,7 +13,6 @@ filetype off
     " Plug 'vim-pandoc/vim-pandoc'
     " Plug 'vim-pandoc/vim-pandoc-syntax'
     " Plug 'lervag/vimtex'
-    " Plug 'styled-components/vim-styled-components', {'branch': 'main'}
 
 " neovide
     let g:neovide_cursor_animation_length=0.13
@@ -40,13 +39,14 @@ filetype off
 
 " t-wilkinson
     Plug 't-wilkinson/vim-zettelkasten'
-        let g:z_notes_dir = $HOME . '/dev/t-wilkinson/projects/notes'
+        let g:z_notes_dir = $HOME . '/dev/t-wilkinson:projects/notes'
         let g:z_window_command = 'call FloatingFZF()'
         map <silent> <leader>j :Zettel<CR>
         vmap <silent> <leader>j :ZettelVisual<CR>
     Plug 't-wilkinson/vim-mdnav'
         let g:mdnav#Extensions = '.md'
 
+Plug 'styled-components/vim-styled-components', {'branch': 'main'}
 Plug 'powerman/vim-plugin-AnsiEsc'      " Correctly show color codes when using vim as a pager
 Plug 'rafi/awesome-vim-colorschemes'
 Plug 'dracula/vim'
