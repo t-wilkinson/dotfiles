@@ -39,7 +39,7 @@ filetype off
 
 " t-wilkinson
     Plug 't-wilkinson/vim-zettelkasten'
-        let g:z_notes_dir = $HOME . '/dev/t-wilkinson:projects/notes'
+        let g:z_notes_dir = $HOME . '/dev/t-wilkinson/projects/notes'
         let g:z_window_command = 'call FloatingFZF()'
         map <silent> <leader>j :Zettel<CR>
         vmap <silent> <leader>j :ZettelVisual<CR>

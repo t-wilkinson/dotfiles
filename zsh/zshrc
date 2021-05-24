@@ -101,19 +101,19 @@ fi
 
 # Generic Functions
 # steal children, murder parent
-steal() {
-    if [[ $# == 0 || (($# > 2)) ]]; then
-        echo "steal {directory} [location]"
-        return 1
-    fi
+# steal() {
+#     if [[ $# == 0 || (($# > 2)) ]]; then
+#         echo "steal {directory} [location]"
+#         return 1
+#     fi
 
-    mv $1/*(DN) ./$2
-    rmdir $1 # only delete directory if it is empty
-}
+#     mv $1/*(DN) ./$2
+#     rmdir $1 # only delete directory if it is empty
+# }
 
 # ls on cd
 function cd {
-  builtin cd "$@" && ls -aF
+    builtin cd "$@" && ls -aF
 }
 
 # FZF
@@ -198,6 +198,18 @@ forever() {
 
 ssh-tmux() {
     ssh -t $@ -- /bin/sh -c 'tmux has-session && exec tmux attach || exec tmux'
+}
+
+# print nth line of stdin
+n() {
+    head -$1 | tail -1
+}
+
+# steal children, murder parent
+steal() {
+    setopt -s dotglob
+    mv "$1"/* "${2:-.}"/
+    rm -r "$1"
 }
 
 compdef _ssh ssh-tmux

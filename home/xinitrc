@@ -5,7 +5,7 @@
 #
 xrandr --setprovideroutputsource modesetting NVIDIA-0
 xrandr --auto
-# Neither of the below work... although the equivalent python script does. why?
+# None of the below work... although the equivalent python script does. why?
 # xrandr --listactivemonitors | awk '{ print $4 }' | sort | tr '\n' ' ' | read eDP HDMI | true
 # xrandr | grep ' connected' | awk '{print $1}' | sort | read -r eDP HDMI
 # xrandr --output $eDP --below $HDMI --primary
@@ -39,9 +39,9 @@ feh --bg-fill ~/media/backgrounds/firewatch.jpg --bg-fill ~/media/backgrounds/xi
 # xset r rate 160 20 &
 # pacmd set-default-source $(pacmd list-sources | grep name: | grep input | sed 's/^.*<\(.*\)>/\1/p')
 xmodmap -e "keycode 108 = Multi_key" # for XCompose
-/usr/bin/qutebrowser --restore default -B ~/dev/t-wilkinson/projects/browser/personal &
-/usr/bin/qutebrowser --restore default -B ~/dev/t-wilkinson/projects/browser/infinite-closet &
-/usr/bin/firefox-developer-edition &
+browser personal &
+browser work &
+browser misc &
 $HOME/.local/bin/kitty &
 /home/trey/.local/bin/scripts/super-caps.sh &
 /usr/lib/notification-daemon-1.0/notification-daemon &
