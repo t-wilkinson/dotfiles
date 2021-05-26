@@ -1,17 +1,11 @@
-session_name: test
+session_name: Main
 windows:
-- window_name: Infinite Closet
+- window_name: Notes
   focus: true
-  layout: main-vertical
-  shell_command_before:
-    - cd ~/dev/apps/infinite-closet
   panes:
-    - shell_command:           # pane no. 1
-      - vim -S Session.vim     # run multiple commands in this pane
-      - ls -al | grep \.log
     - shell_command:
-      - cd frontend
-      - expo start
-    - shell_command:
-      - cd backend
-      - npx strapi dev
+      - vim
+- window_name: Projects
+  shell_command_before:
+    - cd ~/dev/t-wilkinson
+  panes:

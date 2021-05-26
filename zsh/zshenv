@@ -3,6 +3,28 @@ if [[ ( "$SHLVL" -eq 1 && ! -o LOGIN ) && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; t
 fi
 
 export ZSH_AUTOSUGGEST_STRATEGY=(completion match_prev_cmd)
+export FZF_DEFAULT_OPTS='--cycle'
+export FZF_DEFAULT_COMMAND='/usr/bin/fd --type f'
+export GOPATH=$HOME/go
+export BAT_CONFIG=$HOME/.config/bat/config
+export PATH=$PATH:$GOPATH/bin
+# `set | grep _POWERLEVEL9K` to view all exported settings
+# export POWERLEVEL9K_LEFT_SEGMENT_END_SEPARATOR="  "
+# export POWERLEVEL9K_LEFT_SEGMENT_SEPARATOR=" "
+# export POWERLEVEL9K_LEFT_SUBSEGMENT_SEPARATOR=" |"
+# export POWERLEVEL9K_HOME_ICON=" "
+# export POWERLEVEL9K_RIGHT_SEGMENT_SEPARATOR=" "
+# export POWERLEVEL9K_LINUX_ARCH_ICON=" "
+# export POWERLEVEL9K_NODE_ICON="  "
+# export POWERLEVEL9K_OK_ICON="  "
+# export POWERLEVEL9K_VCS_GIT_GITLAB_ICON="  "
+# export POWERLEVEL9K_VCS_GIT_GITHUB_ICON="  "
+# export POWERLEVEL9K_VCS_GIT_ICON="  "
+# export POWERLEVEL9K_VCS_BRANCH_ICON="  "
+# export POWERLEVEL9K_BATTERY_ICON="  "
+# export POWERLEVEL9K_DATE_ICON="  "
+# export POWERLEVEL9K_BACKGROUND_JOBS_ICON="  "
+# export POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VIVIS_CONTENT_EXPANSION='Ⅴ '
 
 # Paths
 # NPM

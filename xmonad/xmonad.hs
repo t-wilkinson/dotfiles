@@ -244,6 +244,11 @@ subLaunch input =
 
 myTreeselect = treeselectAction myTreeConfig
     [ Node (TSNode "Launcher" "" (spawn "rofi -show run")) [] -- drun for desktop entries
+    , Node (TSNode "Browser Profiles" "\57520" (return ()))
+        [ Node (TSNode "Personal" "" (spawn "browser personal")) []
+        , Node (TSNode "Work" "" (spawn "browser work")) []
+        , Node (TSNode "Misc" "" (spawn "browser misc")) []
+        ]
     , Node (TSNode "XMonad" "\57520" (return ()))
      [ Node (TSNode "Recompile" "" (spawn "xmonad --recompile && xmonad --restart")) []
      , Node (TSNode "Edit config" "" (spawn "kitty nvim ~/dev/t-wilkinson/dotfiles/xmonad/xmonad.hs")) []

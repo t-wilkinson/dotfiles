@@ -314,7 +314,7 @@ packadd cfilter
     set pumheight=10
     set concealcursor=n
     set foldlevel=99
-    set nocursorline
+    set cursorline
     set modeline
 
 " let
@@ -348,6 +348,7 @@ colorscheme dracula
 set conceallevel=2
 hi Normal guibg=NONE
 hi Conceal guibg=NONE
+execute 'hi CursorLine guibg='.g:dracula#palette.bgdark[0]
 execute 'hi SignColumn guibg='.g:dracula#palette.bgdark[0]
 execute 'hi CocErrorSign guifg='. g:dracula#palette.red[0] .' guibg='.g:dracula#palette.bgdark[0]
 execute 'hi CocWarningSign guifg='. g:dracula#palette.orange[0] .' guibg='.g:dracula#palette.bgdark[0]

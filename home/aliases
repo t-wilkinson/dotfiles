@@ -5,6 +5,7 @@ alias nc="ncat"
 alias vim="nvim"
 alias bat="PAGER=bat \bat"
 alias neovide="neovide --multiGrid"
+alias py="python"
 
 alias eww="git add -A && git commit -m 'update' && git push"
 

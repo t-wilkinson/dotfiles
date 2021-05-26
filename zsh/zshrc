@@ -45,32 +45,6 @@ autoload -Uz promptinit
 promptinit
 prompt powerlevel10k
 
-# Exports
-export FZF_DEFAULT_OPTS='--cycle'
-export FZF_DEFAULT_COMMAND='/usr/bin/fd --type f'
-export GOPATH=$HOME/go
-export BAT_CONFIG=$HOME/.config/bat/config
-export PATH=$PATH:$GOPATH/bin
-
-# Fix prompt spacing
-# `set | grep _POWERLEVEL9K` to view all exported settings
-# export POWERLEVEL9K_LEFT_SEGMENT_END_SEPARATOR="  "
-# export POWERLEVEL9K_LEFT_SEGMENT_SEPARATOR=" "
-# export POWERLEVEL9K_LEFT_SUBSEGMENT_SEPARATOR=" |"
-# export POWERLEVEL9K_HOME_ICON=" "
-# export POWERLEVEL9K_RIGHT_SEGMENT_SEPARATOR=" "
-# export POWERLEVEL9K_LINUX_ARCH_ICON=" "
-# export POWERLEVEL9K_NODE_ICON="  "
-# export POWERLEVEL9K_OK_ICON="  "
-# export POWERLEVEL9K_VCS_GIT_GITLAB_ICON="  "
-# export POWERLEVEL9K_VCS_GIT_GITHUB_ICON="  "
-# export POWERLEVEL9K_VCS_GIT_ICON="  "
-# export POWERLEVEL9K_VCS_BRANCH_ICON="  "
-# export POWERLEVEL9K_BATTERY_ICON="  "
-# export POWERLEVEL9K_DATE_ICON="  "
-# export POWERLEVEL9K_BACKGROUND_JOBS_ICON="  "
-# export POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VIVIS_CONTENT_EXPANSION='Ⅴ '
-
 # Change cursor with support for inside/outside tmux
 if [[ ! $TERM = "eterm-color" ]]; then
     bindkey -v
@@ -98,23 +72,6 @@ if [[ ! $TERM = "eterm-color" ]]; then
     # 10ms for key sequences
     KEYTIMEOUT=1
 fi
-
-# Generic Functions
-# steal children, murder parent
-# steal() {
-#     if [[ $# == 0 || (($# > 2)) ]]; then
-#         echo "steal {directory} [location]"
-#         return 1
-#     fi
-
-#     mv $1/*(DN) ./$2
-#     rmdir $1 # only delete directory if it is empty
-# }
-
-# ls on cd
-function cd {
-    builtin cd "$@" && ls -aF
-}
 
 # FZF
 # generate path
@@ -162,6 +119,11 @@ fzf-cf() {
     fi
 }
 
+# ls on cd
+function cd {
+    builtin cd "$@" && ls -aF
+}
+
 pkgs() {
     case $1 in
         size)
@@ -188,6 +150,7 @@ pkgs() {
     esac
 }
 
+# re-run command on file change
 forever() {
     $@
     while inotifywait -r -e modify .; do
@@ -196,9 +159,11 @@ forever() {
     done
 }
 
+# ssh... with tmux
 ssh-tmux() {
     ssh -t $@ -- /bin/sh -c 'tmux has-session && exec tmux attach || exec tmux'
 }
+compdef '_dispatch ssh ssh'
 
 # print nth line of stdin
 n() {
