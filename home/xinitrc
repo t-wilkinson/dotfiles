@@ -38,6 +38,7 @@ feh --bg-fill ~/media/backgrounds/firewatch.jpg --bg-fill ~/media/backgrounds/xi
 #
 # xset r rate 160 20 &
 # pacmd set-default-source $(pacmd list-sources | grep name: | grep input | sed 's/^.*<\(.*\)>/\1/p')
+mkdir /tmp/$USER/
 xmodmap -e "keycode 108 = Multi_key" # for XCompose
 browser personal &
 browser work &

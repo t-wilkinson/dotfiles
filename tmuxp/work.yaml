@@ -9,10 +9,10 @@ windows:
     - shell_command:
       - yarn run local
     - shell_command:
-      - vim +'tc frontend/src' +'tabnew' +'tc backned' +'tabfirst'
+      - vim +'tc frontend/src' +'tabnew' +'tc ../../backend' +'tabfirst'
       focus: true
 - window_name: SSH
   panes:
     - shell_command:
-      - ssh -t infinite-closet -- /bin/sh -c 'tmux has-session && exec tmux attach || exec tmux'
+      - ssh -t infinitecloset -- /bin/sh -c 'tmux has-session && exec tmux attach || exec tmux'
 
