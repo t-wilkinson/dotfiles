@@ -10,5 +10,5 @@ alias py="python"
 alias eww="git add -A && git commit -m 'update' && git push"
 
 alias src=". ~/.zprofile; . ~/.zshenv; . ~/.zpreztorc; . ~/.zshrc; xrdb ~/.Xresources;"
-alias IP="dig +short myip.opendns.com @resolver1.opendns.com | tr -d '\n'"
+alias IP="curl ifconfig.me"
 alias start="exec startx -- -keeptty >> ~/.local/share/log 2>&1"

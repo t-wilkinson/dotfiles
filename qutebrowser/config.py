@@ -34,6 +34,7 @@ c.colors.tabs.selected.even.bg = palette['selection']
 c.colors.tabs.selected.odd.bg = palette['selection']
 
 c.aliases = {
+    'wa': 'session-save',
     'w': 'session-save', 'q': 'close',
     'qa': 'quit', 'wq': 'quit --save', 'wqa': 'quit --save'
 }
@@ -237,7 +238,6 @@ c.url.searchengines = {'DEFAULT': 'https://google.com/search?q={}'}
 
 # # Page(s) to open at the start.
 # # Type: List of FuzzyUrl, or FuzzyUrl
-# c.url.start_pages = 'file:///home/trey/.config/qutebrowser/home/index.html'
 
 # c.fonts.monospace = "Fira Mono"
 c.fonts.completion.entry = "Liberation Mono"
@@ -259,10 +259,3 @@ c.content.user_stylesheets = ["main.css"]
 
 # Bindings for normal mode
 config.bind(',m', 'spawn umpv.py {url}')
-config.bind('<Ctrl+g>', 'open -t https://greensock.com/docs/')
-config.bind('<Ctrl+h>', 'open -t https://hoogle.haskell.org/')
-config.bind('<Ctrl+m>', 'open -t https://developer.mozilla.org/en-US/')
-config.bind(
-    '<Ctrl+w>', 'open -t https://en.wikipedia.org/wiki/Wikipedia:Contents')
-config.bind('<Ctrl+y>', 'open -t https://youtube.com')
-config.bind('<Ctrl+n>', 'open -t https://nodejs.org/dist/latest-v14.x/docs/api/')

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Links all files in ~/dotfiles folder to their respective position
+# links all files in ~/dotfiles folder to their respective position
 
 DOT=$(dirname $(realpath "$0"))
 ZSH=${ZDOTDIR:-$HOME}
