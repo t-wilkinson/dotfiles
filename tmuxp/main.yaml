@@ -9,3 +9,4 @@ windows:
   shell_command_before:
     - cd ~/dev/t-wilkinson
   panes:
+    -
