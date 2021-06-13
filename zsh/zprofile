@@ -1,4 +1,4 @@
-export BROWSER='qutebrowser'
+export BROWSER='browser-profiles'
 export GIT_EDITOR='nvim'
 export EDITOR='nvim'
 export VISUAL='nvim'

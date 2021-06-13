@@ -1,3 +1,4 @@
+#!/bin/sh
 # vim: filetype=zsh.vim
 
 #
@@ -5,10 +6,11 @@
 #
 xrandr --setprovideroutputsource modesetting NVIDIA-0
 xrandr --auto
-# None of the below work... although the equivalent python script does. why?
-# xrandr --listactivemonitors | awk '{ print $4 }' | sort | tr '\n' ' ' | read eDP HDMI | true
-xrandr | grep ' connected' | awk '{print $1}' | sort | read -r eDP HDMI
-xrandr --output $eDP --below $HDMI --primary
+# xinitrc can't read variables...
+# xrandr --listactivemonitors | awk '{ print $4 }' | sort | tr '\n' ' ' | read eDP HDMI
+# xrandr --output $eDP --below $HDMI --primary
+connect_monitors.py
+
 # ~/.local/bin/scripts/connect_monitors.py # for some reason this works and not the equivalent bash script
 xset -dpms # don't screen blank
 xset s off
@@ -31,11 +33,11 @@ feh --no-fehbg --bg-fill '/home/trey/media/backgrounds/firewatch.jpg' '/home/tre
 # pacmd set-default-source $(pacmd list-sources | grep name: | grep input | sed 's/^.*<\(.*\)>/\1/p')
 mkdir /tmp/$USER/
 xmodmap -e "keycode 108 = Multi_key" # for XCompose
-browser personal &
-browser work &
-browser misc &
-~/.local/bin/kitty &
-~/.local/bin/scripts/super-caps.sh &
+browser-profiles personal &
+browser-profiles work &
+browser-profiles misc &
+kitty &
+super-caps.sh &
 /usr/lib/notification-daemon-1.0/notification-daemon &
 
 #

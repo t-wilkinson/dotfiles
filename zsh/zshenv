@@ -2,12 +2,17 @@ if [[ ( "$SHLVL" -eq 1 && ! -o LOGIN ) && -s "${ZDOTDIR:-$HOME}/.zprofile" ]]; t
   source "${ZDOTDIR:-$HOME}/.zprofile"
 fi
 
+export PYTHONPATH="$HOME/dev/t-wilkinson/sysadmin:$HOME/dev/t-wilkinson/projects/languages/python/lib"
+export TMUXP_CONFIGDIR="$HOME/.config/tmuxp"
+export XDG_CONFIG_HOME="$HOME/.config"
 export ZSH_AUTOSUGGEST_STRATEGY=(completion match_prev_cmd)
 export FZF_DEFAULT_OPTS='--cycle'
 export FZF_DEFAULT_COMMAND='/usr/bin/fd --type f'
 export GOPATH=$HOME/go
 export BAT_CONFIG=$HOME/.config/bat/config
 export PATH=$PATH:$GOPATH/bin
+export BROWSER_DEFAULT="personal"
+
 # `set | grep _POWERLEVEL9K` to view all exported settings
 # export POWERLEVEL9K_LEFT_SEGMENT_END_SEPARATOR="  "
 # export POWERLEVEL9K_LEFT_SEGMENT_SEPARATOR=" "

@@ -2,6 +2,14 @@
 call plug#begin('~/.vim/plugged')
 filetype off
 " disabled
+    " Plug 'vim-pandoc/vim-pandoc'
+    " Plug 'vim-pandoc/vim-pandoc-syntax'
+    " Plug 'lervag/vimtex'
+    " Plug 'styled-components/vim-styled-components', {'branch': 'main'}
+    " Plug 'rafi/awesome-vim-colorschemes'
+    " Plug 'Jparise/vim-graphql', {'for': ['typescriptreact', 'typescript']}
+    " Plug 'arecarn/vim-fold-cycle'
+    " Plug 'machakann/vim-swap'
     " Plug 'luochen1990/rainbow'
     "     let g:rainbow_active = 0
     "     let g:rainbow_conf = { 'guifgs': ['#8be9fd', '#ff79c6', '#bd93f9', '#50fa7b', '#f1fa8c', '#8be9fd'] }
@@ -10,22 +18,45 @@ filetype off
     "     let g:indentLine_enabled = 1
     "     let g:indentLine_concealcursor = 'n'
     "     let g:indentLine_conceallevel = 2
-    " Plug 'vim-pandoc/vim-pandoc'
-    " Plug 'vim-pandoc/vim-pandoc-syntax'
-    " Plug 'lervag/vimtex'
-
-" neovide
-    let g:neovide_cursor_animation_length=0.13
-    let g:neovide_cursor_trail_length=0.8
-    let g:neovide_cursor_antialiasing=v:true
-    let g:neovide_cursor_vfx_mode = "pixiedust"
-    " let g:neovide_cursor_vfx_mode = "sonicboom"
-    let g:neovide_cursor_vfx_opacity=200.0
-    let g:neovide_cursor_vfx_particle_lifetime=1.2
-    let g:neovide_cursor_vfx_particle_density=7.0
-    let g:neovide_cursor_vfx_particle_speed=10.0
-    let g:neovide_cursor_vfx_particle_phase=1.5
-    let g:neovide_cursor_vfx_particle_curl=1.0
+    " Plug 'neovimhaskell/haskell-vim'          " Better haskell highlighting. Haskell gets special attention because it's the best
+    "     " syntax
+    "         let g:haskell_enable_quantification = 1   " forall
+    "         let g:haskell_enable_recursivedo = 1      " mdo and rec
+    "         let g:haskell_enable_arrowsyntax = 1      " proc
+    "         let g:haskell_enable_pattern_synonyms = 1 " pattern
+    "         let g:haskell_enable_typeroles = 1        " type roles
+    "         let g:haskell_enable_static_pointers = 1  " static
+    "         let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
+    "         let g:haskell_classic_highlighting = 1    " non-opinionated highlighting
+    "     " indent
+    "         let g:haskell_indent_before_where = -2
+    "         let g:haskell_indent_after_bare_where = 2
+    "         let g:haskell_indent_if = 3
+    "         let g:haskell_indent_case = 4
+    "         let g:haskell_indent_let = 4
+    "         let g:haskell_indent_where = 6
+    "         let g:haskell_indent_do = 3
+    "         let g:haskell_indent_in = 0
+    "         let g:haskell_indent_guard = 2
+    " " neovide
+    "     let g:neovide_cursor_animation_length=0.13
+    "     let g:neovide_cursor_trail_length=0.8
+    "     let g:neovide_cursor_antialiasing=v:true
+    "     let g:neovide_cursor_vfx_mode = "pixiedust"
+    "     " let g:neovide_cursor_vfx_mode = "sonicboom"
+    "     let g:neovide_cursor_vfx_opacity=200.0
+    "     let g:neovide_cursor_vfx_particle_lifetime=1.2
+    "     let g:neovide_cursor_vfx_particle_density=7.0
+    "     let g:neovide_cursor_vfx_particle_speed=10.0
+    "     let g:neovide_cursor_vfx_particle_phase=1.5
+    "     let g:neovide_cursor_vfx_particle_curl=1.0
+    " Plug 'junegunn/goyo.vim'
+    "     let g:goyo_width=80
+    "     let g:goyo_height='85%'
+    "     let g:goyo_linenr=0
+    " Plug 'junegunn/vim-easy-align'
+    "     xmap ga <Plug>(EasyAlign)
+    "     nmap ga <Plug>(EasyAlign)
 
 " tpope
     Plug 'tpope/vim-fugitive'   " Yeh
@@ -46,17 +77,13 @@ filetype off
     Plug 't-wilkinson/vim-mdnav'
         let g:mdnav#Extensions = '.md'
 
-Plug 'styled-components/vim-styled-components', {'branch': 'main'}
 Plug 'powerman/vim-plugin-AnsiEsc'      " Correctly show color codes when using vim as a pager
-Plug 'rafi/awesome-vim-colorschemes'
 Plug 'dracula/vim'
-Plug 'Jparise/vim-graphql'
-Plug 'arecarn/vim-fold-cycle'
-Plug 'machakann/vim-swap'
 Plug 'christoomey/vim-tmux-navigator' "  Seamless tmux navigation
 Plug 'sheerun/vim-polyglot'           "  The best syntax highlighting
 Plug 'moll/vim-bbye'                  "  optional dependency for vim-symlink
 Plug 'aymericbeaumet/vim-symlink'     "  open the file symlinks point to
+
 Plug 'neoclide/coc.nvim', {'branch': 'release'}
     set hidden                        "  TextEdit might fail if hidden is not set.
     set nobackup                      "  Some servers have issues with backup files, see #649.
@@ -114,35 +141,6 @@ Plug 'mattn/emmet-vim'
     " let g:user_emmet_install_global = 0
     " autocmd FileType html,css EmmetInstall
 
-Plug 'junegunn/goyo.vim'
-    let g:goyo_width=80
-    let g:goyo_height='85%'
-    let g:goyo_linenr=0
-Plug 'junegunn/vim-easy-align'
-    xmap ga <Plug>(EasyAlign)
-    nmap ga <Plug>(EasyAlign)
-
-Plug 'neovimhaskell/haskell-vim'          " Better haskell highlighting. Haskell gets special attention because it's the best
-    " syntax
-        let g:haskell_enable_quantification = 1   " forall
-        let g:haskell_enable_recursivedo = 1      " mdo and rec
-        let g:haskell_enable_arrowsyntax = 1      " proc
-        let g:haskell_enable_pattern_synonyms = 1 " pattern
-        let g:haskell_enable_typeroles = 1        " type roles
-        let g:haskell_enable_static_pointers = 1  " static
-        let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
-        let g:haskell_classic_highlighting = 1    " non-opinionated highlighting
-    " indent
-        let g:haskell_indent_before_where = -2
-        let g:haskell_indent_after_bare_where = 2
-        let g:haskell_indent_if = 3
-        let g:haskell_indent_case = 4
-        let g:haskell_indent_let = 4
-        let g:haskell_indent_where = 6
-        let g:haskell_indent_do = 3
-        let g:haskell_indent_in = 0
-        let g:haskell_indent_guard = 2
-
 if has('python3')
 Plug 'SirVer/ultisnips'
     let g:UltiSnipsExpandTrigger='<Tab>'
@@ -171,7 +169,7 @@ Plug 'junegunn/fzf.vim'
       let buf = nvim_create_buf(v:false, v:true)
       call setbufvar(buf, '&signcolumn', 'no')
 
-      let height = float2nr(25)
+      let height = float2nr(50)
       let width = float2nr(&columns - 8)
       let horizontal = float2nr((&columns - width) / 2)
       let vertical = 1
@@ -243,7 +241,6 @@ Plug 'itchyny/lightline.vim'
 call plug#end()
 
 filetype plugin indent on
-syntax on
 packadd cfilter
 
 "-------------------- Mappings --------------------
@@ -252,6 +249,7 @@ packadd cfilter
     map Q @@
     map Y y$
     noremap zi zizz
+    map <leader>m /^\s*
     map <silent> <leader>s :keeppatterns source $HOME/.vimrc<CR>
     map <silent> <leader>S :source %<CR>
     nmap <silent> <leader>tc :let &signcolumn=(&signcolumn == "number" ? "no" : "number")<CR>
@@ -322,6 +320,8 @@ packadd cfilter
     let g:loaded_python_provider = 0    " disable python2
     " let g:netrw_banner=0                " hide netrwbanner
     " let g:netrw_liststyle=3             " hide netrwbanner
+    let g:python_host_skip_check = 1
+    let g:python3_host_skip_check = 1
 
 digraphs
             \ xS 739 yS 696 zS 7611 oS 7506 pS 7510 xs 8339 as 8336
@@ -339,10 +339,10 @@ augroup filetypes
     au BufRead,BufNewFile * setlocal tabstop=4 softtabstop=4 shiftwidth=4
     " au VimEnter,BufRead,BufNewFile * setlocal formatoptions -=cro " disable comments
     au VimEnter,BufRead,BufNewFile *.yml,*.css,*.yaml,*.nix,*.ts,*.tsx,*.json,*.js,*.jsx,*.clj,*.cljs,*.cljc setlocal ts=2 sts=2 sw=2
-    au VimEnter,BufRead,BufNewFile *.md set nowrap
+    au VimEnter,BufRead,BufNewFile *.md setlocal nowrap
 augroup END
 
-"-------------------- Colorschemes --------------------
+"-------------------- Colorscheme --------------------
 set guifont=FiraCode
 colorscheme dracula
 set conceallevel=2

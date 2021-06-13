@@ -195,7 +195,7 @@ config.set('content.javascript.enabled', True, 'qute://*/*')
 # Directory to save downloads to. If unset, a sensible OS-specific
 # default is used.
 # Type: Directory
-c.downloads.location.directory = '$HOME/reading/downloads'
+c.downloads.location.directory = '$HOME/Downloads'
 
 # Editor (and arguments) to use for the `open-editor` command. The
 # following placeholders are defined:  * `{file}`: Filename of the file
@@ -240,20 +240,19 @@ c.url.searchengines = {'DEFAULT': 'https://google.com/search?q={}'}
 # # Type: List of FuzzyUrl, or FuzzyUrl
 
 # c.fonts.monospace = "Fira Mono"
-c.fonts.completion.entry = "Liberation Mono"
-c.fonts.completion.category = "bold Libration Mono"
-c.fonts.debug_console = "Libration Mono"
-c.fonts.downloads = "Libration Mono"
-c.fonts.hints = "bold Libration Mono"
-c.fonts.keyhint = "Libration Mono"
-c.fonts.messages.error = "Libration Mono"
-c.fonts.messages.info = "Libration Mono"
-c.fonts.messages.warning = "Libration Mono"
-c.fonts.prompts = "Libration Mono"
-c.fonts.statusbar = "Libration Mono"
-# c.fonts.tabs = "Libration Mono"
-c.fonts.web.family.fixed = "Libration Mono"
-c.fonts.web.family.sans_serif = "Libration Mono"
+c.fonts.completion.entry = "Exo2"
+c.fonts.completion.category = "bold Exo2"
+c.fonts.debug_console = "Exo2"
+c.fonts.downloads = "Exo2"
+c.fonts.hints = "bold Exo2"
+c.fonts.keyhint = "Exo2"
+c.fonts.messages.error = "Exo2"
+c.fonts.messages.info = "Exo2"
+c.fonts.messages.warning = "Exo2"
+c.fonts.prompts = "Exo2"
+c.fonts.statusbar = "Exo2"
+c.fonts.web.family.fixed = "Exo2"
+c.fonts.web.family.sans_serif = "Exo2"
 c.fonts.web.family.serif = "DejaVu Serif"
 c.content.user_stylesheets = ["main.css"]
 

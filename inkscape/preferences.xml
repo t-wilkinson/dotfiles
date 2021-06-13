@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <inkscape
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   version="1"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   version="1">
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd">
   <group
      id="window">
     <group
@@ -105,11 +105,14 @@
     <sodipodi:namedview
        id="base"
        pagecolor="#ffffff"
+       pageopacity="0.0"
+       pagecheckerboard="0"
        bordercolor="#666666"
        borderopacity="1.0"
        objecttolerance="10.0"
        gridtolerance="10.0"
        guidetolerance="10.0"
+       pageshadow="2"
        inkscape:pageopacity="0.0"
        inkscape:pageshadow="2"
        inkscape:window-width="640"
@@ -208,7 +211,9 @@
        tracebackground="0"
        usepressure="1"
        usetilt="0"
-       keep_selected="1">
+       keep_selected="1"
+       abs_width="1"
+       unit="mm">
       <group
          id="preset">
         <group
@@ -544,7 +549,7 @@
        visible="1"
        state="2"
        placement="5"
-       page="0" />
+       page="1" />
     <group
        id="filtereffects" />
     <group
@@ -571,11 +576,11 @@
        align-to="4" />
     <group
        id="xml"
+       h="1"
+       w="1"
        panedpos="139"
        x="0"
        y="0"
-       w="1"
-       h="1"
        visible="1"
        state="2"
        placement="5" />
@@ -677,10 +682,10 @@
     <group
        id="layers"
        maxDepth="20"
-       x="0"
-       y="0"
        w="481"
        h="226"
+       x="0"
+       y="0"
        visible="0"
        state="2"
        placement="2" />
@@ -978,20 +983,23 @@
     <group
        id="middlemousezoom"
        value="1" />
+    <group
+       id="defaultwindowsize"
+       value="2" />
   </group>
   <group
      id="extensions" />
   <group
      id="desktop"
-     style="fill:none;stroke-width:1.333;paint-order:stroke fill markers;stroke-linecap:round;stroke-linejoin:round">
+     style="fill:#e7ddcb;stroke-width:1.333;paint-order:stroke fill markers;stroke-linecap:round;stroke-linejoin:round">
     <group
        width="2198"
        height="1040"
        x="20"
        y="20"
+       maximized="0"
        fullscreen="0"
-       id="geometry"
-       maximized="0" />
+       id="geometry" />
     <group
        id="XYfront" />
     <group
@@ -1093,8 +1101,10 @@
      defaultTheme="Adwaita"
      defaultIconTheme="Adwaita"
      gtkTheme="Adwaita"
-     iconTheme="Adwaita"
      menuIcons_canvas="0"
      menuIcons_layers="0"
-     menuIcons_objects="0" />
+     menuIcons_objects="0"
+     defaultPreferDarkTheme="0"
+     defaultGtkTheme="Adwaita"
+     darkTheme="0" />
 </inkscape>

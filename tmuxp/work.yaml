@@ -2,14 +2,14 @@ session_name: Infinite Closet
 windows:
 - window_name: Infinite Closet
   focus: true
-  layout: main-vertical
+  layout: main-horizontal
   shell_command_before:
     - cd ~/dev/t-wilkinson/infinite-closet
   panes:
     - shell_command:
-      - yarn run local
+      - docker/run local up
     - shell_command:
-      - vim +'tc frontend/src' +'tabnew' +'tc ../../backend' +'tabfirst'
+      - vim
       focus: true
 - window_name: SSH
   panes:

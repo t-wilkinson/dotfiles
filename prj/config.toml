@@ -10,6 +10,120 @@ aliases = []
 author = "redox-os"
 repository = "redox"
 
+["nodejs/node"]
+tags = []
+aliases = []
+author = "nodejs"
+repository = "node"
+
+["three.js/.gitattributes"]
+tags = []
+aliases = []
+author = "three.js"
+repository = ".gitattributes"
+
+["three.js/icon.png"]
+tags = []
+aliases = []
+author = "three.js"
+repository = "icon.png"
+
+["three.js/.gitignore"]
+tags = []
+aliases = []
+author = "three.js"
+repository = ".gitignore"
+
+["three.js/LICENSE"]
+tags = []
+aliases = []
+author = "three.js"
+repository = "LICENSE"
+
+["three.js/.github"]
+tags = []
+aliases = []
+author = "three.js"
+repository = ".github"
+
+["three.js/package-lock.json"]
+tags = []
+aliases = []
+author = "three.js"
+repository = "package-lock.json"
+
+["three.js/.git"]
+tags = []
+aliases = []
+author = "three.js"
+repository = ".git"
+
+["three.js/files"]
+tags = []
+aliases = []
+author = "three.js"
+repository = "files"
+
+["three.js/src"]
+tags = []
+aliases = []
+author = "three.js"
+repository = "src"
+
+["three.js/editor"]
+tags = []
+aliases = []
+author = "three.js"
+repository = "editor"
+
+["three.js/utils"]
+tags = []
+aliases = []
+author = "three.js"
+repository = "utils"
+
+["three.js/build"]
+tags = []
+aliases = []
+author = "three.js"
+repository = "build"
+
+["three.js/test"]
+tags = []
+aliases = []
+author = "three.js"
+repository = "test"
+
+["three.js/package.json"]
+tags = []
+aliases = []
+author = "three.js"
+repository = "package.json"
+
+["three.js/examples"]
+tags = []
+aliases = []
+author = "three.js"
+repository = "examples"
+
+["three.js/.editorconfig"]
+tags = []
+aliases = []
+author = "three.js"
+repository = ".editorconfig"
+
+["three.js/README.md"]
+tags = []
+aliases = []
+author = "three.js"
+repository = "README.md"
+
+["three.js/docs"]
+tags = []
+aliases = []
+author = "three.js"
+repository = "docs"
+
 ["thomas10-10/foo-Wallpaper-Feh-Gif"]
 tags = []
 aliases = []
@@ -39,6 +153,12 @@ tags = []
 aliases = []
 author = "alacritty"
 repository = "alacritty"
+
+["numpy/numpy"]
+tags = []
+aliases = []
+author = "numpy"
+repository = "numpy"
 
 ["iamkun/dayjs"]
 tags = []
@@ -130,17 +250,17 @@ aliases = []
 author = "t-wilkinson"
 repository = "lsystem"
 
-["t-wilkinson/init"]
-tags = []
-aliases = []
-author = "t-wilkinson"
-repository = "init"
-
 ["t-wilkinson/N.E.A.T."]
 tags = []
 aliases = []
 author = "t-wilkinson"
 repository = "N.E.A.T."
+
+["t-wilkinson/sysadmin"]
+tags = []
+aliases = []
+author = "t-wilkinson"
+repository = "sysadmin"
 
 ["golang/go"]
 tags = []
@@ -190,6 +310,18 @@ aliases = []
 author = "suckless"
 repository = "st"
 
+["ReactiveX/rxjs"]
+tags = []
+aliases = []
+author = "ReactiveX"
+repository = "rxjs"
+
+["Stichting-MINIX-Research-Foundation/minix"]
+tags = []
+aliases = []
+author = "Stichting-MINIX-Research-Foundation"
+repository = "minix"
+
 ["junegunn/fzf"]
 tags = []
 aliases = []
@@ -208,17 +340,17 @@ aliases = []
 author = "python"
 repository = "cpython"
 
+["d3/d3"]
+tags = []
+aliases = []
+author = "d3"
+repository = "d3"
+
 ["rust-lang/rust"]
 tags = []
 aliases = []
 author = "rust-lang"
 repository = "rust"
-
-["rust-lang/rustlings"]
-tags = []
-aliases = []
-author = "rust-lang"
-repository = "rustlings"
 
 ["GNU/gcc"]
 tags = []

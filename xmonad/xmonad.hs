@@ -2,6 +2,9 @@
 {-# LANGUAGE TypeSynonymInstances #-}
 {-# OPTIONS_GHC -fno-warn-missing-signatures #-}
 
+import Data.Char
+import Data.Functor
+
 import           XMonad
 import qualified XMonad.StackSet               as W
 import           XMonad.Prompt
@@ -241,14 +244,12 @@ subLaunch input =
       "volume" -> newPrompt (input ++ "(0-150): ") "" $ \x -> "ponymix set-volume " ++ x
       _                  -> pure ()
 
+browserProfiles = ["Personal", "Work","Misc", "Project"]
 
 myTreeselect = treeselectAction myTreeConfig
     [ Node (TSNode "Launcher" "" (spawn "rofi -show run")) [] -- drun for desktop entries
     , Node (TSNode "Browser Profiles" "\57520" (return ()))
-        [ Node (TSNode "Personal" "" (spawn "browser-profiles personal")) []
-        , Node (TSNode "Work" "" (spawn "browser-profiles work")) []
-        , Node (TSNode "Misc" "" (spawn "browser-profiles misc")) []
-        ]
+        $ browserProfiles <&> (\x -> Node (TSNode x "" (spawn $ "browser-profiles " ++ fmap toLower x)) [])
     , Node (TSNode "XMonad" "\57520" (return ()))
      [ Node (TSNode "Recompile" "" (spawn "xmonad --recompile && xmonad --restart")) []
      , Node (TSNode "Edit config" "" (spawn "kitty nvim ~/dev/t-wilkinson/dotfiles/xmonad/xmonad.hs")) []

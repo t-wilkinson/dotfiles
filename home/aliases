@@ -6,8 +6,10 @@ alias vim="nvim"
 alias bat="PAGER=bat \bat"
 alias neovide="neovide --multiGrid"
 alias py="python"
+alias SS="sudo systemctl"
+alias S="systemctl"
 
-alias eww="git add -A && git commit -m 'update' && git push"
+alias eww="git add -A && git commit -m '[update]' && git push"
 
 alias src=". ~/.zprofile; . ~/.zshenv; . ~/.zpreztorc; . ~/.zshrc; xrdb ~/.Xresources;"
 alias IP="curl ifconfig.me"
