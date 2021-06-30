@@ -8,11 +8,12 @@ if [[ $DISPLAY ]]; then
     attached="$(tmux ls 2> /dev/null |  cut -d: -f1)"
 
     if [[ "$attached" = "Main" ]]; then
-      tmux new-session
+      tmuxp load work
     elif [[ "$detached" = "Main" ]]; then
       tmux attach-session -t "$detached"
     else
-      tmux new-session -s "Main" -n "main"
+      tmuxp load main
+      # tmux new-session -s "Main" -n "main"
     fi
   fi
 fi

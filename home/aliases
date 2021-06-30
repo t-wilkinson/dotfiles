@@ -1,5 +1,6 @@
 # vim: filetype=zsh.vim
 
+alias update="yay -Syu && xmonad --recompile"
 alias ip="ip -c"
 alias nc="ncat"
 alias vim="nvim"
@@ -8,6 +9,7 @@ alias neovide="neovide --multiGrid"
 alias py="python"
 alias SS="sudo systemctl"
 alias S="systemctl"
+alias copy="xclip -in -sel clip"
 
 alias eww="git add -A && git commit -m '[update]' && git push"
 

@@ -54,9 +54,9 @@ filetype off
     "     let g:goyo_width=80
     "     let g:goyo_height='85%'
     "     let g:goyo_linenr=0
-    " Plug 'junegunn/vim-easy-align'
-    "     xmap ga <Plug>(EasyAlign)
-    "     nmap ga <Plug>(EasyAlign)
+    Plug 'junegunn/vim-easy-align'
+        xmap ga <Plug>(EasyAlign)
+        nmap ga <Plug>(EasyAlign)
 
 " tpope
     Plug 'tpope/vim-fugitive'   " Yeh
