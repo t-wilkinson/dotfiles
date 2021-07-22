@@ -182,6 +182,15 @@ steal() {
     rm -r "$1"
 }
 
+swap() {
+    tmp=$(mktemp)
+    one=$1
+    two=$2
+    mv $1 $tmp
+    mv $2 $one
+    mv $tmp $two
+}
+
 compdef _ssh ssh-tmux
 
 # bindkey [-l]  <- to view binded keys and their respective commands

@@ -244,24 +244,27 @@ subLaunch input =
       "volume" -> newPrompt (input ++ "(0-150): ") "" $ \x -> "ponymix set-volume " ++ x
       _                  -> pure ()
 
-browserProfiles = ["Personal", "Work","Misc", "Project"]
+browserProfiles = ["Personal", "InfiniteCloset", "Misc", "LandDecorInc"]
+arrow = "\57520"
 
 myTreeselect = treeselectAction myTreeConfig
     [ Node (TSNode "Launcher" "" (spawn "rofi -show run")) [] -- drun for desktop entries
-    , Node (TSNode "Browser Profiles" "\57520" (return ()))
+    , Node (TSNode "Browser Profiles" arrow (return ()))
         $ browserProfiles <&> (\x -> Node (TSNode x "" (spawn $ "browser-profiles " ++ fmap toLower x)) [])
-    , Node (TSNode "XMonad" "\57520" (return ()))
-     [ Node (TSNode "Recompile" "" (spawn "xmonad --recompile && xmonad --restart")) []
-     , Node (TSNode "Edit config" "" (spawn "kitty nvim ~/dev/t-wilkinson/dotfiles/xmonad/xmonad.hs")) []
+    , Node (TSNode "XMonad" arrow (return ()))
+     [ Node (TSNode "Edit Config" "" (spawn "kitty nvim ~/dev/t-wilkinson/dotfiles/xmonad/xmonad.hs && xmonad --recompile && xmonad --restart")) []
+     , Node (TSNode "Recompile" "" (spawn "xmonad --recompile && xmonad --restart")) []
+     , Node (TSNode "Logout" "" (io exitSuccess)) []
      ]
-    , Node (TSNode "Scratchpad" "" (spawn "kitty nvim -c startinsert")) []
-    , Node (TSNode "Brightness" "\57520" (return ()))
-        [ Node (TSNode "Bright" ""            (spawn "xbacklight -set 100")) []
+    -- , Node (TSNode "Scratchpad" "" (spawn "kitty nvim -c startinsert")) []
+    , Node (TSNode "Scratchpad" "" (spawn "kitty nvim + -c startinsert /home/trey/dev/t-wilkinson/projects/notes/2021245091035.md")) []
+    , Node (TSNode "Brightness" arrow (return ()))
+        [ Node (TSNode "Bright" ""            (spawn "xrandr --output eDP-1-1 --brightness 1")) []
         , Node (TSNode "Normal" "" (spawn "xbacklight -set 50"))  []
-        , Node (TSNode "Dim"    ""              (spawn "xbacklight -set 10"))  []
+        , Node (TSNode "Dim"    ""              (spawn "xrandr --output eDP-1-1 --brightness 0.2"))  []
         , Node (TSNode "Screen Off" "" (spawn "sleep 0.5;xset dpms force off")) []
         ]
-    , Node (TSNode "Sound" "\57520" (return ()))
+    , Node (TSNode "Sound" arrow (return ()))
         [ Node (TSNode "Raise Volume" "" (spawn "ponymix increase 3")) []
         , Node (TSNode "Lower Volume" "" (spawn "ponymix decrease 3")) []
         , Node (TSNode "Mute"      ""  (spawn "ponymix toggle")) []
@@ -278,8 +281,6 @@ myKeyBindings conf = additionalKeysP
   conf
     -- Launching programs
   [ ("M-<Return>", spawn myTerm)
-  , ("M-q", spawn "xmonad --recompile && xmonad --restart")
-  , ("M-S-q", io exitSuccess)
   , ("M-e", myTreeselect)
 
     -- Workspaces

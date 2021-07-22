@@ -15,20 +15,29 @@
     "json",
     "html"
   ],
-  "prettier.singleQuote": true,
-  "prettier.trailingComma": "all",
-  "prettier.semi": false,
-  "prettier.formatterPriority": 999,
-  "prettier.eslintIntegration": false,
-  "prettier.tslintIntegration": false,
-  "typescript.suggest.autoImports": true,
   "coc.preferences.formatOnType": false,
-  "eslint.format.enable": false,
   "eslint.autoFixOnSave": true,
-  "tsserver.formatOnType": true,
-  "tailwindCSS.headwind.runOnSave": false,
+  "eslint.format.enable": true,
+  "eslint.options": {
+    "rules": {
+      "indent": ["error", 2, { "SwitchCase": 1 }],
+      "linebreak-style": ["error", "unix"],
+      "quotes": ["error", "single"],
+      "semi": ["error", "never"]
+    }
+  },
+  "javascript.suggestionActions.enabled": false,
+  "prettier.eslintIntegration": false,
+  "prettier.formatterPriority": 999,
+  "prettier.semi": false,
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "es5",
+  "prettier.tslintIntegration": false,
   "python.linting.pylintArgs": [
     "--errors-only",
     "--generated-members=numpy.* ,torch.*"
-  ]
+  ],
+  "tailwindCSS.headwind.runOnSave": false,
+  "tsserver.formatOnType": true,
+  "typescript.suggest.autoImports": true
 }

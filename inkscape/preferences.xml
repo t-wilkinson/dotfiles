@@ -318,7 +318,7 @@
        id="lpetool"
        mode="drag"
        style="fill:#ff0000;fill-opacity:1;fill-rule:nonzero;stroke:none;"
-       unit="px"
+       unit="pt"
        show_bbox="1" />
     <eventcontext
        id="text"
@@ -702,6 +702,9 @@
        id="colorpickerwindow" />
     <group
        id="undo-history" />
+    <group
+       id="selectors"
+       panedpos="751" />
   </group>
   <group
      id="printing">
@@ -997,7 +1000,7 @@
        height="1040"
        x="20"
        y="20"
-       maximized="0"
+       maximized="1"
        fullscreen="0"
        id="geometry" />
     <group

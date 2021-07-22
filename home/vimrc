@@ -72,10 +72,11 @@ filetype off
     Plug 't-wilkinson/vim-zettelkasten'
         let g:z_notes_dir = $HOME . '/dev/t-wilkinson/projects/notes'
         let g:z_window_command = 'call FloatingFZF()'
+        let g:z_default_extension = '.zettel'
         map <silent> <leader>j :Zettel<CR>
         vmap <silent> <leader>j :ZettelVisual<CR>
     Plug 't-wilkinson/vim-mdnav'
-        let g:mdnav#Extensions = '.md'
+        let g:mdnav#Extensions = '.zettel'
 
 Plug 'powerman/vim-plugin-AnsiEsc'      " Correctly show color codes when using vim as a pager
 Plug 'dracula/vim'
