@@ -4,7 +4,8 @@ windows:
   focus: true
   panes:
     - shell_command:
-      - vim
+      - "cd ~/dev/t-wilkinson/projects/notes"
+      - "vim -S ~/.vim/sessions/notes.vim"
 - window_name: Projects
   shell_command_before:
     - cd ~/dev/t-wilkinson

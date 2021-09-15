@@ -86,39 +86,38 @@ myLayoutHook = fullscreenFloat -- fixes floating windows going full screen, whil
 wsHome = "Home"
 wsWeb = "Web"
 wsMedia = "Media"
+wsDesign = "Design"
 wsVirtualbox = "Virtualbox"
 
 myWorkspaces :: Forest String
 myWorkspaces =
     [ Node wsHome []
     , Node wsWeb []
-    , Node wsMedia
-        [ Node "Reading" []
-        , Node "Music" []
-        ]
-    , Node wsVirtualbox []
+    , Node wsMedia []
+    , Node wsDesign []
+    -- , Node wsVirtualbox []
     ]
 
-projects :: [Project]
-projects =
-    [ Project { projectName      = wsHome
-              , projectDirectory = "~"
-              , projectStartHook = Nothing
-              }
-    , Project { projectName      = wsWeb
-              , projectDirectory = "~"
-              , projectStartHook = Nothing
-              }
-    , Project { projectName      = wsMedia
-              , projectDirectory = "~"
-              , projectStartHook = Nothing
-              }
-    , Project { projectName      = wsVirtualbox
-              , projectDirectory = "~"
-              , projectStartHook = Just $ do
-                  spawn "virtualbox"
-              }
-    ]
+-- projects :: [Project]
+-- projects =
+--     [ Project { projectName      = wsHome
+--               , projectDirectory = "~"
+--               , projectStartHook = Nothing
+--               }
+--     , Project { projectName      = wsWeb
+--               , projectDirectory = "~"
+--               , projectStartHook = Nothing
+--               }
+--     , Project { projectName      = wsMedia
+--               , projectDirectory = "~"
+--               , projectStartHook = Nothing
+--               }
+--     -- , Project { projectName      = wsVirtualbox
+--     --           , projectDirectory = "~"
+--     --           , projectStartHook = Just $ do
+--     --               spawn "virtualbox"
+--     --           }
+--     ]
 
 
 --------------------------------------------------------------------------------
@@ -127,14 +126,18 @@ projects =
 
 myManageHook :: ManageHook
 myManageHook = composeAll
-  [ className =? "Inkscape" --> doShift wsMedia
-  , className =? "Gimp" --> doShift wsMedia
+  [ className =? "Inkscape" --> doShift wsDesign
+  , className =? "Blender" --> doShift wsDesign
+  , className =? "Gimp" --> doShift wsDesign
   , className =? "Zathura" --> doShift wsMedia
   , className =? "qutebrowser" --> doShift wsWeb
   , className =? "Home" --> doShift wsHome
   , className =? "Emacs" --> doShift wsHome
   , className =? "firefoxdeveloperedition" --> doShift wsWeb
   , className =? "firefox" --> doShift wsWeb
+  , className =? "google-chrome" --> doShift wsWeb
+  , className =? "Google Chrome" --> doShift wsWeb
+  , className =? "Cypress" --> doShift wsWeb
   ]
 
 
@@ -244,32 +247,32 @@ subLaunch input =
       "volume" -> newPrompt (input ++ "(0-150): ") "" $ \x -> "ponymix set-volume " ++ x
       _                  -> pure ()
 
-browserProfiles = ["Personal", "InfiniteCloset", "Misc", "LandDecorInc"]
+-- browserProfiles = ["Personal", "InfiniteCloset", "LandDecorInc", "Misc"]
 arrow = "\57520"
 
 myTreeselect = treeselectAction myTreeConfig
-    [ Node (TSNode "Launcher" "" (spawn "rofi -show run")) [] -- drun for desktop entries
-    , Node (TSNode "Browser Profiles" arrow (return ()))
-        $ browserProfiles <&> (\x -> Node (TSNode x "" (spawn $ "browser-profiles " ++ fmap toLower x)) [])
+    [ Node (TSNode "Launcher" "" (spawn "rofi -config /home/trey/.config/rofi/config -show run")) [] -- drun for desktop entries
+    -- , Node (TSNode "Browser Profiles" arrow (return ()))
+    --     $ browserProfiles <&> (\x -> Node (TSNode x "" (spawn $ "browser-profiles " ++ fmap toLower x)) [])
     , Node (TSNode "XMonad" arrow (return ()))
      [ Node (TSNode "Edit Config" "" (spawn "kitty nvim ~/dev/t-wilkinson/dotfiles/xmonad/xmonad.hs && xmonad --recompile && xmonad --restart")) []
      , Node (TSNode "Recompile" "" (spawn "xmonad --recompile && xmonad --restart")) []
      , Node (TSNode "Logout" "" (io exitSuccess)) []
      ]
-    -- , Node (TSNode "Scratchpad" "" (spawn "kitty nvim -c startinsert")) []
-    , Node (TSNode "Scratchpad" "" (spawn "kitty nvim + -c startinsert /home/trey/dev/t-wilkinson/projects/notes/2021245091035.md")) []
     , Node (TSNode "Brightness" arrow (return ()))
-        [ Node (TSNode "Bright" ""            (spawn "xrandr --output eDP-1-1 --brightness 1")) []
+        [ Node (TSNode "Screen Off" "" (spawn "sleep 0.5;xset dpms force off")) []
+        , Node (TSNode "Bright" ""            (spawn "xrandr --output eDP-1-1 --brightness 1")) []
         , Node (TSNode "Normal" "" (spawn "xbacklight -set 50"))  []
         , Node (TSNode "Dim"    ""              (spawn "xrandr --output eDP-1-1 --brightness 0.2"))  []
-        , Node (TSNode "Screen Off" "" (spawn "sleep 0.5;xset dpms force off")) []
         ]
-    , Node (TSNode "Sound" arrow (return ()))
-        [ Node (TSNode "Raise Volume" "" (spawn "ponymix increase 3")) []
-        , Node (TSNode "Lower Volume" "" (spawn "ponymix decrease 3")) []
-        , Node (TSNode "Mute"      ""  (spawn "ponymix toggle")) []
-        ]
-    , Node (TSNode "Shutdown" "" (spawn "shutdown")) []
+    , Node (TSNode "Scratchpad" "" (spawn "kitty nvim + -c startinsert /home/trey/dev/t-wilkinson/projects/notes/2021245091035.md")) []
+    , Node (TSNode "Screenshot" "" (spawn "gnome-screenshot -a -f /home/trey/media/screenshots/\"$(date)\"")) []
+    -- , Node (TSNode "Sound" arrow (return ()))
+    --     [ Node (TSNode "Raise Volume" "" (spawn "ponymix increase 3")) []
+    --     , Node (TSNode "Lower Volume" "" (spawn "ponymix decrease 3")) []
+    --     , Node (TSNode "Mute"      ""  (spawn "ponymix toggle")) []
+    --     ]
+    , Node (TSNode "Shutdown" "" (spawn "shutdown -c now")) []
     ]
 
 --------------------------------------------------------------------------------

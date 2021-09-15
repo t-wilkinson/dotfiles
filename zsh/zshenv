@@ -5,8 +5,9 @@ fi
 export PYTHONPATH="$HOME/dev/t-wilkinson/sysadmin:$HOME/dev/t-wilkinson/projects/languages/python/lib"
 export TMUXP_CONFIGDIR="$HOME/.config/tmuxp"
 export XDG_CONFIG_HOME="$HOME/.config"
+export XDG_CONFIG_DIRS="$HOME/.config"
 export ZSH_AUTOSUGGEST_STRATEGY=(completion match_prev_cmd)
-export FZF_DEFAULT_OPTS='--cycle'
+export FZF_DEFAULT_OPTS='--cycle --color=dark --color=fg:15,bg:-1,hl:1,fg+:#ffffff,bg+:-1,hl+:1 --color=info:12,prompt:2,pointer:13,marker:12,spinner:11,header:-1 --layout=reverse  --margin=1,4 --preview-window=":60%" --bind ctrl-k:preview-up,ctrl-j:preview-down'
 export FZF_DEFAULT_COMMAND='/usr/bin/fd --type f'
 export GOPATH=$HOME/go
 export BAT_CONFIG=$HOME/.config/bat/config

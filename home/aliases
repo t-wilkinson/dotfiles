@@ -10,6 +10,8 @@ alias py="python"
 alias SS="sudo systemctl"
 alias S="systemctl"
 alias copy="xclip -in -sel clip"
+alias jlab="jupyter-lab --ip=127.0.0.1 --port=8888"
+alias venv="source env/bin/activate"
 
 alias eww="git add -A && git commit -m '[update]' && git push"
 

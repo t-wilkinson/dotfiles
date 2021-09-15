@@ -6,12 +6,8 @@
 #
 xrandr --setprovideroutputsource modesetting NVIDIA-0
 xrandr --auto
-# xinitrc can't read variables...
-# xrandr --listactivemonitors | awk '{ print $4 }' | sort | tr '\n' ' ' | read eDP HDMI
-# xrandr --output $eDP --below $HDMI --primary
 connect_monitors.py
 
-# ~/.local/bin/scripts/connect_monitors.py # for some reason this works and not the equivalent bash script
 xset -dpms # don't screen blank
 xset s off
 
@@ -32,10 +28,7 @@ feh --no-fehbg --bg-fill '/home/trey/media/backgrounds/firewatch.jpg' '/home/tre
 # xset r rate 160 20 &
 # pacmd set-default-source $(pacmd list-sources | grep name: | grep input | sed 's/^.*<\(.*\)>/\1/p')
 mkdir /tmp/$USER/
-xmodmap -e "keycode 108 = Multi_key" # for XCompose
-browser-profiles personal &
-browser-profiles work &
-browser-profiles misc &
+google-chrome-stable &
 kitty &
 super-caps.sh &
 /usr/lib/notification-daemon-1.0/notification-daemon &
@@ -43,4 +36,4 @@ super-caps.sh &
 #
 # Launch XMonad (the best WM)
 #
-$HOME/.xmonad/xmonad-x86_64-linux # >| ~/.local/share/log 2>&1
+exec $HOME/.xmonad/xmonad-x86_64-linux # >| ~/.local/share/log 2>&1

@@ -1,6 +1,6 @@
 configuration {
-    rofi.theme: onedark
-    rofi.matching: fuzzy
-    rofi.sorting-method: fzf
+    theme: "onedark";
+    matching: "fuzzy";
+    sorting-method: "fzf";
 }
 

@@ -104,15 +104,15 @@
      id="template">
     <sodipodi:namedview
        id="base"
-       pagecolor="#ffffff"
-       pageopacity="0.0"
+       pagecolor="#505050"
+       pageopacity="0"
        pagecheckerboard="0"
-       bordercolor="#666666"
-       borderopacity="1.0"
+       bordercolor="#eeeeee"
+       borderopacity="1"
        objecttolerance="10.0"
        gridtolerance="10.0"
        guidetolerance="10.0"
-       pageshadow="2"
+       pageshadow="0"
        inkscape:pageopacity="0.0"
        inkscape:pageshadow="2"
        inkscape:window-width="640"
@@ -130,8 +130,10 @@
          id="rect"
          style="fill:blue;"
          usecurrent="1"
-         width="318.646"
-         height="548.34" />
+         width="1375.05"
+         height="1057.63"
+         rx="22.695"
+         ry="22.2062" />
       <eventcontext
          id="3dbox"
          style="stroke:none;stroke-linejoin:round;"
@@ -167,8 +169,8 @@
          end="0"
          start="0"
          usecurrent="1"
-         rx="224.968"
-         ry="168.508" />
+         rx="386.308"
+         ry="544.421" />
       <eventcontext
          id="star"
          magnitude="5"
@@ -318,7 +320,7 @@
        id="lpetool"
        mode="drag"
        style="fill:#ff0000;fill-opacity:1;fill-rule:nonzero;stroke:none;"
-       unit="pt"
+       unit="px"
        show_bbox="1" />
     <eventcontext
        id="text"
@@ -573,7 +575,7 @@
        visible="1"
        state="2"
        placement="5"
-       align-to="4" />
+       align-to="0" />
     <group
        id="xml"
        h="1"
@@ -647,7 +649,7 @@
     <group
        id="open"
        enable_preview="1"
-       path="/home/trey/" />
+       path="/home/trey/dev/t-wilkinson/infinite-closet/frontend/public/icons/logo-gray/" />
     <group
        id="import"
        enable_preview="1"
@@ -704,7 +706,7 @@
        id="undo-history" />
     <group
        id="selectors"
-       panedpos="751" />
+       panedpos="749" />
   </group>
   <group
      id="printing">
@@ -748,7 +750,7 @@
        value="12" />
     <group
        id="cursortolerance"
-       value="8.0" />
+       value="8" />
     <group
        id="dragtolerance"
        value="4.0" />
@@ -989,18 +991,26 @@
     <group
        id="defaultwindowsize"
        value="2" />
+    <group
+       id="boot"
+       theme="colorful"
+       canvas="dark">
+      <group
+         id="shown"
+         ver1.1="1" />
+    </group>
   </group>
   <group
      id="extensions" />
   <group
      id="desktop"
-     style="fill:#e7ddcb;stroke-width:1.333;paint-order:stroke fill markers;stroke-linecap:round;stroke-linejoin:round">
+     style="fill:#00ffff;stroke-width:1.333;paint-order:stroke fill markers;stroke-linecap:round;stroke-linejoin:round">
     <group
-       width="2198"
-       height="1040"
-       x="20"
-       y="20"
-       maximized="1"
+       width="1916"
+       height="1076"
+       x="0"
+       y="1080"
+       maximized="0"
        fullscreen="0"
        id="geometry" />
     <group
@@ -1103,11 +1113,26 @@
      id="theme"
      defaultTheme="Adwaita"
      defaultIconTheme="Adwaita"
-     gtkTheme="Adwaita"
      menuIcons_canvas="0"
      menuIcons_layers="0"
      menuIcons_objects="0"
      defaultPreferDarkTheme="0"
      defaultGtkTheme="Adwaita"
-     darkTheme="0" />
+     darkTheme="1"
+     preferDarkTheme="1"
+     symbolicIcons="1"
+     symbolicDefaultBaseColors="0"
+     symbolicDefaultHighColors="0"
+     gtkTheme="Adwaita"
+     iconTheme="multicolor">
+    <group
+       id="multicolor"
+       symbolicBaseColor="3958107135"
+       symbolicSuccessColor="10029823"
+       symbolicWarningColor="4279865599"
+       symbolicErrorColor="10086143" />
+  </group>
+  <group
+     id="live_effects"
+     flattening="0" />
 </inkscape>
