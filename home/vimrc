@@ -151,6 +151,7 @@
         let g:UltiSnipsSnippetDirectories=[$HOME . '/.vim/UltiSnips']
         let g:UltiSnipsEditSplit="vertical"
     endif
+    Plug 'junegunn/fzf'
     Plug 'junegunn/fzf.vim'
         " CTRL-T(tab) / CTRL-X(split) / CTRL-V(ver-split)
         " let $FZF_DEFAULT_COMMAND =  "find * -path '*/\.*' -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
@@ -264,7 +265,9 @@
         nmap <leader>yq gg0vG$"+y:q!<CR>
         nnoremap <silent> <leader>g :redir @a<CR>:g//<CR>:redir END<CR>:new<CR>:put! a<CR>
         map <silent> <leader>y% :let @+=expand("%:p")<CR>
-        " map z? ^r?
+        map z? ^r?
+        map <leader>si :sort /.\{-}\ze'/<CR>
+        nmap gJ Jdw
 
     " Folds
         " Paste into fold

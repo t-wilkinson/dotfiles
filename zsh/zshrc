@@ -191,6 +191,11 @@ swap() {
     mv $tmp $two
 }
 
+line-count() {
+    # fd -E build $@ | xargs -I% wc -l % | awk '{ sum += $1}; END { print sum}'
+    fd -E build $@ | tr '\n' '\0' | wc -l --files0-from=-
+}
+
 compdef _ssh ssh-tmux
 
 # bindkey [-l]  <- to view binded keys and their respective commands

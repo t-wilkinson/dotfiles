@@ -265,6 +265,11 @@ myTreeselect = treeselectAction myTreeConfig
         , Node (TSNode "Normal" "" (spawn "xbacklight -set 50"))  []
         , Node (TSNode "Dim"    ""              (spawn "xrandr --output eDP-1-1 --brightness 0.2"))  []
         ]
+    , Node (TSNode "Power" arrow(return ()))
+        [ Node (TSNode "Suspend" "" (spawn "systemctl suspend")) []
+        , Node (TSNode "Hibernate" "" (spawn "systemctl hibernate")) []
+        , Node (TSNode "Shutdown" "" (spawn "shutdown -c now")) []
+        ]
     , Node (TSNode "Scratchpad" "" (spawn "kitty nvim + -c startinsert /home/trey/dev/t-wilkinson/projects/notes/2021245091035.md")) []
     , Node (TSNode "Screenshot" "" (spawn "gnome-screenshot -a -f /home/trey/media/screenshots/\"$(date)\"")) []
     -- , Node (TSNode "Sound" arrow (return ()))
@@ -272,7 +277,6 @@ myTreeselect = treeselectAction myTreeConfig
     --     , Node (TSNode "Lower Volume" "" (spawn "ponymix decrease 3")) []
     --     , Node (TSNode "Mute"      ""  (spawn "ponymix toggle")) []
     --     ]
-    , Node (TSNode "Shutdown" "" (spawn "shutdown -c now")) []
     ]
 
 --------------------------------------------------------------------------------

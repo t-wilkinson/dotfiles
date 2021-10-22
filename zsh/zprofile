@@ -1,4 +1,4 @@
-export BROWSER='browser-profiles'
+export BROWSER='google-chrome-stable'
 export GIT_EDITOR='nvim'
 export EDITOR='nvim'
 export VISUAL='nvim'
