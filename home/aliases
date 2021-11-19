@@ -1,11 +1,13 @@
 # vim: filetype=zsh.vim
 
+alias I="yay -S"
 alias update="yay -Syu && xmonad --recompile"
 alias ip="ip -c"
 alias nc="ncat"
+alias v="nvim"
 alias vim="nvim"
 alias bat="PAGER=bat \bat"
-alias neovide="neovide --multiGrid"
+alias neovide="neovide --multigrid"
 alias py="python"
 alias SS="sudo systemctl"
 alias S="systemctl"

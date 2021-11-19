@@ -56,7 +56,7 @@
     pyenv                   # python environment (https://github.com/pyenv/pyenv)
     goenv                   # go environment (https://github.com/syndbg/goenv)
     nodenv                  # node.js version from nodenv (https://github.com/nodenv/nodenv)
-    nvm                     # node.js version from nvm (https://github.com/nvm-sh/nvm)
+    # nvm                     # node.js version from nvm (https://github.com/nvm-sh/nvm)
     nodeenv                 # node.js environment (https://github.com/ekalinin/nodeenv)
     # node_version          # node.js version
     # go_version            # go version (https://golang.org)
@@ -191,11 +191,18 @@
   typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND=76
   # Red prompt symbol if the last command failed.
   typeset -g POWERLEVEL9K_PROMPT_CHAR_ERROR_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND=196
+
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_VICMD_FOREGROUND=6
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_ERROR_VICMD_FOREGROUND=6
+
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIVIS,VIOWR}_FOREGROUND=4
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_ERROR_{VIVIS,VIOWR}_FOREGROUND=4
+
   # Default prompt symbol.
-  typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VIINS_CONTENT_EXPANSION='ﬦ'
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VIINS_CONTENT_EXPANSION='λ' # \x03BB
   # typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VIINS_CONTENT_EXPANSION='❯'
   # Prompt symbol in command vi mode.
-  typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VICMD_CONTENT_EXPANSION='ﬦ'
+  typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VICMD_CONTENT_EXPANSION='λ' # \x03BB
   # typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VICMD_CONTENT_EXPANSION='❮'
   # Prompt symbol in visual vi mode.
   typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VIVIS_CONTENT_EXPANSION='V'

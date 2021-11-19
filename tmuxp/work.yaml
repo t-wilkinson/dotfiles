@@ -2,12 +2,12 @@ session_name: Infinite Closet
 windows:
 - window_name: Infinite Closet
   focus: true
-  layout: main-horizontal
+  layout: main-vertical
   shell_command_before:
     - cd ~/dev/t-wilkinson/infinite-closet
   panes:
     - shell_command:
-      - docker/run local up
+      - scripts/run local up
     - shell_command:
       - vim
       focus: true

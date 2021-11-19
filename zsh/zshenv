@@ -7,13 +7,15 @@ export TMUXP_CONFIGDIR="$HOME/.config/tmuxp"
 export XDG_CONFIG_HOME="$HOME/.config"
 export XDG_CONFIG_DIRS="$HOME/.config"
 export ZSH_AUTOSUGGEST_STRATEGY=(completion match_prev_cmd)
-export FZF_DEFAULT_OPTS='--cycle --color=dark --color=fg:15,bg:-1,hl:1,fg+:#ffffff,bg+:-1,hl+:1 --color=info:12,prompt:2,pointer:13,marker:12,spinner:11,header:-1 --layout=reverse  --margin=1,4 --preview-window=":60%" --bind ctrl-k:preview-up,ctrl-j:preview-down'
+export FZF_DEFAULT_OPTS='--cycle --exact --color=dark --color=fg:15,bg:-1,hl:1,fg+:#ffffff,bg+:-1,hl+:1 --color=info:12,prompt:2,pointer:13,marker:12,spinner:11,header:-1 --layout=reverse  --margin=1,4 --preview-window=":60%" --bind ctrl-k:preview-up,ctrl-j:preview-down'
 export FZF_DEFAULT_COMMAND='/usr/bin/fd --type f'
 export GOPATH=$HOME/go
 export BAT_CONFIG=$HOME/.config/bat/config
 export BROWSER_DEFAULT="personal"
 export PATH=$PATH:$GOPATH/bin
 export CDPATH="$HOME/dev"
+export PYENV_SHELL=zsh
+export NVM_DIR="$HOME/.nvm"
 
 # `set | grep _POWERLEVEL9K` to view all exported settings
 # export POWERLEVEL9K_LEFT_SEGMENT_END_SEPARATOR="  "
@@ -36,16 +38,18 @@ export CDPATH="$HOME/dev"
 # Paths
 # NPM
 if [[ -z $IN_NIX_SHELL ]];then
-    npm config set prefix ~/.npm
+    # npm config set prefix ~/.npm
 fi
 
 path+=(
+    $HOME/.pyenv/shims
     $HOME/.local/bin
     $HOME/.local/bin/scripting
     $HOME/.local/bin/scripts
     $HOME/.npm/bin
     $HOME/bin
     $HOME/go/bin
+    # $HOME/.pyenv/bin
 )
 
 
@@ -53,3 +57,4 @@ source ~/.aliases
 
 if [ -e /home/trey/.nix-profile/etc/profile.d/nix.sh ]; then . /home/trey/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 source "$HOME/.cargo/env"
+. "$HOME/.cargo/env"

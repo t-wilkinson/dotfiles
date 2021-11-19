@@ -33,6 +33,7 @@ Xcursor.size: 16
 *.color15: #ffffff
 /* *.background: #000000 */
 /* *.background: #282a36 */
-*.background: #1e2029
+/* #1e2029 */
+*.background: #282a36
 *.foreground: #f8f8f2
 

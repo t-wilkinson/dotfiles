@@ -47,6 +47,8 @@ import           XMonad.Layout.SimplestFloat (simplestFloat)
 import           System.Exit
 import Data.Ratio ((%))
 import Data.Tree
+import          Data.List ( isInfixOf )
+import          Data.Char ( toLower )
 
 
 --------------------------------------------------------------------------------
@@ -135,8 +137,9 @@ myManageHook = composeAll
   , className =? "Emacs" --> doShift wsHome
   , className =? "firefoxdeveloperedition" --> doShift wsWeb
   , className =? "firefox" --> doShift wsWeb
-  , className =? "google-chrome" --> doShift wsWeb
-  , className =? "Google Chrome" --> doShift wsWeb
+  , fmap (isInfixOf "chrome" . (fmap toLower)) className --> doShift wsWeb
+  , fmap (isInfixOf "chrome" . (fmap toLower)) appName --> doShift wsWeb
+  , className =? "Chrome" --> doShift wsWeb
   , className =? "Cypress" --> doShift wsWeb
   ]
 

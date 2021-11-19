@@ -16,10 +16,14 @@ if [[ $DISPLAY ]]; then
       # tmux new-session -s "Main" -n "main"
     fi
   fi
+else
+    # Bash is better for tty
+    /usr/bin/env bash
+    return
 fi
 
 # Prompt
-[[ $IN_NIX_SHELL ]] || neofetch
+# [[ $IN_NIX_SHELL ]] || neofetch
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
@@ -30,21 +34,20 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
 fi
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+if [[ -f ~/.p10k.zsh ]]; then
+    source ~/.p10k.zsh
+fi
 
 fpath=(~/.stripe $fpath)
 autoload -Uz compinit && compinit -i
-
-export NVM_DIR="$HOME/.nvm"
-[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
-[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 # To customize prompt, run `p10k configure` or edit ~/dev/dotfiles/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 autoload -Uz promptinit
 promptinit
-prompt powerlevel10k
+source /usr/share/zsh-theme-powerlevel10k/powerlevel10k.zsh-theme
+# prompt powerlevel10k
 
 # Change cursor with support for inside/outside tmux
 if [[ ! $TERM = "eterm-color" ]]; then
@@ -182,21 +185,75 @@ steal() {
     rm -r "$1"
 }
 
+# swap two files/folders
 swap() {
     tmp=$(mktemp)
-    one=$1
-    two=$2
     mv $1 $tmp
-    mv $2 $one
-    mv $tmp $two
+    mv $2 $1
+    mv $tmp $2
 }
 
 line-count() {
     # fd -E build $@ | xargs -I% wc -l % | awk '{ sum += $1}; END { print sum}'
-    fd -E build $@ | tr '\n' '\0' | wc -l --files0-from=-
+    fd -t f -E build $@ | tr '\n' '\0' | wc -l --files0-from=-
 }
+
+# simple unification of command help
+help() {
+    cmd="$1"
+    args="${@:2}"
+    eval "$cmd" help "$args" 2>/dev/null || eval "$cmd" --help "$args" 2>/dev/null || eval "$cmd" -h "$args" 2>/dev/null
+}
+
+docker_run_status() {
+    user=$(pass ls github.credentials.t-wilkinson | sed 's/\(username\|password\)=//' | head -c -1 | tr '\n' ':')
+    # user=$(pass ls github.credentials.t-wilkinson | tr '=' ' ' | awk '{ print $2 }' | head -c -1 | tr '\n' ':')
+    curl -s -X GET \
+        -u "$user" \
+        https://api.github.com/repos/t-wilkinson/infinite-closet/commits/dev/check-runs | python -c '
+import json
+import sys
+for run in json.load(sys.stdin)["check_runs"]:
+    # print(json.dumps(run, indent=4, sort_keys=True))
+    print(run["completed_at"], run["status"], run["conclusion"])
+'
+}
+
+# make any necessary directories before creating file
+touchd () {
+    mkdir -p $(dirname $1)
+    touch $(basename $1)
+}
+
+# for copying bash commands from instructions ($ echo 'hello world')
+$ () { eval "$@" }
 
 compdef _ssh ssh-tmux
 
 # bindkey [-l]  <- to view binded keys and their respective commands
 bindkey "^Y" list-expand  # for completion
+
+# PYENV
+# # eval "$(pyenv virtualenv-init -)"
+# command pyenv rehash 2>/dev/null
+# pyenv() {
+#   local command
+#   command="${1:-}"
+#   if [ "$#" -gt 0 ]; then
+#     shift
+#   fi
+#
+#   case "$command" in
+#   activate|deactivate|rehash|shell)
+#     eval "$(pyenv "sh-$command" "$@")"
+#     ;;
+#   *)
+#     command pyenv "$command" "$@"
+#     ;;
+#   esac
+# }
+
+# NVM
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+[ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+source /usr/share/nvm/init-nvm.sh
