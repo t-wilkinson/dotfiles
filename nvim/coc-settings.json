@@ -7,35 +7,34 @@
     "rust",
     "go",
     "css",
-    "javascript",
-    "typescript",
-    "javascriptreact",
     "json",
     "html"
   ],
   "coc.preferences.formatOnType": false,
-  "eslint.autoFixOnSave": true,
-  "eslint.format.enable": true,
+  "eslint.autoFixOnSave": false,
+  "eslint.format.enable": false,
+  "eslint.enable": true,
   "eslint.options": {
     "rules": {
       "indent": ["error", 2, { "SwitchCase": 1 }],
       "linebreak-style": ["error", "unix"],
-      "quotes": ["error", "single"],
+      "quotes": ["off", "single"],
       "semi": ["error", "never"]
     }
   },
   "javascript.suggestionActions.enabled": false,
-  "prettier.eslintIntegration": false,
-  "prettier.formatterPriority": 999,
-  "prettier.semi": false,
-  "prettier.singleQuote": true,
-  "prettier.trailingComma": "es5",
-  "prettier.tslintIntegration": false,
+  // "prettier.eslintIntegration": false,
+  // "prettier.formatterPriority": -1,
+  // "prettier.semi": false,
+  "prettier.requireConfig": true,
+  // "prettier.singleQuote": true,
+  // "prettier.trailingComma": "es5",
+  // "prettier.tslintIntegration": false,
   "python.linting.pylintArgs": [
     "--errors-only",
     "--generated-members=numpy.* ,torch.*"
   ],
   "tailwindCSS.headwind.runOnSave": false,
-  "tsserver.formatOnType": true,
+  // "tsserver.formatOnType": true,
   "typescript.suggest.autoImports": true
 }

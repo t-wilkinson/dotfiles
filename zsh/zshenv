@@ -47,9 +47,10 @@ path+=(
     $HOME/.local/bin/scripting
     $HOME/.local/bin/scripts
     $HOME/.npm/bin
+    $HOME/.yarn/bin
     $HOME/bin
     $HOME/go/bin
-    # $HOME/.pyenv/bin
+    $HOME/.pyenv/bin
 )
 
 

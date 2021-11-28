@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # symbolically links all configuration files to their necessary position
 
-used=()
+used=(config)
 DOT=$(dirname $(realpath "$0"))
 
 used+=('xmonad')
@@ -30,10 +30,10 @@ done
 mkdir -p $HOME/.config
 for d in $DOT/*; do
     # ignore `used` folders
-    [ -n $(grep $(basename $d) <<< $used) ] && continue
-    [ ! -d $d ] && continue
+    grep -q $(basename $d) <<< ${used[*]} && continue
 
     to="$HOME/.config/$(basename $d)"
+    [ ! -d $d ] && continue
     ln -sfn "$d" "$to"
 done
 

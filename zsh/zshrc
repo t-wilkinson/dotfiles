@@ -234,7 +234,7 @@ compdef _ssh ssh-tmux
 bindkey "^Y" list-expand  # for completion
 
 # PYENV
-# # eval "$(pyenv virtualenv-init -)"
+eval "$(pyenv virtualenv-init -)"
 # command pyenv rehash 2>/dev/null
 # pyenv() {
 #   local command
