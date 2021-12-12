@@ -33,7 +33,9 @@ kitty &
 super-caps.sh &
 /usr/lib/notification-daemon-1.0/notification-daemon &
 
+pulseaudio -D
 pulseaudio --start
+systemctl --user start pulseaudio
 
 #
 # Launch XMonad (the best WM)

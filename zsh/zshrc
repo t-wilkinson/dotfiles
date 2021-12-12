@@ -195,7 +195,39 @@ swap() {
 
 line-count() {
     # fd -E build $@ | xargs -I% wc -l % | awk '{ sum += $1}; END { print sum}'
-    fd -t f -E build $@ | tr '\n' '\0' | wc -l --files0-from=-
+    # exts=()
+    # exclude=()
+
+    # while [[ $# > 0 ]]; do
+    #     case $1 in
+    #         -e)
+    #             for e in $(echo $2 | tr ',' ' '); do
+    #                 exts+=('-e')
+    #                 exts+=($e)
+    #             done
+    #             shift
+    #             ;;
+    #         -E)
+    #             for e in $(echo $2 | tr ',' '\n'); do
+    #                 exclude+=("-E" $e)
+    #             done
+    #             shift
+    #             ;;
+    #         *) ;;
+    #     esac
+    #     shift
+    # done
+
+    # echo ${exts[@]}
+    # IFS=" "
+    # for v in "${exts[@]}"; do
+    #     echo $v
+    # done
+    # for v in ${exclude[@]}; do
+    #     echo $v
+    # done
+
+    fd -t f -E build $@ | tr '\n' '\0' | wc -l --files0-from=- | sort -n
 }
 
 # simple unification of command help

@@ -107,14 +107,14 @@
         nmap <silent> <leader>cn <Plug>(coc-codeaction)
         nmap <silent> <leader>cf <Plug>(coc-format-selected)
         vmap <silent> <leader>cf <Plug>(coc-format-selected)
-        nmap <silent><nowait> <leader>ca  :<C-u>CocList diagnostics<cr>
-        nmap <silent><nowait> <leader>ce  :<C-u>CocList extensions<cr>
-        nmap <silent><nowait> <leader>cc  :<C-u>CocList commands<cr>
-        nmap <silent><nowait> <leader>co  :<C-u>CocList outline<cr>
-        nmap <silent><nowait> <leader>cs  :<C-u>CocList -I symbols<cr>
+        nmap <silent><nowait> <leader>cld  :<C-u>CocList diagnostics<cr>
+        nmap <silent><nowait> <leader>cle  :<C-u>CocList extensions<cr>
+        nmap <silent><nowait> <leader>clc  :<C-u>CocList commands<cr>
+        nmap <silent><nowait> <leader>clo  :<C-u>CocList outline<cr>
+        nmap <silent><nowait> <leader>cls  :<C-u>CocList -I symbols<cr>
+        nmap <silent><nowait> <leader>clr  :<C-u>CocListResume<CR>
         nmap <silent><nowait> <leader>cj  :<C-u>CocNext<CR>
         nmap <silent><nowait> <leader>ck  :<C-u>CocPrev<CR>
-        nmap <silent><nowait> <leader>cp  :<C-u>CocListResume<CR>
         "  nnoremap <silent> K :call CocAction('doHover')<CR>
         nnoremap <silent> K :call <SID>show_documentation()<CR>
 
@@ -216,7 +216,12 @@
     Plug 'itchyny/lightline.vim'
         set noshowmode
         function! LightLineFilename()
-            return fnamemodify(expand("%"), ":.")
+            let buf = bufname()
+            if strlen(buf) > 0 && &filetype == "zettel"
+                return ''
+            else
+                return fnamemodify(expand("%"), ":.")
+            endif
         endfunction
         function! LightlineFugitive()
             let branch = fugitive#head()
@@ -266,7 +271,8 @@
         nnoremap <silent> <leader>g :redir @a<CR>:g//<CR>:redir END<CR>:new<CR>:put! a<CR>
         map <silent> <leader>y% :let @+=expand("%:p")<CR>
         map z? ^r?
-        map <leader>si :sort /.\{-}\ze'/<CR>
+        vmap <leader>si :sort /.\{-}\ze'/<CR>
+        map <leader>si vip:sort /.\{-}\ze'/<CR>
         nmap gJ Jdw
         map <leader>~ yss~yss~
         noremap <C-6> <C-^>
@@ -283,7 +289,7 @@
         map z{ zvoddgv<
         map z> zv>
         map z< zv<
-        map Zo zvzo
+        map ZO zvzo
 
         " zj/zk should only go to closed tags
         function! NextClosedFold(dir)
@@ -333,8 +339,10 @@
         com! ReactStyle norm 0f"cl{{A€kb;}}0:s/\€kb\(.\)€kb{-}\):\(.\{0€kb-\}€kb€kb}\);/\1: "\2", :s/-\(\w\)/\u\1O// @ts-ignore
         com! STS 0f{va{:s/?/va{/€kb:s/;/,j::%va{:s/|.*/,va{%jVva{:s/string/''jva{:s/Strapi.*,€kb\ze,/nulljjjjjva{:s/boolean/trueuva{:s/boolean/falsejk}
         com! W :SudoWrite
+        com! WQ :SudoWrite | q
         " com! -nargs=0 Prettier :CocCommand prettier.formatFile
         com! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
+        map <leader>cp :Prettier<CR>
 
 "-------------------- Default settings --------------------
     " set
@@ -403,6 +411,11 @@
         " autocmd VimEnter,BufRead,BufNewFile * setlocal formatoptions -=cro " disable comments
         autocmd VimEnter,BufRead,BufNewFile *.html,*.yml,*.css,*.yaml,*.nix,*.ts,*.tsx,*.json,*.js,*.jsx,*.clj,*.cljs,*.cljc setlocal ts=2 sts=2 sw=2
         autocmd VimEnter,BufRead,BufNewFile *.md setlocal nowrap
+        autocmd VimEnter,BufRead,BufNewFile *.tsx hi jsxClosePunct guifg=#6272a4
+        autocmd VimEnter,BufRead,BufNewFile *.tsx hi jsxOpenPunct guifg=#6272a4
+        autocmd VimEnter,BufRead,BufNewFile *.tsx hi jsxPunct guifg=#6272a4
+        autocmd VimEnter,BufRead,BufNewFile *.tsx hi jsxCloseString guifg=#6272a4
+        " autocmd VimEnter,BufRead,BufNewFile *.tsx hi typescriptBraces guifg=#8be9fd
     augroup END
 
 "-------------------- Colorscheme --------------------
