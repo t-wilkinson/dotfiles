@@ -9,7 +9,7 @@ windows:
     - shell_command:
       - scripts/run local up
     - shell_command:
-      - vim
+      -
       focus: true
 - window_name: SSH
   panes:

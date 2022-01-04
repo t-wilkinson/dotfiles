@@ -1,4 +1,5 @@
 " vim: filetype=vim
+set nocompatible
 
 "-------------------- Plugins --------------------
     call plug#begin('~/.vim/plugged')
@@ -63,6 +64,7 @@
 
     " t-wilkinson
         Plug '~/dev/t-wilkinson/vim-zettelkasten'
+            let g:z_fenced_languages = ['python', 'javascript', 'bindzone', 'rust', 'bash', 'sh', 'json', 'sql']
             let g:z_notes_dir = $HOME . '/dev/t-wilkinson/projects/notes'
             let g:z_window_command = 'call FloatingFZF()'
             let g:z_default_extension = '.zettel'
@@ -73,6 +75,8 @@
         Plug '~/dev/t-wilkinson/vim-mdnav'
             let g:mdnav#Extensions = '.zettel'
 
+    " Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+    "     let g:mkdp_filetypes = ['markdown', 'zettel']
     Plug 'machakann/vim-swap'
     Plug 'powerman/vim-plugin-AnsiEsc'      " Correctly show color codes when using vim as a pager
         let g:no_plugin_maps = 1
@@ -83,13 +87,37 @@
     Plug 'moll/vim-bbye'                  "  optional dependency for vim-symlink
     Plug 'aymericbeaumet/vim-symlink'     "  open the file symlinks point to
     Plug 'sbdchd/neoformat'
+    Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
+        if exists('g:started_by_firenvim')
+            let g:firenvim_config = {
+                \ 'globalSettings': {
+                    \ 'alt': 'all',
+                    \ 'ignoreKeys': {
+                        \ 'normal': []
+                        \ }
+                \  },
+                \ 'localSettings': {
+                    \ '.*': {
+                        \ 'cmdline': 'neovim',
+                        \ 'content': 'text',
+                        \ 'priority': 0,
+                        \ 'selector': 'textarea',
+                        \ 'takeover': 'always',
+                    \ },
+                \ }
+            \ }
+            let fc = g:firenvim_config['localSettings']
+            let fc['.*'] = { 'selector': 'textarea:not([readonly]), div[role="textbox"], div[contenteditable="true"]' }
+            nnoremap <Esc><Esc> :call firenvim#focus_page()<CR>
+            au BufEnter *zettel*.txt nnoremap <S-CR> <ESC>:wq<CR>:call firenvim#hide_frame()<CR>
+            au BufEnter *zettel*.txt set filetype=zettel
+        endif
+
     Plug 'junegunn/vim-easy-align'
         xmap ga <Plug>(EasyAlign)
         nmap ga <Plug>(EasyAlign)
 
     Plug 'neoclide/coc.nvim', {'branch': 'release'}
-        " if match(&runtimepath, 'coc.nvim') != -1
-        " endif
         set hidden                        "  TextEdit might fail if hidden is not set.
         set nobackup                      "  Some servers have issues with backup files, see #649.
         set nowritebackup                 ""
@@ -148,14 +176,6 @@
         " let g:user_emmet_install_global = 0
         " autocmd FileType html,css EmmetInstall
 
-    if has('python3')
-    Plug 'SirVer/ultisnips'
-        let g:UltiSnipsExpandTrigger='<Tab>'
-        let g:UltiSnipsJumpForwardTrigger='<Tab>'
-        let g:UltiSnipsJumpBackwardTrigger='<S-Tab>'
-        let g:UltiSnipsSnippetDirectories=[$HOME . '/.vim/UltiSnips']
-        let g:UltiSnipsEditSplit="vertical"
-    endif
     Plug 'junegunn/fzf'
     Plug 'junegunn/fzf.vim'
         " CTRL-T(tab) / CTRL-X(split) / CTRL-V(ver-split)
@@ -216,11 +236,10 @@
     Plug 'itchyny/lightline.vim'
         set noshowmode
         function! LightLineFilename()
-            let buf = bufname()
-            if strlen(buf) > 0 && &filetype == "zettel"
+            if &filetype == "zettel"
                 return ''
             else
-                return fnamemodify(expand("%"), ":.")
+                return fnamemodify(expand("%"), ":~:.")
             endif
         endfunction
         function! LightlineFugitive()
@@ -252,9 +271,48 @@
                     \ },
                     \ }
 
+    if has('python3')
+    Plug 'SirVer/ultisnips'
+        let g:UltiSnipsExpandTrigger='<Tab>'
+        let g:UltiSnipsJumpForwardTrigger='<Tab>'
+        let g:UltiSnipsJumpBackwardTrigger='<S-Tab>'
+        let g:UltiSnipsSnippetDirectories=[$HOME . '/.vim/UltiSnips']
+        let g:UltiSnipsEditSplit="vertical"
+    endif
     call plug#end()
 
     packadd cfilter
+
+"-------------------- Scripts --------------------
+    "-------------------- Filter quickfix --------------------
+        function! s:format_qf_line(line)
+          let parts = split(a:line, ':')
+          return { 'filename': parts[0]
+                 \,'lnum': parts[1]
+                 \,'col': parts[2]
+                 \,'text': join(parts[3:], ':')
+                 \ }
+        endfunction
+
+        function! s:qf_to_fzf(key, line) abort
+          let l:filepath = expand('#' . a:line.bufnr . ':p')
+          return l:filepath . ':' . a:line.lnum . ':' . a:line.col . ':' . a:line.text
+        endfunction
+
+        function! s:fzf_to_qf(filtered_list) abort
+          let list = map(a:filtered_list, 's:format_qf_line(v:val)')
+          if len(list) > 0
+            call setqflist(list)
+            copen
+          endif
+        endfunction
+
+        command! FzfQF call fzf#run({
+              \ 'source': map(getqflist(), function('<sid>qf_to_fzf')),
+              \ 'down':   '20',
+              \ 'sink*':   function('<sid>fzf_to_qf'),
+              \ 'options': '--reverse --multi --bind=ctrl-a:select-all,ctrl-d:deselect-all --prompt "quickfix> "',
+              \ })
 
 "-------------------- Mappings --------------------
     " Basic
@@ -263,7 +321,7 @@
         map Y y$
         noremap zi zizz
         map <leader>^s /^\s*
-        map <leader>^- /^\(    \)\{0,1}-\s
+        map <leader>^- /^\v( {4}){0,1}-\s
         map <silent> <leader>sv :keeppatterns source $HOME/.vimrc<CR>
         map <silent> <leader>s% :source %<CR>
         nmap <silent> <leader>tc :let &signcolumn=(&signcolumn == "number" ? "no" : "number")<CR>
@@ -274,8 +332,11 @@
         vmap <leader>si :sort /.\{-}\ze'/<CR>
         map <leader>si vip:sort /.\{-}\ze'/<CR>
         nmap gJ Jdw
-        map <leader>~ yss~yss~
+        map <leader>~ ^wys$~ys$~
         noremap <C-6> <C-^>
+        cabbrev ic ~/dev/t-wilkinson/infinite-closet/
+        cabbrev tw ~/dev/t-wilkinson/
+
 
     " Folds
         " Paste into fold
@@ -318,6 +379,7 @@
         nnoremap <silent> zk :<c-u>call RepeatCmd('call NextClosedFold("k")')<cr>
 
     " Fzf
+        map <leader>fa :FzfAg<CR>
         map <leader>fb :FzfBuffers<CR>
         map <leader>fc :FzfColors<CR>
         map <leader>ff :FzfFiles<CR>
@@ -331,18 +393,35 @@
         " com! Bdelete bp | sp | bn | bd  " delete a buffer but keep window format
         " com! RM silent execute "Bdelete %" | silent execute "!rm #"
         " com! W silent execute "write" "!sudo tee % >/dev/null" | silent edit!
-        com! -complete=file -nargs=1 MV
-                    \ silent execute "!mv %" <q-args> |
-                    \ Bdelete |
-                    \ execute "edit" <q-args>
+        " com! -complete=file -nargs=1 MV
+        "             \ silent execute "!mv %" <q-args> |
+        "             \ Bdelete |
+        "             \ execute "edit" <q-args>
         com! ClearReg for i in range(34,122) | silent! call setreg(nr2char(i),"") | endfor
         com! ReactStyle norm 0f"cl{{A€kb;}}0:s/\€kb\(.\)€kb{-}\):\(.\{0€kb-\}€kb€kb}\);/\1: "\2", :s/-\(\w\)/\u\1O// @ts-ignore
+        com! ReactProps norm :s/^\s*/:s/\(\w\+\),\?/\1={\1}==
         com! STS 0f{va{:s/?/va{/€kb:s/;/,j::%va{:s/|.*/,va{%jVva{:s/string/''jva{:s/Strapi.*,€kb\ze,/nulljjjjjva{:s/boolean/trueuva{:s/boolean/falsejk}
         com! W :SudoWrite
         com! WQ :SudoWrite | q
         " com! -nargs=0 Prettier :CocCommand prettier.formatFile
         com! -nargs=0 Prettier :call CocAction('runCommand', 'prettier.formatFile')
         map <leader>cp :Prettier<CR>
+
+""-------------------- Session --------------------
+"    com! -nargs=1 WS
+"                \ execute printf("mksession! %s/.vim/sessions/%s.session.vim", $HOME, <q-args>) |
+"                \ execute printf("wshada! %s/.vim/sessions/%s.shada.vim", $HOME, <q-args>) |
+"    com! -nargs=1 RS
+"                \ execute printf("source %s/.vim/sessions/%s.session.vim", $HOME, <q-args>) |
+"                \ execute printf("rshada! %s/.vim/sessions/%s.shada.vim", $HOME, <q-args>) |
+"    com! -nargs=1 WQS
+"                \ WS <args> |
+"                \ q
+"    augroup session
+"        autocmd!
+"        autocmd VimLeavePre * exe s:persist()
+"        autocmd BufEnter * exe s:persist()
+"    augroup END
 
 "-------------------- Default settings --------------------
     " set
@@ -357,8 +436,13 @@
         set gdefault
         set hidden                          " Switch buffers without saving
         set ignorecase smartcase            " Smartcase
+        set nolazyredraw                      " Need to set when neovide
+        if exists("g:neovide")
+            set nolazyredraw                      " Need to set when neovide
+        else
+            set lazyredraw                      " Don't redraw screen after each key in macro
+        endif
         set inccommand=split                " Live search
-        set lazyredraw                      " Don't redraw screen after each key in macro
         set linebreak
         set nohlsearch                      " Disable hlsearch
         set nowrap
@@ -376,7 +460,6 @@
         " set history
         set autoread
         set pumheight=10
-        set concealcursor=n
         set foldlevel=1
         set cursorline
         set modeline
@@ -384,6 +467,7 @@
         set undolevels=10000
         set guifont=Fira\ Code:h12
         set synmaxcol=300                       " Long lines lag a lot due to syntax highlighting
+        set viewdir=$HOME/.vim/view
 
     " let
         let &grepprg='grep -n -R --exclude=' . shellescape(&wildignore) . ' $*'
@@ -393,6 +477,7 @@
         let g:netrw_localmovecommand = 'mv'
         let g:python_host_skip_check = 1
         let g:python3_host_skip_check = 1
+        " let g:python3_host_prog = 'nvim'
 
     digraphs
                 \ xS 739 yS 696 zS 7611 oS 7506 pS 7510 xs 8339 as 8336
@@ -411,17 +496,19 @@
         " autocmd VimEnter,BufRead,BufNewFile * setlocal formatoptions -=cro " disable comments
         autocmd VimEnter,BufRead,BufNewFile *.html,*.yml,*.css,*.yaml,*.nix,*.ts,*.tsx,*.json,*.js,*.jsx,*.clj,*.cljs,*.cljc setlocal ts=2 sts=2 sw=2
         autocmd VimEnter,BufRead,BufNewFile *.md setlocal nowrap
-        autocmd VimEnter,BufRead,BufNewFile *.tsx hi jsxClosePunct guifg=#6272a4
-        autocmd VimEnter,BufRead,BufNewFile *.tsx hi jsxOpenPunct guifg=#6272a4
-        autocmd VimEnter,BufRead,BufNewFile *.tsx hi jsxPunct guifg=#6272a4
-        autocmd VimEnter,BufRead,BufNewFile *.tsx hi jsxCloseString guifg=#6272a4
-        " autocmd VimEnter,BufRead,BufNewFile *.tsx hi typescriptBraces guifg=#8be9fd
+        autocmd FileType typescriptreact hi jsxClosePunct guifg=#6272a4
+        autocmd FileType typescriptreact hi jsxOpenPunct guifg=#6272a4
+        autocmd FileType typescriptreact hi jsxPunct guifg=#6272a4
+        autocmd FileType typescriptreact hi jsxCloseString guifg=#6272a4
+        autocmd BufRead,BufNewFile .prettierrc set filetype=json
+        " autocmd FileType typescriptreact hi typescriptBraces guifg=#8be9fd
     augroup END
 
 "-------------------- Colorscheme --------------------
     set guifont=FiraCode
     colorscheme dracula
-    set conceallevel=2
+    set conceallevel=1
+    set concealcursor=
     " hi Normal guibg=NONE
     hi Conceal guibg=NONE
     execute 'hi CursorLine guibg='.g:dracula#palette.bgdark[0]
@@ -430,3 +517,5 @@
     execute 'hi CocWarningSign guifg='. g:dracula#palette.orange[0] .' guibg='.g:dracula#palette.bgdark[0]
     execute 'hi CocInfoSign guifg='. g:dracula#palette.yellow[0] .' guibg='.g:dracula#palette.bgdark[0]
     execute 'hi Folded guifg=' . g:dracula#palette.comment[0] . ' guibg=NONE'
+
+    let g:vim_jsx_pretty_highlight_close_tag = 0

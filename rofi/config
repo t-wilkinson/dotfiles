@@ -1,6 +1,6 @@
 configuration {
-    theme: "onedark";
     matching: "fuzzy";
     sorting-method: "fzf";
 }
 
+@theme "onedark"

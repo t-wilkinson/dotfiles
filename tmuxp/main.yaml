@@ -1,13 +1,6 @@
 session_name: Main
 windows:
-- window_name: Notes
+- window_name: Projects
   focus: true
   panes:
-    - shell_command:
-      - "cd ~/dev/t-wilkinson/projects/notes"
-      - "vim -S ~/.vim/sessions/notes.vim"
-- window_name: Projects
-  shell_command_before:
     - cd ~/dev/t-wilkinson
-  panes:
-    -

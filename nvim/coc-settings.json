@@ -13,6 +13,7 @@
   "coc.preferences.formatOnType": false,
   "eslint.autoFixOnSave": false,
   "eslint.format.enable": false,
+  "json.format.enable": true,
   "eslint.enable": true,
   "eslint.options": {
     "rules": {
@@ -27,6 +28,7 @@
   // "prettier.formatterPriority": -1,
   // "prettier.semi": false,
   "prettier.requireConfig": true,
+  "prettier.printWidth": 100
   // "prettier.singleQuote": true,
   // "prettier.trailingComma": "es5",
   // "prettier.tslintIntegration": false,

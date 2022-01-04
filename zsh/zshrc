@@ -160,10 +160,20 @@ pkgs() {
 
 # re-run command on file change
 forever() {
-    $@
+    args="$@"
+    pid=""
+    rerun() {
+        kill $pid > /dev/null 2>&1
+        kill $( lsof -i:4000 -t ) > /dev/null 2>&1
+        eval $args &
+        pid=$!
+        # hide output of bringing process to background
+        # (&>/dev/null eval $args &; pid=$!)
+    }
+
+    rerun
     while inotifywait -r -e modify .; do
-        clear
-        $@ # run function
+        rerun
     done
 }
 
@@ -289,3 +299,36 @@ eval "$(pyenv virtualenv-init -)"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 source /usr/share/nvm/init-nvm.sh
+
+
+#  # Transparent background.
+#  typeset -g POWERLEVEL9K_PROMPT_CHAR_BACKGROUND=
+#  # Green prompt symbol if the last command succeeded.
+#  typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND=76
+#  # Red prompt symbol if the last command failed.
+#  typeset -g POWERLEVEL9K_PROMPT_CHAR_ERROR_{VIINS,VICMD,VIVIS,VIOWR}_FOREGROUND=196
+#
+#  typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_VICMD_FOREGROUND=6
+#  typeset -g POWERLEVEL9K_PROMPT_CHAR_ERROR_VICMD_FOREGROUND=6
+#
+#  typeset -g POWERLEVEL9K_PROMPT_CHAR_OK_{VIVIS,VIOWR}_FOREGROUND=4
+#  typeset -g POWERLEVEL9K_PROMPT_CHAR_ERROR_{VIVIS,VIOWR}_FOREGROUND=4
+#
+#  # Default prompt symbol.
+#  typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VIINS_CONTENT_EXPANSION='λ' # \x03BB
+#  # typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VIINS_CONTENT_EXPANSION='❯'
+#  # Prompt symbol in command vi mode.
+#  typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VICMD_CONTENT_EXPANSION='λ' # \x03BB
+#  # typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VICMD_CONTENT_EXPANSION='❮'
+#  # Prompt symbol in visual vi mode.
+#  typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VIVIS_CONTENT_EXPANSION='V'
+#  # Prompt symbol in overwrite vi mode.
+#  typeset -g POWERLEVEL9K_PROMPT_CHAR_{OK,ERROR}_VIOWR_CONTENT_EXPANSION='▶'
+#  typeset -g POWERLEVEL9K_PROMPT_CHAR_OVERWRITE_STATE=true
+#  # No line terminator if prompt_char is the last segment.
+#  typeset -g POWERLEVEL9K_PROMPT_CHAR_LEFT_PROMPT_LAST_SEGMENT_END_SYMBOL=
+#  # No line introducer if prompt_char is the first segment.
+#  typeset -g POWERLEVEL9K_PROMPT_CHAR_LEFT_PROMPT_FIRST_SEGMENT_START_SYMBOL=
+#  # No surrounding whitespace.
+#  typeset -g POWERLEVEL9K_PROMPT_CHAR_LEFT_{LEFT,RIGHT}_WHITESPACE=
+#
