@@ -8,7 +8,8 @@ if [[ $DISPLAY ]]; then
     attached="$(tmux ls 2> /dev/null |  cut -d: -f1)"
 
     if [[ "$attached" = "Main" ]]; then
-      tmuxp load work
+        :
+      # tmuxp load work
     elif [[ "$detached" = "Main" ]]; then
       tmux attach-session -t "$detached"
     else
@@ -24,6 +25,7 @@ fi
 
 # Prompt
 # [[ $IN_NIX_SHELL ]] || neofetch
+neofetch
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
@@ -237,10 +239,14 @@ line-count() {
     #     echo $v
     # done
 
-    fd -t f -E build $@ | tr '\n' '\0' | wc -l --files0-from=- | sort -n
+    args=$@
+    if [[ $1 == js ]]; then
+        args="-E '*.png' -E '*.jpg' -E public -E '*.svg' -E yarn.lock"
+    fi
+    fd -t f -E node_modules -E build $args | tr '\n' '\0' | wc -l --files0-from=- | sort -n
 }
 
-# simple unification of command help
+# simple unification to get help from different commands
 help() {
     cmd="$1"
     args="${@:2}"
@@ -267,13 +273,65 @@ touchd () {
     touch $(basename $1)
 }
 
+countdown() {
+    minutes="$(($1 * 60))"
+    start="$(( $(date +%s) + $minutes))"
+    while [ "$start" -ge $(date +%s) ]; do
+        ## Is this more than 24h away?
+        days="$(($(($(( $start - $(date +%s) )) * 1 )) / 86400))"
+        time="$(( $start - `date +%s` ))"
+        printf '%s day(s) and %s        \r' "$days" "$(date -u -d "@$time" +%H:%M:%S)"
+        sleep 0.1
+    done
+    alarm
+}
+
+stopwatch() {
+    start=$(date +%s)
+    while true; do
+        days="$(($(( $(date +%s) - $start )) / 86400))"
+        time="$(( $(date +%s) - $start ))"
+        printf '%s day(s) and %s\r' "$days" "$(date -u -d "@$time" +%H:%M:%S)"
+        sleep 0.1
+    done
+}
+
+hist() {
+    listing=$(history -d 0--1 | fzf --layout=reverse --no-sort | awk '{print $1}')
+    fc $listing
+}
+
+# finds how many google docs pages the zortex takes
+zortex_page_count() {
+    # 92: on average, how many characters fit per line
+    # 45: how many lines each page fits
+    cat ${ZORTEX_DIR}/*.zortex | awk '
+BEGIN { n=0 };
+{ n += 1 + int(length($0)/83) };
+END { print 1 + int(n/45) };
+'
+}
+
+dir_size() {
+    du -h --all -d 1 ${1:-.} | sort -h
+}
+
+git_files_size() {
+    git ls-files "$@" | xargs -I % ls -lh % | sort -h -k5
+}
+
 # for copying bash commands from instructions ($ echo 'hello world')
 $ () { eval "$@" }
 
 compdef _ssh ssh-tmux
 
-# bindkey [-l]  <- to view binded keys and their respective commands
+# bindkey -l  <- to view binded keys and their respective commands
+# bindkey -M {vicmd|viins|emacs}
+# man zshzle(1)
+# zle -al <- to list all key commands
 bindkey "^Y" list-expand  # for completion
+bindkey "^P" up-history
+bindkey "^N" down-history
 
 # PYENV
 eval "$(pyenv virtualenv-init -)"
@@ -332,3 +390,9 @@ source /usr/share/nvm/init-nvm.sh
 #  # No surrounding whitespace.
 #  typeset -g POWERLEVEL9K_PROMPT_CHAR_LEFT_{LEFT,RIGHT}_WHITESPACE=
 #
+
+fpath=(~/.stripe $fpath)
+autoload -Uz compinit && compinit -i
+eval "$(direnv hook zsh)"
+
+export LFS=/mnt/lfs

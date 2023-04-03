@@ -130,10 +130,10 @@
          id="rect"
          style="fill:blue;"
          usecurrent="1"
-         width="1375.05"
-         height="1057.63"
-         rx="22.695"
-         ry="22.2062" />
+         width="34.9241"
+         height="7.695"
+         rx="3.8475"
+         ry="3.8475" />
       <eventcontext
          id="3dbox"
          style="stroke:none;stroke-linejoin:round;"
@@ -169,21 +169,23 @@
          end="0"
          start="0"
          usecurrent="1"
-         rx="386.308"
-         ry="544.421" />
+         rx="44.8859"
+         ry="44.8859"
+         arc_type="0" />
       <eventcontext
          id="star"
-         magnitude="5"
+         magnitude="3"
          style="fill:yellow;"
          usecurrent="1"
          proportion="0.55"
-         isflatsided="0"
-         rounded="0.14" />
+         isflatsided="1"
+         rounded="-0" />
       <eventcontext
          id="spiral"
          style="fill:none;stroke:black"
          expansion="1"
-         usecurrent="0" />
+         usecurrent="0"
+         revolution="3" />
     </group>
     <group
        id="freehand"
@@ -217,8 +219,8 @@
        usepressure="1"
        usetilt="0"
        keep_selected="1"
-       abs_width="1"
-       unit="mm">
+       abs_width="0"
+       unit="px">
       <group
          id="preset">
         <group
@@ -332,8 +334,9 @@
        font_sample="AaBbCcIiPpQq12369$\342\202\254\302\242?.;/()"
        show_sample_in_list="1"
        use_svg2="1"
-       style="fill:black;fill-opacity:1;line-height:1.25;stroke:none;font-family:sans-serif;font-style:normal;font-weight:normal;font-size:40px;"
-       selcue="1" />
+       style="line-height:1.25;font-family:Montserrat;font-size:39.99987411px;-inkscape-font-specification:'Montserrat, @wght=700';font-variation-settings:'wght' 700;text-anchor:middle;text-align:center"
+       selcue="1"
+       align_mode="1" />
     <eventcontext
        id="nodes"
        selcue="1"
@@ -349,8 +352,8 @@
        live_outline="1"
        live_objects="1"
        show_helperpath="0"
-       x="448.095"
-       y="468.516"
+       x="152.686"
+       y="56.9909"
        edit_clipping_paths="0"
        edit_masks="0" />
     <eventcontext
@@ -409,6 +412,16 @@
        id="paintbucket"
        style="fill:#a0a0a0;stroke:none;"
        usecurrent="1" />
+    <group
+       id="measure"
+       fontsize="10" />
+    <eventcontext
+       id="marker"
+       selcue="1"
+       gradientdrag="1" />
+    <group
+       id="geometric"
+       mode="drag" />
   </group>
   <group
      id="palette">
@@ -529,7 +542,8 @@
   </group>
   <group
      id="colorselector"
-     page="1" />
+     page="1"
+     switcher="1" />
   <group
      id="embedded">
     <group
@@ -554,7 +568,7 @@
        visible="1"
        state="2"
        placement="5"
-       page="1" />
+       page="2" />
     <group
        id="filtereffects" />
     <group
@@ -568,7 +582,8 @@
        placement="5" />
     <group
        id="transformation"
-       applyseparately="0" />
+       applyseparately="0"
+       rotateCounterClockwise="1" />
     <group
        id="align"
        x="0"
@@ -578,12 +593,13 @@
        visible="1"
        state="2"
        placement="5"
-       align-to="0" />
+       align-to="0"
+       sel-as-groups="0" />
     <group
        id="xml"
        h="1"
        w="1"
-       panedpos="139"
+       panedpos="411"
        x="0"
        y="0"
        visible="1"
@@ -632,16 +648,18 @@
        append_extension="1"
        path="">
       <group
-         id="exportarea" />
+         id="exportarea"
+         value="page" />
       <group
-         id="defaultxdpi" />
+         id="defaultxdpi"
+         value="17" />
     </group>
     <group
        id="save_as"
        default="org.inkscape.output.svg.inkscape"
        append_extension="1"
        enable_preview="1"
-       path="/home/trey/dev/t-wilkinson/infinite-closet/frontend/public/icons"
+       path="/home/trey/dev/t-wilkinson/projects/notes/music-theory"
        use_current_dir="1" />
     <group
        id="save_copy"
@@ -652,7 +670,7 @@
     <group
        id="open"
        enable_preview="1"
-       path="/home/trey/dev/t-wilkinson/infinite-closet/frontend/public/icons/logo-gray/" />
+       path="/home/trey/dev/t-wilkinson/ysa-website/client/static/" />
     <group
        id="import"
        enable_preview="1"
@@ -666,7 +684,8 @@
        id="debug"
        redirect="0" />
     <group
-       id="clonetiler" />
+       id="clonetiler"
+       dotrace="0" />
     <group
        id="gridtiler" />
     <group
@@ -709,7 +728,10 @@
        id="undo-history" />
     <group
        id="selectors"
-       panedpos="749" />
+       panedpos="561" />
+    <group
+       id="livepatheffect"
+       dialogmode="0" />
   </group>
   <group
      id="printing">
@@ -720,7 +742,8 @@
        add-label-comments="0" />
   </group>
   <group
-     id="options">
+     id="options"
+     rotationlock="1">
     <group
        id="renderingcache"
        size="512" />
@@ -987,7 +1010,8 @@
        id="rendering" />
     <group
        id="font"
-       unitType="2" />
+       unitType="2"
+       scaleLineHeightFromFontSIze="1" />
     <group
        id="middlemousezoom"
        value="1" />
@@ -1001,20 +1025,27 @@
       <group
          id="shown"
          ver1.1="1"
-         ver1.1.1="1" />
+         ver1.1.1="1"
+         ver1.1.2="1"
+         ver1.2="1" />
     </group>
   </group>
   <group
-     id="extensions" />
+     id="extensions"
+     org.inkscape.output.png.inkscape.png_bitdepth="99"
+     org.inkscape.output.png.inkscape.png_compression="6"
+     org.inkscape.output.png.inkscape.png_antialias="2"
+     org.inkscape.generate.pdf_latex.formule="$$J(\theta) = -\mathbb{E}_{X,Y\sim\hat{p}_{data}}~log~p_{model}(y;x,\theta) + \lambda\Omega(\theta)$$"
+     org.inkscape.generate.pdf_latex.__live_effect__="0" />
   <group
      id="desktop"
-     style="fill:#4d4d4d;stroke-width:1.333;paint-order:stroke fill markers;stroke-linecap:round;stroke-linejoin:round">
+     style="fill:#000000;paint-order:stroke fill markers;-inkscape-font-specification:'Montserrat, @wght=900';font-family:Montserrat;line-height:1.25;text-decoration-color:#000000;stroke-width:2;stop-color:#000000;font-size:25.65221977px;text-anchor:middle;text-align:center;stroke-linejoin:round;stroke-linecap:round;font-variation-settings:'wght' 900">
     <group
-       width="2516"
-       height="1040"
-       x="20"
-       y="20"
-       maximized="0"
+       width="2556"
+       height="1076"
+       x="0"
+       y="0"
+       maximized="1"
        fullscreen="0"
        id="geometry" />
     <group
@@ -1036,11 +1067,20 @@
      id="toolbox"
      icononly="1"
      secondary="1"
-     small="1">
+     small="1"
+     simplesnap="1">
     <group
        id="tools"
        icononly="1"
-       small="0" />
+       small="0"
+       iconsize="16"
+       width="32">
+      <group
+         id="buttons" />
+    </group>
+    <group
+       id="controlbars"
+       iconsize="16" />
   </group>
   <group
      id="iconpreview"
@@ -1115,18 +1155,19 @@
      language="" />
   <group
      id="theme"
-     defaultTheme="Adwaita"
-     defaultIconTheme="Adwaita"
-     menuIcons_canvas="0"
-     menuIcons_layers="0"
-     menuIcons_objects="0"
      defaultPreferDarkTheme="0"
-     defaultGtkTheme="Adwaita"
-     darkTheme="1"
+     defaultIconTheme="Pop"
+     defaultGtkTheme="Pop-dark"
+     narrowSpinButton="1"
      preferDarkTheme="1"
+     darkTheme="1"
      symbolicIcons="1"
      symbolicDefaultBaseColors="0"
      symbolicDefaultHighColors="0"
+     defaultTheme="Adwaita"
+     menuIcons_canvas="0"
+     menuIcons_layers="0"
+     menuIcons_objects="0"
      gtkTheme="Adwaita"
      iconTheme="multicolor">
     <group
@@ -1139,4 +1180,9 @@
   <group
      id="live_effects"
      flattening="0" />
+  <group
+     id="statusbar">
+    <group
+       id="visibility" />
+  </group>
 </inkscape>

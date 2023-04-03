@@ -33,8 +33,7 @@ kitty &
 super-caps.sh &
 /usr/lib/notification-daemon-1.0/notification-daemon &
 
-neovide -- +"cd ~/dev/t-wilkinson"
-
+# alsactl restore
 #
 # Launch XMonad (the best WM)
 #

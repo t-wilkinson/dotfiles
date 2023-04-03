@@ -11,9 +11,11 @@ alias neovide="neovide --multigrid"
 alias py="python"
 alias SS="sudo systemctl"
 alias S="systemctl"
+alias S="systemctl"
 alias copy="tee /dev/tty | xclip -in -sel clip"
 alias jlab="jupyter-lab --ip=127.0.0.1 --port=8888"
 alias venv="source env/bin/activate"
+alias j="journalctl"
 
 alias eww="git add -A && git commit -m '[update]' && git push"
 

@@ -10,6 +10,7 @@ import qualified XMonad.StackSet               as W
 import           XMonad.Prompt
 import           XMonad.Prompt.ConfirmPrompt    ( confirmPrompt )
 import           XMonad.Prompt.Shell            ( getShellCompl )
+import           XMonad.Prompt.Unicode
 import           XMonad.Hooks.WorkspaceHistory
 import           XMonad.Hooks.ManageDocks ( avoidStruts )
 
@@ -17,6 +18,7 @@ import           XMonad.Util.Font ( Align(..) )
 import           XMonad.Util.EZConfig
 import           XMonad.Util.SpawnOnce          ( spawnOnOnce )
 --import           XMonad.Util.Run hiding (main)--(runProcessWithInput safeSpawn, runInTerm, spawnPipe)
+import           XMonad.Operations (refresh, rescreen, windows)
 
 import           XMonad.Actions.CycleWS                       -- Cycle between workspaces and screens
 import           XMonad.Actions.DynamicProjects
@@ -42,13 +44,14 @@ import           XMonad.Layout.PerWorkspace     ( onWorkspace )
 import           XMonad.Layout.Spacing                        -- Gap-like spacing
 import           XMonad.Layout.Tabbed                            -- Multi-purpose browser tabs
 import           XMonad.Layout.SimplestFloat (simplestFloat)
+import           XMonad.Layout.Master (mastered)
 -- import        Xmonad.Layout.Combo \ ComboP              -- Combine multiple layouts
 
 import           System.Exit
-import Data.Ratio ((%))
-import Data.Tree
-import          Data.List ( isInfixOf )
-import          Data.Char ( toLower )
+import           Data.Ratio ((%))
+import           Data.Tree
+import           Data.List ( isInfixOf )
+import           Data.Char ( toLower )
 
 
 --------------------------------------------------------------------------------
@@ -59,23 +62,26 @@ myLayoutHook = fullscreenFloat -- fixes floating windows going full screen, whil
      $ onWorkspace'
 
   where
-    onWorkspace' = onWorkspace wsHome (g myHomeLayout)
-       $ onWorkspace wsWeb   (g myWebLayout)
-       $ onWorkspace wsMedia (g myMediaLayout)
-       $ g defaultLayout
+    onWorkspace' = onWorkspace wsHome myHomeLayout
+       $ onWorkspace wsWeb   (myWebLayout)
+       $ onWorkspace wsMedia (gaps myMediaLayout)
+       $ gaps defaultLayout
 
     -- Dishes
     -- drawer = simpleDrawer 0.01 0.3 (ClassName "kitty") `onTop` (Tall 1 0.03 0.5)
-    defaultLayout = ifWider 1920 (Mirror Accordion ||| Full ||| Tall 1 0.03 0.5 ||| Dishes 2 (1/9)) Full
-    myHomeLayout  = Full ||| Tall 1 0.03 0.5
-    myWebLayout   = defaultLayout
+    -- defaultLayout = ifWider 1920 (Mirror Accordion ||| Full ||| Tall 1 0.03 0.5 ||| Dishes 2 (1/9)) Full
+    defaultLayout = ifWider 1920 (mastered (1/100) (1/2) (responsiveSpacing 8 4 tabs') ||| Full) (Full ||| tabs')
+    myHomeLayout  = (responsiveSpacing 8 4 $ tabs' ||| mastered (1/100) (2/3) Simplest) ||| Full
+    myWebLayout   = (mastered (1/100) (2/3) (responsiveSpacing 8 4 tabs')) ||| Full
     myMediaLayout = defaultLayout
 
-    g l = ifWider 1920 (spacing' 10 10 l ||| Full) (l ||| spacing' 6 6 l)
-    -- gap' x =  gaps [(U,x), (D,x), (R,x), (L,x)]
+    tabs' = addTabsBottom shrinkText myTabTheme Simplest
+    gaps l = ifWider 1920 (spacing' 8 8 l ||| Full) (spacing' 4 4 l ||| l)
+    responsiveSpacing big small l = ifWider 1920 (spacing' big big l) (spacing' small small l)
     spacing' x y = spacingRaw False (Border y (y-2) x x) True (Border y (y-2) x x) True
-    -- spacing'' i o = spacingRaw False (border i) True (border o) True
     border x = Border x x x x
+    -- gap' x =  gaps [(U,x), (D,x), (R,x), (L,x)]
+    -- spacing'' i o = spacingRaw False (border i) True (border o) True
     -- tabs = named "Tabs"
     --      $ avoidStruts
     --      $ ifWider 1920 (addTabsBottom shrinkText myTabTheme $ Simplest) (Simplest)
@@ -154,17 +160,13 @@ myLogHook = do
 -- Themes
 --------------------------------------------------------------------------------
 
+purple = "#bd93f9"
 cyan = "#8be9fd"
 dark = "#21222C"
 bg = "#44475A"
 fg = "#f8f8f2"
 myFont = "xft:Source Code Pro-16"
 
-myTabTheme :: Theme
-myTabTheme = draculaTheme
-    { fontName = "xft:Source Code Pro-10"
-    , decoHeight          = 22
-    }
 
 draculaTheme :: Theme
 draculaTheme = def
@@ -179,6 +181,13 @@ draculaTheme = def
   , urgentColor         = bg
   , urgentTextColor     = fg
   }
+
+
+myTabTheme :: Theme
+myTabTheme = draculaTheme
+    { fontName = "xft:Source Code Pro-10"
+    , decoHeight          = 22
+    }
 
 
 promptTheme :: XPConfig
@@ -199,12 +208,12 @@ promptTheme = def
 myTreeConfig :: TSConfig a
 myTreeConfig = TSConfig
     { ts_hidechildren = True
-    , ts_background   = 0x90282a36
+    , ts_background   = 0xc0282a36
     , ts_font         = myFont
-    , ts_node         = (0xfff8f8f2, 0x90282a36)
-    , ts_nodealt      = (0xfff8f8f2, 0x90282a36)
-    , ts_highlight    = (0xfff8f8f2, 0x9044475a)
-    , ts_extra        = 0x50fa7b
+    , ts_node         = (0xfff8f8f2, 0xc0282a36)
+    , ts_nodealt      = (0xfff8f8f2, 0xc0282a36)
+    , ts_highlight    = (0xfff8f8f2, 0xc044475a)
+    , ts_extra        = 0xbd93f9
     , ts_node_width   = 300
     , ts_node_height  = 30
     , ts_originX      = 50
@@ -258,21 +267,22 @@ myTreeselect = treeselectAction myTreeConfig
     -- , Node (TSNode "Browser Profiles" arrow (return ()))
     --     $ browserProfiles <&> (\x -> Node (TSNode x "" (spawn $ "browser-profiles " ++ fmap toLower x)) [])
     , Node (TSNode "XMonad" arrow (return ()))
-     [ Node (TSNode "Edit Config" "" (spawn "kitty nvim ~/dev/t-wilkinson/dotfiles/xmonad/xmonad.hs && xmonad --recompile && xmonad --restart")) []
-     , Node (TSNode "Recompile" "" (spawn "xmonad --recompile && xmonad --restart")) []
+     [ Node (TSNode "Recompile" "" (spawn "xmonad --recompile && xmonad --restart")) []
+     , Node (TSNode "Edit Config" "" (spawn "kitty nvim ~/dev/t-wilkinson/dotfiles/xmonad/xmonad.hs && xmonad --recompile && xmonad --restart")) []
      , Node (TSNode "Logout" "" (io exitSuccess)) []
      ]
+    , Node (TSNode "Power" arrow(return ()))
+        [ Node (TSNode "Suspend" "" (spawn "systemctl suspend")) []
+        , Node (TSNode "Hibernate" "" (spawn "systemctl hibernate")) []
+        , Node (TSNode "Shutdown" "" (spawn "shutdown -c now")) []
+        ]
     , Node (TSNode "Brightness" arrow (return ()))
         [ Node (TSNode "Screen Off" "" (spawn "sleep 0.5;xset dpms force off")) []
         , Node (TSNode "Bright" ""            (spawn "xrandr --output eDP-1-1 --brightness 1")) []
         , Node (TSNode "Normal" "" (spawn "xbacklight -set 50"))  []
         , Node (TSNode "Dim"    ""              (spawn "xrandr --output eDP-1-1 --brightness 0.2"))  []
         ]
-    , Node (TSNode "Power" arrow(return ()))
-        [ Node (TSNode "Suspend" "" (spawn "systemctl suspend")) []
-        , Node (TSNode "Hibernate" "" (spawn "systemctl hibernate")) []
-        , Node (TSNode "Shutdown" "" (spawn "shutdown -c now")) []
-        ]
+    , Node (TSNode "Reading" "" (spawn "rofi -config /home/trey/.config/rofi/config -show reading -modi reading:~/.config/rofi/reading.sh -matching normal")) [] -- drun for desktop entries
     , Node (TSNode "Scratchpad" "" (spawn "kitty nvim + -c startinsert /home/trey/dev/t-wilkinson/projects/notes/2021245091035.md")) []
     , Node (TSNode "Screenshot" "" (spawn "gnome-screenshot -a -f /home/trey/media/screenshots/\"$(date)\"")) []
     -- , Node (TSNode "Sound" arrow (return ()))
@@ -291,7 +301,13 @@ myKeyBindings conf = additionalKeysP
   conf
     -- Launching programs
   [ ("M-<Return>", spawn myTerm)
+  , ("M-n", spawn "neovide")
+  , ("M-m", spawn $ myTerm ++ " glances")
+    -- , Node (TSNode "Glances" "" (spawn "rofi -config /home/trey/.config/rofi/config -show reading -modi reading:~/.config/rofi/reading.sh -matching normal")) [] -- drun for desktop entries
   , ("M-e", myTreeselect)
+  , ("M-u", typeUnicodePrompt "/home/trey/.xmonad/UnicodeData.txt" promptTheme) -- requires `xdotool`
+  , ("M-U", unicodePrompt "/home/trey/.xmonad/UnicodeData.txt" promptTheme) -- requires `xsel`
+  , ("M-r", spawn "xmonad --restart")
 
     -- Workspaces
   -- , ("M-w"  , switchProjectPrompt promptTheme)
@@ -314,7 +330,7 @@ myKeyBindings conf = additionalKeysP
   , ("M-l"          , sendMessage (ExpandTowards R))
   , ("M-<Backspace>", kill)
   , ("M-S-<Backspace>" , confirmPrompt promptTheme "Kill All" killAll)
-  , ("M-t" , withFocused $ windows . W.sink)
+  , ("M-s" , withFocused $ windows . W.sink)
 
 --   , ("M1-d", withFocused (keysResizeWindow (-10,-10) (1%2,1%2)))
 --   , ("M1-s", withFocused (keysResizeWindow (10,10) (1%2,1%2)))
@@ -339,9 +355,16 @@ myKeyBindings conf = additionalKeysP
   , ( "M-S-<Space>" , sendMessage FirstLayout)
 
     -- FN keys
-  , ("<XF86AudioRaiseVolume>", spawn "ponymix increase 3")
-  , ("<XF86AudioLowerVolume>", spawn "ponymix decrease 3")
+  , ("<XF86AudioRaiseVolume>", spawn "amixer set Master 5%+")
+  , ("<XF86AudioLowerVolume>", spawn "amixer set Master 5%-")
   , ("<XF86AudioMute>"       , spawn "ponymix toggle")
+  , ("<XF86MonBrightnessUp>", spawn "xbacklight -inc 20")
+  , ("<XF86MonBrightnessDown>", spawn "xbacklight -dec 20")
+  , ("M1-<F1>"       , spawn "amixer set Master toggle")
+  , ("M1-<F2>", spawn "amixer set Master 5%-")
+  , ("M1-<F3>", spawn "amixer set Master 5%+")
+  , ("M1-<F11>", spawn "xbacklight -dec 20")
+  , ("M1-<F12>", spawn "xbacklight -inc 20")
   ]
 
 

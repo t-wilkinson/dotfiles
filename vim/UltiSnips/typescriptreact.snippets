@@ -66,11 +66,11 @@ const $1 = useSelector(state => $2)$0
 endsnippet
 
 snippet R.txt "React context" w
-const $1 = React.useContext(`!p snip.rv=t[1].capitalize()`Context)
+const $1 = React.useContext(`!p snip.rv=t[1][:1].upper() + t[1][1:]`Context)
 endsnippet
 
 snippet R.state "useState Hook" w
-const [${1}, set`!p snip.rv=t[1].capitalize()`] = React.useState(${3:${4}})
+const [${1}, set`!p snip.rv=t[1][:1].upper() + t[1][1:]`] = React.useState(${3:${4}})
 endsnippet
 
 snippet R.effect "useEffect Hook" w
@@ -118,4 +118,8 @@ snippet cjs
 module.exports = {
 	$0
 }
+endsnippet
+
+snippet env "process.env.NODE_ENV" w
+process.env.NODE_ENV$0
 endsnippet

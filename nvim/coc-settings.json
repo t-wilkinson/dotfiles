@@ -1,6 +1,10 @@
 {
+  "suggest.autoTrigger": true,
   "coc.preferences.formatOnSaveFiletypes": [
     "svg",
+    "typescript",
+    "javascriptreact",
+    "typescriptreact",
     "c",
     "c++",
     "cpp",
@@ -12,7 +16,7 @@
   ],
   "coc.preferences.formatOnType": false,
   "eslint.autoFixOnSave": false,
-  "eslint.format.enable": false,
+  "eslint.format.enable": true,
   "json.format.enable": true,
   "eslint.enable": true,
   "eslint.options": {
@@ -24,19 +28,13 @@
     }
   },
   "javascript.suggestionActions.enabled": false,
-  // "prettier.eslintIntegration": false,
-  // "prettier.formatterPriority": -1,
-  // "prettier.semi": false,
+  "prettier.resolveGlobalModules": true,
+  "prettier.semi": false,
   "prettier.requireConfig": true,
-  "prettier.printWidth": 100
-  // "prettier.singleQuote": true,
-  // "prettier.trailingComma": "es5",
-  // "prettier.tslintIntegration": false,
-  "python.linting.pylintArgs": [
-    "--errors-only",
-    "--generated-members=numpy.* ,torch.*"
-  ],
-  "tailwindCSS.headwind.runOnSave": false,
-  // "tsserver.formatOnType": true,
-  "typescript.suggest.autoImports": true
+  "prettier.printWidth": 100,
+  "prettier.singleQuote": true,
+  "prettier.trailingComma": "es5",
+  "tsserver.formatOnType": false,
+  "typescript.suggest.autoImports": true,
+  "svelte.enable-ts-plugin": true
 }
