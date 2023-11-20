@@ -18,9 +18,9 @@ xrdb ~/.Xresources &
 xbanish &
 ~/dev/jonaburg/picom/build/src/picom --experimental-backends --config ~/.config/picom/picom-jonaburg.conf &
 xsetroot -cursor_name left_ptr &
-feh --no-fehbg --bg-fill '/home/trey/media/backgrounds/firewatch.jpg' '/home/trey/media/backgrounds/xiaomi-mi-gaming-laptop-abstract-4k-hl-2560x1440.jpg' &
-# xwinwrap -ov -g 1920x1080+0+0 -- mpv -wid WID ~/media/backgrounds/videos/DVDE_loop.mp4 --no-osc --no-osd-bar --loop-file --player-operation-mode=cplayer --no-audio --panscan=1.0 --no-input-default-bindings &
-# ~/bin/back4.sh auto ~/media/gif/beautycity.gif &
+feh --no-fehbg --bg-fill '/home/trey/dev/t-wilkinson/media/backgrounds/firewatch.jpg' '/home/trey/dev/t-wilkinson/media/backgrounds/xiaomi-mi-gaming-laptop-abstract-4k-hl-2560x1440.jpg' &
+# xwinwrap -ov -g 1920x1080+0+0 -- mpv -wid WID ~/dev/t-wilkinson/media/backgrounds/videos/DVDE_loop.mp4 --no-osc --no-osd-bar --loop-file --player-operation-mode=cplayer --no-audio --panscan=1.0 --no-input-default-bindings &
+# ~/bin/back4.sh auto ~/dev/t-wilkinson/media/gif/beautycity.gif &
 
 #
 # Default programs

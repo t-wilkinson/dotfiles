@@ -363,6 +363,7 @@ myKeyBindings conf = additionalKeysP
   , ("M1-<F1>"       , spawn "amixer set Master toggle")
   , ("M1-<F2>", spawn "amixer set Master 5%-")
   , ("M1-<F3>", spawn "amixer set Master 5%+")
+  , ("M1-<F4>", return ())
   , ("M1-<F11>", spawn "xbacklight -dec 20")
   , ("M1-<F12>", spawn "xbacklight -inc 20")
   ]

@@ -113,7 +113,7 @@ set fileencoding=utf-8
             let g:zortex_remote_server_dir = '/www/zortex'
 
             let g:zortex_fenced_languages = ['python', 'javascript', 'bindzone', 'rust', 'bash', 'sh', 'json', 'sql']
-            let g:zortex_notes_dir = $HOME . '/dev/t-wilkinson/projects/notes'
+            let g:zortex_notes_dir = $HOME . '/dev/t-wilkinson/personal/notes'
             let g:zortex_window_command = 'call FloatingFZF()'
             let g:zortex_extension = '.zortex'
             let g:zortex_theme = 'light'
@@ -167,6 +167,7 @@ set fileencoding=utf-8
             map ZRs :ZortexStartRemoteServer<CR>
             map ZRr :ZortexRestartRemoteServer<CR>
             map ZRS :ZortexSyncRemoteServer<CR>
+            map ZRF :ZortexReloadFolds<CR>
 
     Plug 'ntessore/unicode-math.vim'
     Plug 'jlapolla/vim-coq-plugin'
@@ -180,8 +181,8 @@ set fileencoding=utf-8
     Plug 'dracula/vim'
     Plug 'christoomey/vim-tmux-navigator' "  Seamless tmux navigation
     Plug 'sheerun/vim-polyglot'
-    Plug 'moll/vim-bbye'                  "  optional dependency for vim-symlink
-    Plug 'aymericbeaumet/vim-symlink'     "  open the file symlinks point to
+    " Plug 'moll/vim-bbye'                  "  optional dependency for vim-symlink
+    " Plug 'aymericbeaumet/vim-symlink'     "  open the file symlinks point to
     Plug 'sbdchd/neoformat'
     Plug 'junegunn/vim-easy-align'
         xmap ga <Plug>(EasyAlign)
@@ -294,12 +295,12 @@ set fileencoding=utf-8
         let g:anyfold_fold_comments=1
         let g:anyfold_fold_size_str='%s'
         let g:anyfold_fold_level_str=''
-        autocmd Filetype * AnyFoldActivate               " activate for all filetypes
         " activate anyfold by default
             augroup anyfold
                 autocmd!
-                autocmd Filetype * AnyFoldActivate
+                " autocmd Filetype * AnyFoldActivate
             augroup END
+
         " disable anyfold for large files
             let g:LargeFile = 1000000 " file is large if size greater than 1MB
             autocmd BufReadPre,BufRead * let f=getfsize(expand("<afile>")) | if f > g:LargeFile || f == -2 | call LargeFile() | endif
@@ -307,6 +308,7 @@ set fileencoding=utf-8
                 augroup anyfold
                     autocmd! anyfold
                     autocmd Filetype * setlocal foldmethod=indent " fall back to indent folding
+                    autocmd Filetype * syntax off
                 augroup END
             endfunction
 
@@ -653,6 +655,7 @@ EOF
     endfunction
 
 "-------------------- Auto Commands --------------------
+    " Remove trailing white space
     au BufWritePre *
                 \ let s:save = winsaveview() |
                 \ keeppatterns %s/\s\+$//e |
@@ -671,7 +674,7 @@ EOF
         autocmd FileType javascript,typescriptreact hi jsxCloseString guifg=#6272a4
         " autocmd FileType typescriptreact hi typescriptBraces guifg=#8be9fd
         autocmd FileType zortex let b:coc_additional_keywords = ["-"]
-        " autocmd FileType zortex set keymap=unicode-math " disable keymap with <C-6>
+        autocmd FileType zortex setlocal keymap=unicode-math " disable keymap with <C-6>
         autocmd FileType agda let @u="𝓤 ̇" | let @v="𝓥 ̇" | let @w="𝓦 ̇"
 
     augroup END

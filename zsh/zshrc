@@ -301,23 +301,29 @@ hist() {
     fc $listing
 }
 
-# finds how many google docs pages the zortex takes
-zortex_page_count() {
-    # 92: on average, how many characters fit per line
-    # 45: how many lines each page fits
-    cat ${ZORTEX_DIR}/*.zortex | awk '
-BEGIN { n=0 };
-{ n += 1 + int(length($0)/83) };
-END { print 1 + int(n/45) };
-'
-}
-
 dir_size() {
     du -h --all -d 1 ${1:-.} | sort -h
 }
 
 git_files_size() {
     git ls-files "$@" | xargs -I % ls -lh % | sort -h -k5
+}
+
+# ZORTEX
+# finds how many google docs pages the zortex takes
+zortex_page_count() {
+    # 83: on average, how many characters fit per line
+    # 45: how many lines each page fits
+    cat ${ZORTEX_DIR}/*.zortex | awk '
+BEGIN { n=0; m=0 };
+{ n += length($0)/83; m += 1 + int(length($0)/83) };
+END { print n/45, "(dense)"; print 1 + int(m/45) };
+'
+}
+
+zortex_short_articles() {
+    size=$1
+    wc -l *.zortex | sort -n | awk "{if (\$1 < ${size} ) system(\"head -1 \" \$2)}"
 }
 
 # for copying bash commands from instructions ($ echo 'hello world')
@@ -396,3 +402,9 @@ autoload -Uz compinit && compinit -i
 eval "$(direnv hook zsh)"
 
 export LFS=/mnt/lfs
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/home/trey/dev/google-cloud-sdk/path.zsh.inc' ]; then . '/home/trey/dev/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/home/trey/dev/google-cloud-sdk/completion.zsh.inc' ]; then . '/home/trey/dev/google-cloud-sdk/completion.zsh.inc'; fi

@@ -12,14 +12,14 @@ export GOPATH=$HOME/go
 export NVM_DIR="$HOME/.nvm"
 export PATH=$PATH:$GOPATH/bin
 export PYENV_SHELL=zsh
-export PYTHONPATH="$HOME/dev/t-wilkinson/sysadmin:$HOME/dev/t-wilkinson/projects/languages/python/lib"
+export PYTHONPATH="$HOME/dev/t-wilkinson/sysadmin:$HOME/dev/t-wilkinson/personal/languages/python/lib"
 export TMUXP_CONFIGDIR="$HOME/.config/tmuxp"
 export XDG_CONFIG_DIRS="$HOME/.config"
 export XDG_CONFIG_HOME="$HOME/.config"
 export ZSH_AUTOSUGGEST_STRATEGY=(completion match_prev_cmd)
 
 export tw_="$HOME/dev/t-wilkinson"
-export tw_p="$HOME/dev/t-wilkinson/projects"
+export tw_p="$HOME/dev/t-wilkinson/personal"
 export tw_ic="$HOME/dev/t-wilkinson/infinite-closet"
 
 export ZORTEX_DIR="$tw_p/notes"
@@ -67,5 +67,3 @@ source ~/.aliases
 if [ -e /home/trey/.nix-profile/etc/profile.d/nix.sh ]; then . /home/trey/.nix-profile/etc/profile.d/nix.sh; fi # added by Nix installer
 source "$HOME/.cargo/env"
 . "$HOME/.cargo/env"
-
-export LFS=/mnt/lfs

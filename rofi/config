@@ -1,5 +1,5 @@
 configuration {
-    matching: "fuzzy";
+    matching: "regex";
     sorting-method: "fzf";
 }
 
