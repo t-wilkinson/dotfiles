@@ -5,97 +5,6 @@ set fileencoding=utf-8
 
 "-------------------- Plugins --------------------
     call plug#begin('~/.vim/plugged')
-    " disabled
-        " Plug 'vim-pandoc/vim-pandoc'
-        " Plug 'vim-pandoc/vim-pandoc-syntax'
-        " Plug 'lervag/vimtex'
-        " Plug 'styled-components/vim-styled-components', {'branch': 'main'}
-        " Plug 'rafi/awesome-vim-colorschemes'
-        " Plug 'Jparise/vim-graphql', {'for': ['typescriptreact', 'typescript']}
-        " Plug 'arecarn/vim-fold-cycle'
-        " Plug 'luochen1990/rainbow'
-        "     let g:rainbow_active = 0
-        "     let g:rainbow_conf = { 'guifgs': ['#8be9fd', '#ff79c6', '#bd93f9', '#50fa7b', '#f1fa8c', '#8be9fd'] }
-        " Plug 'Yggdroot/indentLine'
-        "     let g:indentLine_char_list = [''] " ['Â¦'] Â¦â
-        "     let g:indentLine_enabled = 1
-        "     let g:indentLine_concealcursor = 'n'
-        "     let g:indentLine_conceallevel = 2
-        " Plug 'neovimhaskell/haskell-vim'          " Better haskell highlighting. Haskell gets special attention because it's the best
-        "     " syntax
-        "         let g:haskell_enable_quantification = 1   " forall
-        "         let g:haskell_enable_recursivedo = 1      " mdo and rec
-        "         let g:haskell_enable_arrowsyntax = 1      " proc
-        "         let g:haskell_enable_pattern_synonyms = 1 " pattern
-        "         let g:haskell_enable_typeroles = 1        " type roles
-        "         let g:haskell_enable_static_pointers = 1  " static
-        "         let g:haskell_backpack = 1                " to enable highlighting of backpack keywords
-        "         let g:haskell_classic_highlighting = 1    " non-opinionated highlighting
-        "     " indent
-        "         let g:haskell_indent_before_where = -2
-        "         let g:haskell_indent_after_bare_where = 2
-        "         let g:haskell_indent_if = 3
-        "         let g:haskell_indent_case = 4
-        "         let g:haskell_indent_let = 4
-        "         let g:haskell_indent_where = 6
-        "         let g:haskell_indent_do = 3
-        "         let g:haskell_indent_in = 0
-        "         let g:haskell_indent_guard = 2
-        " Plug 'kamykn/spelunker.vim'
-        "     Plug 'kamykn/popup-menu.nvim'
-        "     let g:spelunker_check_type = 2 " 1 is on save/load 2 is dynamic
-        "     let g:spelunker_disable_uri_checking = 0
-        "     let g:spelunker_disable_email_checking = 0
-        "     let g:spelunker_disable_account_name_checking = 0
-        "     let g:spelunker_disable_acronym_checking = 0
-        "     let g:spelunker_disable_backquoted_checking = 0
-        " Plug 'glacambre/firenvim', { 'do': { _ -> firenvim#install(0) } }
-        "     if exists('g:started_by_firenvim')
-        "         let g:firenvim_config = {
-        "             \ 'globalSettings': {
-        "                 \ 'alt': 'all',
-        "                 \ 'ignoreKeys': {
-        "                     \ 'normal': []
-        "                     \ }
-        "             \  },
-        "             \ 'localSettings': {
-        "                 \ '.*': {
-        "                     \ 'cmdline': 'neovim',
-        "                     \ 'content': 'text',
-        "                     \ 'priority': 0,
-        "                     \ 'selector': 'textarea',
-        "                     \ 'takeover': 'always',
-        "                 \ },
-        "             \ }
-        "         \ }
-        "         let fc = g:firenvim_config['localSettings']
-        "         let fc['.*'] = { 'selector': 'textarea:not([readonly]), div[role="textbox"], div[contenteditable="true"]' }
-        "         nnoremap <Esc><Esc> :call firenvim#focus_page()<CR>
-        "         au BufEnter *zortex*.txt nnoremap <S-CR> <ESC>:wq<CR>:call firenvim#hide_frame()<CR>
-        "         au BufEnter *zortex*.txt set filetype=zortex
-        "     endif
-        " Plug 'justinmk/vim-sneak'
-        " Plug 'phaazon/hop.nvim'
-        " Plug 'github/copilot.vim'
-        "     let g:copilot_filetypes = {
-        "           \ '*': v:true,
-        "           \ 'zortex': v:true,
-        "           \ }
-        " Plug 'nvim-treesitter/nvim-treesitter'
-        " Plug 'nvim-treesitter/nvim-treesitter-context'
-
-    " neovide
-        let g:neovide_cursor_animation_length=0.07
-        let g:neovide_cursor_trail_length=1.8
-        let g:neovide_cursor_antialiasing=v:true
-        let g:neovide_cursor_vfx_mode = "pixiedust" " pixiedust | wireframe | ripple | sonicboom | torpedo | railgun
-        let g:neovide_cursor_vfx_opacity=200.0
-        let g:neovide_cursor_vfx_particle_lifetime=2.2
-        let g:neovide_cursor_vfx_particle_density=8.0
-        let g:neovide_cursor_vfx_particle_speed=10.0
-        let g:neovide_cursor_vfx_particle_phase=1.5
-        let g:neovide_cursor_vfx_particle_curl=1.0
-
     " tpope
         Plug 'tpope/vim-fugitive'   " Git
         Plug 'tpope/vim-abolish'    " Case matching substitute and others
@@ -107,13 +16,13 @@ set fileencoding=utf-8
         Plug 'tpope/vim-vinegar'    " netrw
 
     " t-wilkinson
-        Plug '~/dev/t-wilkinson/zortex.nvim', { 'do': 'cd app && yarn install' }
+        Plug '~/dev/zortex.nvim', { 'do': 'cd app && yarn install' }
             let g:zortex_remote_wiki_port = 8081
             let g:zortex_remote_server = 'klean-studios'
             let g:zortex_remote_server_dir = '/www/zortex'
 
             let g:zortex_fenced_languages = ['python', 'javascript', 'bindzone', 'rust', 'bash', 'sh', 'json', 'sql']
-            let g:zortex_notes_dir = $HOME . '/dev/t-wilkinson/personal/notes'
+            let g:zortex_notes_dir = $HOME . '/zortex'
             let g:zortex_window_command = 'call FloatingFZF()'
             let g:zortex_extension = '.zortex'
             let g:zortex_theme = 'light'
@@ -135,7 +44,7 @@ set fileencoding=utf-8
                 \ }
             let g:zortex_port = '8080'
 
-            " map Zo o0Z<Tab>
+            " map Zo o0␄Z<Tab>
             " vmap Z- :g/^-/norm 2clZ<Tab><CR>
             " vmap Z^ :g/^/norm iZ<Tab><CR>
             " vmap <silent>Zc :s/- \(.*\)/\='- ' . tolower(substitute(submatch(1), " ", "-", "g"))<CR>
@@ -304,7 +213,7 @@ set fileencoding=utf-8
         " disable anyfold for large files
             let g:LargeFile = 1000000 " file is large if size greater than 1MB
             autocmd BufReadPre,BufRead * let f=getfsize(expand("<afile>")) | if f > g:LargeFile || f == -2 | call LargeFile() | endif
-            function LargeFile()
+            function! LargeFile()
                 augroup anyfold
                     autocmd! anyfold
                     autocmd Filetype * setlocal foldmethod=indent " fall back to indent folding
@@ -450,7 +359,7 @@ set fileencoding=utf-8
         " Visually select fold
         map zv zcVzogv
         " Decrease indent of current fold
-        map z{ zvoddgv<
+        map z{ zvo␛ddgv<
         map z> zv>
         map z< zv<
 
@@ -500,9 +409,6 @@ set fileencoding=utf-8
         "             \ Bdelete |
         "             \ execute "edit" <q-args>
         com! ClearReg for i in range(34,122) | silent! call setreg(nr2char(i),"") | endfor
-        com! ReactStyle norm 0f"cl{{Akb;}}0:s/\kb\(.\)kb{-}\):\(.\{0kb-\}kbkb}\);/\1: "\2", :s/-\(\w\)/\u\1O// @ts-ignore
-        com! ReactProps norm :s/^\s*/:s/\(\w\+\),\?/\1={\1}==
-        com! STS 0f{va{:s/?/va{/kb:s/;/,j::%va{:s/|.*/,va{%jVva{:s/string/''jva{:s/Strapi.*,kb\ze,/nulljjjjjva{:s/boolean/trueuva{:s/boolean/falsejk}
         com! W :SudoWrite
         com! WQ :SudoWrite | q
         " TODO: prettier keeps asking for what package manager you are using
@@ -514,46 +420,6 @@ set fileencoding=utf-8
         map <leader>cp :Prettier<CR>
         com! Marks marks abcdefghijklmnopqrstuvwxyz
         com! SL :source ~/main.vim
-
-" -------------------- Functions --------------------
-
-        function! CountTime() range
-            py3 << EOF
-import vim
-import string
-import re
-
-# Get lines from range
-cb = vim.current.buffer
-cw = vim.current.window
-firstline = int(vim.eval('a:firstline')) - 1
-lastline = int(vim.eval('a:lastline'))
-lines = cb[firstline:lastline]
-
-hours = 0
-minutes = 0
-cursor = cw.cursor
-rTime = re.compile(r"""^(?P<whitespace>\s*)(?P<hours>\d+):(?P<minutes>\d\d)""")
-
-# Sum up the hours:minutes of every line in range
-whitespace = 0
-if len(lines) > 0:
-    match = re.match(r"""^(?P<whitespace>\s*)""", lines[0])
-    if match:
-        whitespace = len(match.group('whitespace'))
-
-for line in lines:
-    match = rTime.match(line)
-    if match:
-        if len(match.group('whitespace')) == whitespace:
-            hours += int(match.group('hours'))
-            minutes += int(match.group('minutes'))
-
-print("{0}:{1}".format(hours + (minutes // 60), (minutes % 60)))
-EOF
-        endfunction
-
-        com! -range CountTime <line1>,<line2>call CountTime()
 
 ""-------------------- Session --------------------
 "    com! -nargs=1 WS
@@ -675,7 +541,7 @@ EOF
         " autocmd FileType typescriptreact hi typescriptBraces guifg=#8be9fd
         autocmd FileType zortex let b:coc_additional_keywords = ["-"]
         autocmd FileType zortex setlocal keymap=unicode-math " disable keymap with <C-6>
-        autocmd FileType agda let @u="𝓤 ̇" | let @v="𝓥 ̇" | let @w="𝓦 ̇"
+        " autocmd FileType agda let @u="ð��¤â��Ì�" | let @v="ð��¥â��Ì�" | let @w="ð��¦â��Ì�"
 
     augroup END
 
@@ -684,7 +550,7 @@ EOF
     colorscheme dracula
     set conceallevel=2
     set concealcursor=
-    " hi Normal guibg=NONE
+    hi Normal guibg=NONE
     hi Conceal guibg=NONE
     execute 'hi CursorLine guibg='.g:dracula#palette.bgdark[0]
     execute 'hi SignColumn guibg='.g:dracula#palette.bgdark[0]
@@ -692,6 +558,7 @@ EOF
     execute 'hi CocWarningSign guifg='. g:dracula#palette.orange[0] .' guibg='.g:dracula#palette.bgdark[0]
     execute 'hi CocInfoSign guifg='. g:dracula#palette.yellow[0] .' guibg='.g:dracula#palette.bgdark[0]
     execute 'hi Folded guifg=' . g:dracula#palette.comment[0] . ' guibg=NONE'
+    execute 'hi CursorLine guibg='.g:dracula#palette.bgdark[0]
 
     let g:vim_jsx_pretty_highlight_close_tag = 0
 
@@ -699,3 +566,4 @@ EOF
 " inoremap <silent><expr> <cr> coc#pum#visible() ? coc#_select_confirm() : \<C-g>u\<CR>"
 iunmap <CR>
 inoremap <silent><expr> <CR> '<C-g>u<CR>'
+
